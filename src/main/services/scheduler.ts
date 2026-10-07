@@ -121,7 +121,7 @@ export class AutomationScheduler {
   constructor(
     private readonly repositories: Repositories,
     private readonly handler: JobHandler,
-    private readonly eligibility: Pick<PublishEligibility, 'hasThreadsToken'> = { hasThreadsToken: async () => false },
+    private readonly eligibility: Pick<PublishEligibility, 'hasPublishCredential'> = { hasPublishCredential: async () => false },
   ) {}
   isRunning(): boolean { return this.running; }
   onActivity(listener: (activity: JobActivity) => void): () => void { this.activityListeners.add(listener); return () => this.activityListeners.delete(listener); }
@@ -246,7 +246,7 @@ export class AutomationScheduler {
     const eligibleAccounts:Account[]=[];
     for (const account of accounts) {
       if (!account.active || !account.automationTarget) continue;
-      if (await this.eligibility.hasThreadsToken(account.id)) eligibleAccounts.push(account);
+      if (await this.eligibility.hasPublishCredential(account.id)) eligibleAccounts.push(account);
     }
     this.recurringAccounts=eligibleAccounts;
     const day = now.toLocaleDateString('sv-SE');
@@ -381,10 +381,10 @@ export class AutomationScheduler {
       this.repositories.addLog('INFO', 'JOB', '실행 직전 자동화 대상에서 제외되어 Job을 건너뛰었습니다.', undefined, job.accountId);
       return;
     }
-    if (job.kind !== 'COUPANG_REPORT' && !await this.eligibility.hasThreadsToken(account.id)) {
-      this.repositories.completeJob(job.id, 'CANCELLED', 'Threads 토큰 없음');
-      this.emitActivity(job, 'CANCELLED', 'Threads 토큰이 없어 작업을 시작하지 않았습니다.');
-      this.repositories.addLog('WARN', 'JOB', 'Threads 토큰이 없어 원격 작업을 시작하지 않았습니다.', undefined, job.accountId);
+    if (job.kind !== 'COUPANG_REPORT' && !await this.eligibility.hasPublishCredential(account.id)) {
+      this.repositories.completeJob(job.id, 'CANCELLED', '발행 연결 정보 없음');
+      this.emitActivity(job, 'CANCELLED', 'Threads 토큰 또는 Buffer 연결 정보가 없어 작업을 시작하지 않았습니다.');
+      this.repositories.addLog('WARN', 'JOB', 'Threads 토큰 또는 Buffer 연결 정보가 없어 원격 작업을 시작하지 않았습니다.', undefined, job.accountId);
       return;
     }
     if(job.kind==='PUBLISH'&&typeof job.payload.expiresAt==='string'){

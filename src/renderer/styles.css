@@ -271,6 +271,12 @@ td, .log-row { font-size: 12px; }
 .provider-youtube { --provider-tone: #d63c4f; }
 .provider-coupang { --provider-tone: #1677d2; }
 .provider-naver { --provider-tone: #03c75a; }
+.provider-buffer { --provider-tone: #2c4bff; }
+.buffer-connection { margin-bottom: 18px; }
+.buffer-channel-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.buffer-channel-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); font-size: 12px; }
+.buffer-route-channel { display: grid; gap: 8px; }
+.buffer-route-channel select { flex: 1; min-width: 0; }
 :root[data-theme="dark"] .integration-block { background: color-mix(in srgb, var(--provider-tone) 9%, var(--surface)); }
 :root[data-theme="dark"] input, :root[data-theme="dark"] select, :root[data-theme="dark"] textarea { background: var(--surface); color: var(--text); }
 .integration-block > header { display: flex; align-items: center; justify-content: space-between; gap: 14px; }

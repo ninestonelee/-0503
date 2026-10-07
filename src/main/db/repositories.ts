@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { COUPANG_LINK_QUEUE_STATUSES } from '../../shared/domain';
-import type { Account, AccountInput, AffiliateReportRow, CoupangInputType, CoupangLinkQueueStatus, CoupangMetadataStatus, CoupangProductQueueItem, CoupangProductQueueSummary, CoupangReviewEvidence, DashboardActivitySnapshot, JobRecord, LogLevel, MediaAsset, PipelineQualityDecision, PipelineRunView, PipelineStage, PipelineStatus, PostRecord, ProductQueueProvider, ProviderConfig, ReportRow, SourceCandidate, SourceType, ThreadsProfile, UserLog } from '../../shared/domain';
+import type { Account, AccountInput, AffiliateReportRow, CoupangInputType, CoupangLinkQueueStatus, CoupangMetadataStatus, CoupangProductQueueItem, CoupangProductQueueSummary, CoupangReviewEvidence, DashboardActivitySnapshot, JobRecord, LogLevel, MediaAsset, PipelineQualityDecision, PipelineRunView, PipelineStage, PipelineStatus, PostRecord, ProductQueueProvider, PublishRoute, ProviderConfig, ReportRow, SourceCandidate, SourceType, ThreadsProfile, UserLog } from '../../shared/domain';
 import { formatThreadsPostText } from '../../shared/threads-text';
 import type { AppDatabase } from './database';
 import { composeCoupangPost, coupangCreativeFromStoredBody } from '../services/coupang-compliance';
@@ -63,6 +63,9 @@ function accountFromRow(row: any): Account {
     threadsTokenScopes: row.threads_token_scopes_json == null ? undefined : json<string[]>(row.threads_token_scopes_json, []),
     threadsTokenValid: row.threads_token_valid == null ? undefined : bool(row.threads_token_valid),
     threadsTokenLastRefreshedAt: row.threads_token_last_refreshed_at ?? undefined,
+    publishRoute: row.publish_route === 'BUFFER' ? 'BUFFER' : 'THREADS_API',
+    bufferChannelId: row.buffer_channel_id ?? undefined,
+    bufferChannelName: row.buffer_channel_name ?? undefined,
     name: row.name,
     threadsHandle: row.threads_handle,
     topic: row.topic,
@@ -316,6 +319,19 @@ export class Repositories {
   getAccountByThreadsUserId(threadsUserId: string): Account | undefined {
     const row = this.db.raw.prepare('SELECT * FROM accounts WHERE threads_user_id = ?').get(threadsUserId);
     return row ? accountFromRow(row) : undefined;
+  }
+
+  getAccountByBufferChannelId(channelId: string): Account | undefined {
+    const row = this.db.raw.prepare('SELECT * FROM accounts WHERE buffer_channel_id = ?').get(channelId);
+    return row ? accountFromRow(row) : undefined;
+  }
+
+  updatePublishRoute(accountId: string, route: PublishRoute, channel?: { id: string; name: string }): Account {
+    if (route === 'BUFFER' && !channel?.id) throw new Error('Buffer 발행에는 Threads 채널 선택이 필요합니다.');
+    const result = this.db.raw.prepare('UPDATE accounts SET publish_route=?, buffer_channel_id=?, buffer_channel_name=?, updated_at=? WHERE id=?')
+      .run(route, channel?.id ?? null, channel?.name ?? null, new Date().toISOString(), accountId);
+    if (result.changes !== 1) throw new Error('발행 경로를 변경할 계정을 찾을 수 없습니다.');
+    return this.getAccount(accountId)!;
   }
 
   saveAccount(input: AccountInput & { threadsUserId?: string }): Account {

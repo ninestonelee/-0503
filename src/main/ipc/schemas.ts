@@ -21,6 +21,14 @@ export const accountInputSchema = z.object(accountInputShape)
 export const accountSaveSchema = accountInputSchema;
 export const threadsRegistrationSchema = z.object({ accessToken:z.string().trim().min(1, 'Threads Access Token을 입력하세요.').max(10_000) }).strict();
 export const threadsTokenUpdateSchema = z.object({ accountId:z.string().uuid(), accessToken:z.string().trim().min(1, 'Threads Access Token을 입력하세요.').max(10_000) }).strict();
+export const bufferStatusSchema = z.object({ check:z.boolean().default(false) }).strict();
+export const bufferApiKeySchema = z.object({ apiKey:z.string().trim().min(1, 'Buffer API 키를 입력하세요.').max(10_000) }).strict();
+export const bufferRegistrationSchema = z.object({ channelId:z.string().trim().min(1).max(200) }).strict();
+export const publishRouteSchema = z.object({
+  accountId:z.string().uuid(),
+  route:z.enum(['THREADS_API','BUFFER']),
+  channelId:z.string().trim().min(1).max(200).optional(),
+}).strict().refine((value) => value.route !== 'BUFFER' || Boolean(value.channelId), { message:'Buffer Threads 채널을 선택하세요.', path:['channelId'] });
 export const immediatePublishSchema = z.object({
   accountId:z.string().uuid(),
   sourceType:z.enum(['DAILY','YOUTUBE','BLOG','COUPANG','NAVER_BRAND_CONNECT']),
@@ -38,7 +46,7 @@ export const settingsSchema = z.object({
 });
 
 export const credentialKeySchema = z.string().refine((value) =>
-  ['youtubeApiKey','coupangAccessKey','coupangSecretKey'].includes(value)
+  ['bufferApiKey','youtubeApiKey','coupangAccessKey','coupangSecretKey'].includes(value)
   || /^(threadsToken|youtubeApiKey|coupangAccessKey|coupangSecretKey):[0-9a-f-]{36}$/i.test(value),
 );
 export const writableCredentialKeySchema = z.string().refine((value) =>

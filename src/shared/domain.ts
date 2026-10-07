@@ -20,6 +20,8 @@ export const COUPANG_INPUT_TYPES = ['PLAIN_LINK', 'IFRAME', 'BLOG_ANCHOR_IMAGE']
 export const COUPANG_METADATA_STATUSES = ['PENDING', 'READY', 'INFORMATION_REQUIRED', 'FAILED'] as const;
 export const COUPANG_LINK_QUEUE_STATUSES = ['INFORMATION_REQUIRED', 'QUEUED', 'PROCESSING', 'PREVIEW_READY', 'REVIEW_REQUIRED', 'COMPLETED', 'FAILED'] as const;
 export const COUPANG_REPLY_STATUSES = ['NONE', 'PENDING', 'PUBLISHED', 'FAILED', 'UNCERTAIN', 'DELETED', 'DELETE_FAILED'] as const;
+/** THREADS_API: Meta Threads API로 직접 발행, BUFFER: Buffer API(Threads 채널)로 발행 */
+export const PUBLISH_ROUTES = ['THREADS_API', 'BUFFER'] as const;
 
 export type SourceType = (typeof SOURCE_TYPES)[number];
 export type ProductQueueProvider = (typeof PRODUCT_QUEUE_PROVIDERS)[number];
@@ -34,6 +36,7 @@ export type CoupangInputType = (typeof COUPANG_INPUT_TYPES)[number];
 export type CoupangMetadataStatus = (typeof COUPANG_METADATA_STATUSES)[number];
 export type CoupangLinkQueueStatus = (typeof COUPANG_LINK_QUEUE_STATUSES)[number];
 export type CoupangReplyStatus = (typeof COUPANG_REPLY_STATUSES)[number];
+export type PublishRoute = (typeof PUBLISH_ROUTES)[number];
 
 export interface MediaAsset {
   type: 'IMAGE';
@@ -62,6 +65,9 @@ export interface Account {
   threadsTokenScopes?: string[];
   threadsTokenValid?: boolean;
   threadsTokenLastRefreshedAt?: string;
+  publishRoute: PublishRoute;
+  bufferChannelId?: string;
+  bufferChannelName?: string;
   name: string;
   threadsHandle: string;
   topic: string;
@@ -87,7 +93,7 @@ export interface Account {
   updatedAt: string;
 }
 
-export type AccountInput = Omit<Account, 'id' | 'threadsUserId' | 'threadsTokenIssuedAt' | 'threadsTokenExpiresAt' | 'threadsTokenDataAccessExpiresAt' | 'threadsTokenCheckFailedAt' | 'threadsTokenCheckedAt' | 'threadsTokenScopes' | 'threadsTokenValid' | 'threadsTokenLastRefreshedAt' | 'createdAt' | 'updatedAt'> & { id?: string };
+export type AccountInput = Omit<Account, 'id' | 'threadsUserId' | 'threadsTokenIssuedAt' | 'threadsTokenExpiresAt' | 'threadsTokenDataAccessExpiresAt' | 'threadsTokenCheckFailedAt' | 'threadsTokenCheckedAt' | 'threadsTokenScopes' | 'threadsTokenValid' | 'threadsTokenLastRefreshedAt' | 'publishRoute' | 'bufferChannelId' | 'bufferChannelName' | 'createdAt' | 'updatedAt'> & { id?: string };
 export type AccountSaveInput = AccountInput;
 
 export interface ThreadsTokenStatus {
@@ -142,6 +148,31 @@ export interface ThreadsPostSummary {
   hasReplies?: boolean;
   rootPostId?: string;
   repliedToId?: string;
+}
+
+export interface BufferChannel {
+  id: string;
+  organizationId: string;
+  organizationName?: string;
+  service: string;
+  serviceId: string;
+  name: string;
+  displayName?: string;
+  avatar?: string;
+  externalLink?: string;
+  isDisconnected: boolean;
+  isLocked: boolean;
+  isQueuePaused: boolean;
+}
+
+export interface BufferConnectionStatus {
+  stored: boolean;
+  updatedAt?: string;
+  ok?: boolean;
+  message: string;
+  /** Buffer에 연결된 Threads 채널만 담는다. */
+  channels: BufferChannel[];
+  checkedAt?: string;
 }
 
 export interface ProviderConfig {
@@ -396,6 +427,7 @@ export interface AppSettings {
 }
 
 export type CredentialKey =
+  | 'bufferApiKey'
   | 'youtubeApiKey'
   | 'coupangAccessKey'
   | 'coupangSecretKey'

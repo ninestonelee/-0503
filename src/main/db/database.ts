@@ -319,6 +319,12 @@ const migrations = [
     ON affiliate_performance_by_key(credential_fingerprint,performance_date);
   `,
   `ALTER TABLE accounts ADD COLUMN threads_token_check_failed_at TEXT;`,
+  `
+  ALTER TABLE accounts ADD COLUMN publish_route TEXT NOT NULL DEFAULT 'THREADS_API';
+  ALTER TABLE accounts ADD COLUMN buffer_channel_id TEXT;
+  ALTER TABLE accounts ADD COLUMN buffer_channel_name TEXT;
+  CREATE UNIQUE INDEX IF NOT EXISTS accounts_buffer_channel_id_idx ON accounts(buffer_channel_id) WHERE buffer_channel_id IS NOT NULL AND buffer_channel_id <> '';
+  `,
 ];
 
 export class AppDatabase {

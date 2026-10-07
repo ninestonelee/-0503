@@ -1,4 +1,4 @@
-import type { AccountInput } from '../../shared/domain';
+import type { AccountInput, PublishRoute } from '../../shared/domain';
 
 const requiredProfileFields: Array<{ key: keyof Pick<AccountInput, 'name' | 'threadsHandle' | 'topic'>; label: string }> = [
   { key: 'name', label: '계정명' },
@@ -23,16 +23,16 @@ export function resolveAccountStyle(input: Pick<AccountInput, 'personality' | 't
   };
 }
 
-export function missingAccountRequirements(input: AccountInput, hasThreadsToken: boolean): string[] {
+export function missingAccountRequirements(input: AccountInput, hasPublishCredential: boolean, route: PublishRoute = 'THREADS_API'): string[] {
   const missing = requiredProfileFields
     .filter(({ key }) => !String(input[key] ?? '').trim())
     .map(({ label }) => label);
   if (!input.dailyEnabled && !input.promotionEnabled) missing.push('콘텐츠 모드');
-  if (!hasThreadsToken) missing.push('Threads Access Token');
+  if (!hasPublishCredential) missing.push(route === 'BUFFER' ? 'Buffer API 키·Threads 채널' : 'Threads Access Token');
   return missing;
 }
 
-export function assertCompleteAccount(input: AccountInput, hasThreadsToken: boolean): void {
-  const missing = missingAccountRequirements(input, hasThreadsToken);
+export function assertCompleteAccount(input: AccountInput, hasPublishCredential: boolean, route: PublishRoute = 'THREADS_API'): void {
+  const missing = missingAccountRequirements(input, hasPublishCredential, route);
   if (missing.length) throw new Error(`계정 저장에 필요한 항목을 입력하세요: ${missing.join(', ')}`);
 }

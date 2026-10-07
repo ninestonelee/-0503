@@ -14,6 +14,8 @@ import { BlogProvider } from './providers/blog';
 import { CoupangPartnersProvider } from './providers/coupang';
 import { ProviderRegistry } from './providers/contracts';
 import { MetaThreadsProvider } from './providers/threads';
+import { BufferApiClient } from './providers/buffer';
+import { RoutedThreadsProvider } from './providers/routed-threads';
 import { YouTubeProvider } from './providers/youtube';
 import { AutomationPipeline } from './services/pipeline';
 import { AutomationScheduler } from './services/scheduler';
@@ -22,6 +24,7 @@ import { PublishEligibility } from './services/publish-eligibility';
 import { ThreadsIntegrationRuntime } from './services/threads-integration-runtime';
 import { ThreadsOwnedContentService } from './services/threads-owned-content';
 import { ThreadsAccountService } from './services/threads-account';
+import { BufferAccountService } from './services/buffer-account';
 import { CoupangChromeCollectorService } from './services/coupang-chrome-collector';
 import { collectorPipePath } from './services/collector-platform';
 import { runYouTubePreview } from './services/youtube-preview-runner';
@@ -103,8 +106,13 @@ async function createApplication(): Promise<void> {
   const registry = new ProviderRegistry();
   registry.registerDiscovery(new YouTubeProvider(credentials));
   registry.registerDiscovery(new BlogProvider());
-  const threads = new MetaThreadsProvider(credentials, fetch, Date.now, (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)));
-  const threadsAccounts = new ThreadsAccountService(repositories,credentials,threads);
+  const sleep = (milliseconds: number) => new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
+  const metaThreads = new MetaThreadsProvider(credentials, fetch, Date.now, sleep);
+  const buffer = new BufferApiClient(credentials, fetch, sleep);
+  // 발행은 계정별 경로(Threads API 직접 / Buffer)로 보내고, 토큰 관리는 Meta Threads API를 그대로 사용한다.
+  const threads = new RoutedThreadsProvider(repositories, credentials, metaThreads, buffer);
+  const threadsAccounts = new ThreadsAccountService(repositories,credentials,metaThreads);
+  const bufferAccounts = new BufferAccountService(repositories,credentials,buffer);
   const coupang = new CoupangPartnersProvider(credentials);
   const pipeline = new AutomationPipeline(repositories, settings, codex, usage, registry, threads, coupang, eligibility);
   const scheduler = new AutomationScheduler(repositories, pipeline, eligibility);
@@ -113,7 +121,8 @@ async function createApplication(): Promise<void> {
   const startupAutomation=await enforceStoppedAutomationOnStartup(settings,scheduler);
   if(startupAutomation.settingsChanged||startupAutomation.cancelled>0)repositories.addLog('INFO','SCHEDULER',
     `프로그램 시작 정책에 따라 전체 자동화를 정지했습니다. 이전 예약 ${startupAutomation.cancelled}건 취소`);
-  const threadsIntegration = new ThreadsIntegrationRuntime(repositories,pipeline,threads,(accountId) => {
+  // 실제 API 통합 테스트는 Meta Threads API 자체를 검증하므로 발행 경로와 관계없이 Meta 공급자를 사용한다.
+  const threadsIntegration = new ThreadsIntegrationRuntime(repositories,pipeline,metaThreads,(accountId) => {
     if (scheduler.isRunning()) throw new Error('실제 Threads 통합 테스트 전에 전체 자동화를 일시정지하세요.');
     if (repositories.runningJobs().some((job)=>job.accountId===accountId)
       || repositories.listPipelineRuns(accountId,20).some((run)=>run.status==='RUNNING'||run.status==='QUEUED')) {
@@ -210,7 +219,7 @@ async function createApplication(): Promise<void> {
   });
 
   registerIpc({ window: mainWindow, repositories, settings, credentials, scheduler, codex, usage, registry, threads, coupang, eligibility, pipeline,
-    threadsIntegration, ownedContent, threadsAccounts, coupangCollector, safeUiTestMode:safeUiTestMode || automationTestLock });
+    threadsIntegration, ownedContent, threadsAccounts, bufferAccounts, coupangCollector, safeUiTestMode:safeUiTestMode || automationTestLock });
   const rendererUrl=MAIN_WINDOW_VITE_DEV_SERVER_URL
     ||pathToFileURL(path.join(__dirname,`../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)).toString();
   await loadMainRenderer(mainWindow,rendererUrl,{attempts:MAIN_WINDOW_VITE_DEV_SERVER_URL?3:1});

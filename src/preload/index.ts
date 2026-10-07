@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { AccountSaveInput, AppSettings, AutomationScheduleMutationResult, CodexUsageStatus, CommentRecord, CommentSummary, CoupangProductQueueItem, CoupangProductQueueSummary, DashboardActivitySnapshot, JobActivity, JobRecord, CredentialKey, PerformanceReport, PipelineRunView, PostRecord, ProviderConfig, SourceCandidate, SourceType, ThreadsIntegrationRun, ThreadsTokenStatus, UserLog } from '../shared/domain';
+import type { Account, AccountSaveInput, AppSettings, BufferConnectionStatus, PublishRoute, AutomationScheduleMutationResult, CodexUsageStatus, CommentRecord, CommentSummary, CoupangProductQueueItem, CoupangProductQueueSummary, DashboardActivitySnapshot, JobActivity, JobRecord, CredentialKey, PerformanceReport, PipelineRunView, PostRecord, ProviderConfig, SourceCandidate, SourceType, ThreadsIntegrationRun, ThreadsTokenStatus, UserLog } from '../shared/domain';
 import type { CoupangCollectorStatus, ExtensionInstallation } from '../shared/coupang-collector';
 import type { CoupangProductSearchSettings } from '../shared/coupang-catalog';
 
@@ -15,6 +15,8 @@ const api = {
     verify: (accountId: string) => ipcRenderer.invoke('accounts:verify-threads', accountId),
     tokenStatus: (accountId: string) => ipcRenderer.invoke('accounts:threads-token-status', accountId) as Promise<ThreadsTokenStatus>,
     refreshToken: (accountId: string) => ipcRenderer.invoke('accounts:refresh-threads-token', accountId) as Promise<ThreadsTokenStatus>,
+    registerBuffer: (channelId: string) => ipcRenderer.invoke('accounts:register-buffer', { channelId }) as Promise<Account>,
+    setPublishRoute: (accountId: string, route: PublishRoute, channelId?: string) => ipcRenderer.invoke('accounts:set-publish-route', { accountId, route, channelId }) as Promise<Account>,
     save: (input: AccountSaveInput) => ipcRenderer.invoke('accounts:save', input),
     delete: (id: string) => ipcRenderer.invoke('accounts:delete', id),
   },
@@ -60,6 +62,11 @@ const api = {
       ipcRenderer.on('coupang-collector:status-changed',listener);
       return()=>{ipcRenderer.removeListener('coupang-collector:status-changed',listener);};
     },
+  },
+  buffer: {
+    status: (check = false) => ipcRenderer.invoke('buffer:status', { check }) as Promise<BufferConnectionStatus>,
+    saveKey: (apiKey: string) => ipcRenderer.invoke('buffer:save-key', { apiKey }) as Promise<BufferConnectionStatus>,
+    deleteKey: () => ipcRenderer.invoke('buffer:delete-key') as Promise<BufferConnectionStatus>,
   },
   settings: { save: (input: AppSettings) => ipcRenderer.invoke('settings:save', input) },
   credentials: {

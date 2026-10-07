@@ -18,6 +18,7 @@ import type { ThreadsOwnedContentService } from '../services/threads-owned-conte
 import { redactForUi } from '../services/redaction';
 import { assertCompleteAccount, normalizeAccountDefaults } from '../services/account-completeness';
 import type { ThreadsAccountService } from '../services/threads-account';
+import type { BufferAccountService } from '../services/buffer-account';
 import { CoupangProductResearchResolver } from '../services/coupang-product-research';
 import { hasChromeCollectorInstalled, CoupangChromeCollectorError, type CoupangChromeCollectorService } from '../services/coupang-chrome-collector';
 import { coupangUrlFingerprint, parseCoupangProductInput } from '../services/coupang-link-input';
@@ -25,13 +26,13 @@ import { assertCoupangPostCompliance } from '../services/coupang-compliance';
 import { assertNaverBrandPostCompliance } from '../services/naver-brand-compliance';
 import { parseNaverBrandProductInput } from '../services/naver-brand-link-input';
 import { selectCoupangProductCandidates } from '../services/coupang-product-selection';
-import { accountSaveSchema, commentListSchema, coupangProductSearchSchema, coupangProductStageSchema, coupangQueueAddSchema, coupangQueueDraftUpdateSchema, coupangQueueImageRemoveSchema, coupangQueueItemSchema, coupangQueuePrepareManySchema, coupangQueueUpdateSchema, credentialKeySchema, dashboardActivityQuerySchema, immediatePublishSchema, naverBrandQueueAddSchema, ownedContentDeleteSchema, preparedDailyPublishSchema, promotionScheduleUpdateSchema, providerConfigSchema, reportQuerySchema, settingsSchema, threadsIntegrationListSchema, threadsIntegrationRunSchema, threadsRegistrationSchema, threadsTokenUpdateSchema, writableCredentialKeySchema } from './schemas';
+import { accountSaveSchema, bufferApiKeySchema, bufferRegistrationSchema, bufferStatusSchema, publishRouteSchema, commentListSchema, coupangProductSearchSchema, coupangProductStageSchema, coupangQueueAddSchema, coupangQueueDraftUpdateSchema, coupangQueueImageRemoveSchema, coupangQueueItemSchema, coupangQueuePrepareManySchema, coupangQueueUpdateSchema, credentialKeySchema, dashboardActivityQuerySchema, immediatePublishSchema, naverBrandQueueAddSchema, ownedContentDeleteSchema, preparedDailyPublishSchema, promotionScheduleUpdateSchema, providerConfigSchema, reportQuerySchema, settingsSchema, threadsIntegrationListSchema, threadsIntegrationRunSchema, threadsRegistrationSchema, threadsTokenUpdateSchema, writableCredentialKeySchema } from './schemas';
 
 interface Dependencies {
   window: BrowserWindow; repositories: Repositories; settings: SettingsManager; credentials: CredentialManager;
   scheduler: AutomationScheduler; codex: CodexRunner; usage: CodexRateLimitClient; registry: ProviderRegistry;
   threads: ThreadsProvider; coupang: CoupangProvider; eligibility: PublishEligibility; pipeline:AutomationPipeline; safeUiTestMode?: boolean;
-  threadsIntegration:ThreadsIntegrationRuntime; ownedContent:ThreadsOwnedContentService; threadsAccounts:ThreadsAccountService;
+  threadsIntegration:ThreadsIntegrationRuntime; ownedContent:ThreadsOwnedContentService; threadsAccounts:ThreadsAccountService; bufferAccounts:BufferAccountService;
   coupangCollector:CoupangChromeCollectorService;
 }
 
@@ -50,8 +51,10 @@ export function registerIpc(deps: Dependencies): void {
   const candidateCache = new Map<string, SourceCandidate[]>();
   const coupangProductCache = new Map<string, SourceCandidate[]>();
   const threadsAccounts = deps.threadsAccounts;
+  const bufferAccounts = deps.bufferAccounts;
   const assertThreadsPublishReady = async (accountId: string): Promise<void> => {
     await deps.eligibility.assertAccountReady(accountId);
+    if (deps.repositories.getAccount(accountId)?.publishRoute === 'BUFFER') return;
     const tokenStatus = await threadsAccounts.tokenStatus(accountId);
     if (!tokenStatus.stored) throw new Error('Threads Access Token이 없습니다. 계정 관리에서 토큰을 연결하세요.');
     if (tokenStatus.valid === false || tokenStatus.state === 'INVALID') throw new Error('Threads Access Token이 유효하지 않습니다. 새 장기 토큰을 연결하세요.');
@@ -157,7 +160,8 @@ export function registerIpc(deps: Dependencies): void {
   handle('app:snapshot', undefined, async () => {
     const counts = deps.repositories.counts();
     const accounts = deps.repositories.listAccounts();
-    const credentialStatus = await deps.credentials.status(accounts.flatMap((account) => accountCredentialKeys(account.id)));
+    const credentialStatus = await deps.credentials.status([...accounts.flatMap((account) => accountCredentialKeys(account.id)), 'bufferApiKey']);
+    const bufferKeyStored = Boolean(credentialStatus.bufferApiKey?.stored);
     const runtimeBase = deps.repositories.accountRuntimeSummaries();
     const accountRuntime = Object.fromEntries(accounts.map((account) => {
       const providers = runtimeBase[account.id]?.providers ?? [];
@@ -193,7 +197,7 @@ export function registerIpc(deps: Dependencies): void {
         :naverQueued>0?`상품 ${naverQueued}건 준비 중${naverAttention?` · 확인 ${naverAttention}건`:''}`
           :naverAttention>0?`필요한 정보 · 상품 확인 ${naverAttention}건`:'필요한 정보 · 상품 링크 등록';
       return [account.id, { ...runtimeBase[account.id], credentials: {
-        threads: Boolean(account.threadsUserId) && scoped('threadsToken'),
+        threads: account.publishRoute === 'BUFFER' ? bufferKeyStored && Boolean(account.bufferChannelId) : Boolean(account.threadsUserId) && scoped('threadsToken'),
         youtube: scoped('youtubeApiKey'),
         coupang: coupangApiReady,
       }, providerConfiguration: {
@@ -242,9 +246,9 @@ export function registerIpc(deps: Dependencies): void {
   });
   handle('accounts:save', accountSaveSchema, async (input) => {
     const normalizedAccountInput = normalizeAccountDefaults(input);
-    const tokenKey = normalizedAccountInput.id ? `threadsToken:${normalizedAccountInput.id}` as CredentialKey : undefined;
-    const storedToken = tokenKey ? Boolean((await deps.credentials.status([tokenKey]))[tokenKey]?.stored) : false;
-    if (normalizedAccountInput.automationTarget) assertCompleteAccount(normalizedAccountInput, storedToken);
+    const route = normalizedAccountInput.id ? deps.repositories.getAccount(normalizedAccountInput.id)?.publishRoute ?? 'THREADS_API' : 'THREADS_API';
+    const publishCredential = normalizedAccountInput.id ? await deps.eligibility.hasPublishCredential(normalizedAccountInput.id) : false;
+    if (normalizedAccountInput.automationTarget) assertCompleteAccount(normalizedAccountInput, publishCredential, route);
     if (normalizedAccountInput.automationTarget && !normalizedAccountInput.id) throw new Error('계정을 먼저 저장하고 Threads 토큰을 등록한 뒤 자동화 대상으로 설정하세요.');
     if (!normalizedAccountInput.id) throw new Error('Threads Access Token으로 계정을 먼저 등록하세요.');
     const previous=deps.repositories.getAccount(normalizedAccountInput.id);
@@ -258,6 +262,11 @@ export function registerIpc(deps: Dependencies): void {
     }
     return saved;
   });
+  handle('buffer:status', bufferStatusSchema, ({ check }) => bufferAccounts.status(check));
+  handle('buffer:save-key', bufferApiKeySchema, ({ apiKey }) => bufferAccounts.saveApiKey(apiKey));
+  handle('buffer:delete-key', undefined, () => bufferAccounts.deleteApiKey());
+  handle('accounts:register-buffer', bufferRegistrationSchema, ({ channelId }) => bufferAccounts.register(channelId));
+  handle('accounts:set-publish-route', publishRouteSchema, ({ accountId, route, channelId }) => bufferAccounts.setRoute(accountId, route, channelId));
   handle('accounts:delete', z.string().uuid(), async (id) => {
     for (const key of accountCredentialKeys(id)) await deps.credentials.delete(key);
     deps.repositories.deleteAccount(id);
@@ -463,7 +472,8 @@ export function registerIpc(deps: Dependencies): void {
   });
   handle('credentials:delete', credentialKeySchema, async (key) => {
     const match = /^threadsToken:([0-9a-f-]{36})$/i.exec(key);
-    if (match) await deps.eligibility.removeThreadsAccess(match[1]);
+    if (key === 'bufferApiKey') await bufferAccounts.deleteApiKey();
+    else if (match) await deps.eligibility.removeThreadsAccess(match[1]);
     else {
       await deps.credentials.delete(key as CredentialKey);
       const coupangMatch=/^coupang(?:Access|Secret)Key:([0-9a-f-]{36})$/i.exec(key);
@@ -473,7 +483,10 @@ export function registerIpc(deps: Dependencies): void {
   });
   handle('connections:test', z.object({ type: z.enum(['THREADS','YOUTUBE','BLOG','COUPANG']), accountId: z.string().uuid().optional(), config: z.record(z.string(), z.unknown()).default({}) }), async ({ type, accountId, config }) => {
     let result;
-    if (type === 'THREADS') {
+    if (type === 'THREADS' && accountId && deps.repositories.getAccount(accountId)?.publishRoute === 'BUFFER') {
+      result = await deps.threads.test(accountId);
+    }
+    else if (type === 'THREADS') {
       if (!accountId) throw new Error('Threads 계정을 선택하세요.');
       const account = await threadsAccounts.verifyStoredToken(accountId);
       result = { ok:true, message:`Threads 연결에 성공했습니다. (${account.name} · @${account.threadsHandle})` };

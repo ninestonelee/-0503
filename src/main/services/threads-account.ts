@@ -4,11 +4,15 @@ import type { Repositories } from '../db/repositories';
 import { InvalidThreadsTokenError, TokenInspectionUnavailableError, type ThreadsProvider } from '../providers/contracts';
 import type { CredentialManager } from './settings';
 
-const registeredAccountDefaults = (profile: ThreadsProfile): AccountInput & { threadsUserId:string } => ({
-  name:profile.name || profile.username, threadsHandle:profile.username, threadsUserId:profile.id, topic:'', personality:'[표준]', tone:'[표준]', audience:'',
+export const newAccountDefaults = (name: string, handle: string): AccountInput => ({
+  name:name || handle, threadsHandle:handle, topic:'', personality:'[표준]', tone:'[표준]', audience:'',
   forbiddenTopics:'', forbiddenExpressions:'', dailyEnabled:true, promotionEnabled:false, automationTarget:false, active:true,
   dailyRatio:3, promotionRatio:1, dailyPostTarget:1, operationStart:'09:00', operationEnd:'21:00', weekdays:[0,1,2,3,4,5,6],
   commentIntervalMinutes:10, fixedLinkEnabled:false, fixedLinkUrl:'',
+});
+
+const registeredAccountDefaults = (profile: ThreadsProfile): AccountInput & { threadsUserId:string } => ({
+  ...newAccountDefaults(profile.name, profile.username), threadsUserId:profile.id,
 });
 
 const DAY_MS = 86_400_000;
@@ -137,6 +141,10 @@ export class ThreadsAccountService {
     const inspection = await this.inspectIfAvailable(accessToken);
     if(inspection)this.assertInspection(profile,inspection);
     if (account.threadsUserId && account.threadsUserId !== profile.id) throw new Error(`입력한 토큰은 현재 계정(@${account.threadsHandle})의 토큰이 아닙니다.`);
+    if (!account.threadsUserId && account.publishRoute === 'BUFFER' && account.threadsHandle
+      && account.threadsHandle.replace(/^@/, '').toLocaleLowerCase() !== profile.username.toLocaleLowerCase()) {
+      throw new Error(`입력한 토큰(@${profile.username})은 Buffer에 연결된 현재 계정(@${account.threadsHandle.replace(/^@/, '')})의 토큰이 아닙니다.`);
+    }
     const duplicate = this.repositories.getAccountByThreadsUserId(profile.id);
     if (duplicate && duplicate.id !== account.id) throw new Error(`이미 등록된 Threads 계정입니다: @${profile.username}`);
     const key = `threadsToken:${account.id}` as const;

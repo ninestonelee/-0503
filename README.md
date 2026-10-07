@@ -1,4 +1,7 @@
-# Threads Auto · 스레드 자동화
+# Threads Auto · 스레드 자동화 (Buffer 발행 지원판)
+
+> 이 저장소는 [boksajang/threads-auto](https://github.com/boksajang/threads-auto) (MIT, 커밋 `f8bf162`)를 기반으로,
+> **Threads 발행을 Buffer API로 보낼 수 있도록** 수정한 버전입니다. 기존 Meta Threads API 직접 발행도 그대로 사용할 수 있습니다.
 
 **여러 Threads 계정의 콘텐츠 생성부터 예약 발행, 댓글 관리, 성과 확인까지 한곳에서.**
 
@@ -17,6 +20,44 @@
 - **로컬 데이터 보관** — 설정과 이력을 PC에 저장하고 인증정보는 운영체제 보안 저장소로 암호화합니다.
 
 별도 OpenAI API 키 대신 **설치·로그인된 Codex CLI**를 사용합니다. 모델 사용량은 연결된 Codex 계정의 이용 한도와 과금 정책을 따릅니다.
+
+## Buffer로 발행하기
+
+Meta 개발자 앱 생성, 테스터 초대 수락, PowerShell 토큰 교환 같은 복잡한 Threads 토큰 발급 과정 없이 **Buffer API 키 하나로** 발행할 수 있습니다.
+
+### 준비
+
+1. [Buffer](https://buffer.com)에 가입하고 **Channels → Threads** 채널을 연결합니다. (Threads 계정이 여러 개면 모두 연결)
+2. [Buffer 설정 → API](https://publish.buffer.com/settings/api)에서 **API 키**를 만듭니다.
+3. 앱의 **계정 관리 → Buffer 연결**에 API 키를 넣고 **확인 후 저장**을 누릅니다. 키가 실제로 동작하는지 확인한 뒤에만 저장하며, 연결된 Threads 채널 목록이 표시됩니다.
+4. **+ Threads 계정 등록 → Buffer 채널**에서 채널을 골라 계정을 등록합니다.
+   - 이미 Access Token으로 등록한 계정은 **계정 설정 → 발행 경로**에서 `Buffer`를 고르고 같은 Threads 계정의 채널을 선택해 저장하면 됩니다.
+5. 운영정보(주제·말투·운영 시간)를 채우고 자동화를 켜면 예약 시각마다 Buffer를 통해 Threads에 발행됩니다.
+
+### 동작 방식
+
+- 예약 시각 관리는 지금처럼 앱 스케줄러가 맡고, 발행 시점에 Buffer `createPost`를 **`shareNow`(지금 공유)** 모드로 호출합니다. Buffer 대기열의 시간 슬롯은 사용하지 않습니다.
+- 발행 후 Buffer 게시물 상태가 `sent`가 될 때까지 최대 약 60초 확인합니다. 그 안에 끝나지 않으면 Buffer가 이어서 발행하므로 성공으로 기록하고 경고 로그를 남깁니다. `error`가 되면 Buffer가 알려준 원인과 함께 실패로 기록합니다.
+- 이미지(최대 20장)는 Buffer 이미지 자산으로, 이미지가 없는 글의 링크는 Threads 링크 첨부로 보냅니다.
+- 네트워크 단절처럼 Buffer가 게시물을 만들었는지 알 수 없는 실패는 **중복 발행을 막기 위해 자동 재시도하지 않습니다.** 요청 한도 초과(429)처럼 Buffer가 거부한 요청만 재시도합니다.
+
+### 기능별 지원 범위
+
+| 기능 | Buffer만 연결 | Buffer + Threads Access Token |
+|---|---|---|
+| 일상·블로그·YouTube·쿠팡·네이버 글 생성 및 예약/즉시 발행 | ✅ | ✅ |
+| 성과 리포트 | ✅ Buffer 지표 (하루 1회 갱신) | ✅ Threads 인사이트 |
+| 댓글 자동 답글 | ❌ (Buffer API 미지원, 건너뜀) | ✅ |
+| 앱에서 게시물·답글 삭제 | ❌ Threads 앱에서 직접 삭제 | ✅ |
+| 실제 API 통합 테스트 | ❌ | ✅ (Meta API 기준) |
+
+Buffer 경로 계정에도 Threads Access Token을 저장하면, Buffer가 돌려준 게시물 주소로 Threads 게시물 ID를 찾아 저장하므로 댓글·삭제·인사이트 기능을 그대로 쓸 수 있습니다.
+
+### 주의
+
+- Buffer API 요청 한도는 요금제별로 15분 100회, 하루 250~500회입니다. 게시물 1건에 상태 확인을 포함해 보통 2~10회를 사용합니다.
+- Buffer 무료 요금제는 연결 채널 수와 대기열 수에 제한이 있습니다. 채널이 잠기거나 연결이 끊기면 앱이 발행 전에 알려줍니다.
+- Buffer API 키를 삭제하면 Buffer 경로 계정의 자동화가 해제되고 대기 작업이 취소됩니다.
 
 ## Windows 시험 배포 다운로드
 
