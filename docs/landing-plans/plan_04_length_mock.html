@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  ④ 여성 요실금 히든 랜딩 ver5 — 페이지 길이 목업 (기획안 plan_04 v9, 3-1 '목업 실측' 근거 — v3 목업에 v5 변경(S1 근거·배지 버튼 행, S2 통계 카드 2 출처 줄, S5 ② 문장, S8 인물 줄 1 방송 메타 행)을 반영해 다시 잼. v6: S10 마이크로카피를 알림 채널 두 벌(copy-na/copy-ns, html data-notify)로 바꿔 다시 잼 — 변화 없음. v8: S2 보조("이름·연락처는 묻지 않아요")·S3 보조("답은 이 휴대폰 안에서만 계산돼요")·S3 하단 고지(결과 종류 집계 고지 추가, 4줄 유지)를 바꿔 다시 잼 — S2 1,116px·S3 890px·전체 13,414px로 변화 없음. v9: S10 상담 영역을 #s10_cta로 감싸고 정상 상태(.consult-live)와 전화 예약 대체 블록(.consult-fallback, html.wc-noapp일 때만)을 함께 넣어 다시 잼 — 정상 상태 S10 1,039px·전체 13,414px로 변화 없음, 대체 상태(wc-noapp)는 S10 959px·전체 13,334px로 더 짧음)
+  ④ 여성 요실금 히든 랜딩 ver5 — 페이지 길이 목업 (기획안 plan_04 v11, 3-1 '목업 실측' 근거 — v3 목업에 v5 변경(S1 근거·배지 버튼 행, S2 통계 카드 2 출처 줄, S5 ② 문장, S8 인물 줄 1 방송 메타 행)을 반영해 다시 잼. v6: S10 마이크로카피를 알림 채널 두 벌(copy-na/copy-ns, html data-notify)로 바꿔 다시 잼 — 변화 없음. v8: S2 보조("이름·연락처는 묻지 않아요")·S3 보조("답은 이 휴대폰 안에서만 계산돼요")·S3 하단 고지(결과 종류 집계 고지 추가, 4줄 유지)를 바꿔 다시 잼 — S2 1,116px·S3 890px·전체 13,414px로 변화 없음. v9: S10 상담 영역을 #s10_cta로 감싸고 정상 상태(.consult-live)와 전화 예약 대체 블록(.consult-fallback, html.wc-noapp일 때만)을 함께 넣어 다시 잼 — 정상 상태 S10 1,039px·전체 13,414px로 변화 없음, 대체 상태(wc-noapp)는 S10 959px·전체 13,334px로 더 짧음. v11(기획안 v11): S1 근거 줄을 가장 긴 문안 B(자극점 비교, '자료 ›')로 바꿈 — 행 높이 48px 고정이라 S1 844px 그대로(문안 A·C도 같은 조건으로 따로 재어 48px 확인) / S5 근거 줄을 H2 바로 아래로 옮기고 라벨 '특허(발명의 명칭)'를 붙임, 비교 카드에 id=s05_compare와 '자극점 위치 도면' 각주 — S5 1,287 → 1,299px / S9 요약을 2줄(구매 확인 후기 총건수 + 미노출 건수·기준일)로, 하단 고지를 1줄로 줄임 — S9 932px 그대로 / 전체 13,414 → 13,426px)
   - 목적: 390px 폭에서 섹션별 offsetHeight와 전체 scrollHeight를 '가장 긴 경우'로 실측하기 위한 텍스트 목업. 디자인 시안이 아니다.
   - 조건: D-B 문안, FAQ·후기 접힘(카드 2장·사진), G1 카드 노출, 통계 2행+오래된 자료 문구, S3 결과 D·혼합, S7 D33 덧붙임 3개, S8 모든 행·인물 줄 2개·인물 줄 1 방송 메타 행(D16 확인 시, 가장 긴 경우).
   - 자리표시자 값(가격·번호·날짜·기관명)은 길이 확인용 가짜 값이며 실제 데이터가 아니다. 이미지·도식은 회색 상자로 대신했다.
@@ -64,7 +64,7 @@ td,th{border:1px solid var(--l);padding:8px;vertical-align:top;text-align:left}
   <h1 style="margin-top:12px">기침·웃음에 새는 소변, 앉아서 운동해요</h1>
   <p class="sub" style="font-size:17px;margin-top:6px">옷 입은 채 하루 10분, 여성용 진동 방석이 골반저근 운동을 도와요.</p>
   <div style="height:clamp(180px,calc(100svh - 468px),320px);background:#ddd;border-radius:16px;margin:8px 0 0"></div>
-  <div class="proofline" data-chk="reason" id="heroReason"><span>✓ 특허 진동파장이 PC·BC 근육 3곳을 자극</span><span class="pl-more">증빙 ›</span><span class="pl-ico">i</span></div>
+  <div class="proofline" data-chk="reason" id="heroReason"><span>✓ 자극점 1→3곳(PC·BC 근육, 자사 제품 비교)</span><span class="pl-more">자료 ›</span><span class="pl-ico">i</span></div>
   <div class="badges" data-chk="badges" id="heroBadges"><span class="bd kc">KC 인증</span><span class="sep">·</span><span class="bd aw">2022~2025 한국품질만족도 4년 연속 1위¹</span></div>
   <div style="font-size:15px;font-weight:700;border-left:4px solid var(--p);background:#fff;padding:6px 8px;margin-top:0;white-space:nowrap;overflow:hidden">가입 시 20,000원 할인 · 무료 화상상담</div>
   <script>(function(){var r=document.getElementById("heroReason"),b=document.getElementById("heroBadges");if(r.scrollWidth>r.clientWidth){r.classList.add("is-compact");if(r.scrollWidth>r.clientWidth)r.classList.add("is-wrap")}if(b.scrollWidth>b.clientWidth)b.classList.add("hide-kc")})()</script>
@@ -128,11 +128,11 @@ td,th{border:1px solid var(--l);padding:8px;vertical-align:top;text-align:left}
 <!-- S5 (G1 카드 노출, 가장 긴 경우) -->
 <section data-max-h="1350" id="s05_how">
   <h2>앉아만 있어도 골반저근 운동을 돕는 원리</h2>
+  <div class="tb" style="font-size:15px;height:auto;min-height:48px">특허(발명의 명칭) 「진동파장을 통한 여성 질 수축 장치」 · 특허 제10-0000000호 · 증빙 보기</div>
   <div class="row" style="margin-top:12px"><div class="svg" style="width:96px;height:96px;flex:none"></div><div><b>① 앉아요</b><br>옷을 입은 채 방석 위에 앉으면, 기기가 회음부 쪽 골반저근(PC 근육) 가까이에 닿아요.</div></div>
   <div class="row" style="margin-top:12px"><div class="svg" style="width:96px;height:96px;flex:none"></div><div><b>② 진동이 전해져요</b><br>듀얼모터가 만드는 진동파장이 PC 근육과 BC 근육(질·요도괄약근 쪽)의 자극점 3곳으로 전해져요.</div></div>
   <div class="row" style="margin-top:12px"><div class="svg" style="width:96px;height:96px;flex:none"></div><div><b>③ 골반저근 운동을 도와요</b><br>진동 자극이 골반저근의 수축·이완 운동을 돕도록 설계됐어요. TV를 보거나 책을 읽으며 하루 10분이면 돼요.</div></div>
-  <div class="card"><b>자극점이 1곳에서 3곳으로</b><div class="grid2" style="margin-top:8px"><div class="svg" style="height:96px"></div><div class="svg" style="height:96px"></div></div><div class="grid2 f14" style="margin-top:4px"><div>웨이브케어 기존 제품 — 자극점 1곳(PC 근육)</div><div>V8 포 우먼 — 자극점 3곳(PC·BC 근육)</div></div><p class="f14" style="margin-top:6px">자사 제품 간 비교예요. 자료: 리진바이오 기존 모델 ○○○○ 도면.</p></div>
-  <div class="tb" style="font-size:15px">특허 「진동파장을 통한 여성 질 수축 장치」(제10-0000000호) · 증빙 보기</div>
+  <div class="card" id="s05_compare"><b>자극점이 1곳에서 3곳으로</b><div class="grid2" style="margin-top:8px"><div class="svg" style="height:96px"></div><div class="svg" style="height:96px"></div></div><div class="grid2 f14" style="margin-top:4px"><div>웨이브케어 기존 제품 — 자극점 1곳(PC 근육)</div><div>V8 포 우먼 — 자극점 3곳(PC·BC 근육)</div></div><p class="f14" style="margin-top:6px">자사 제품 간 비교예요. 자료: 리진바이오 ○○○○○○ 자극점 위치 도면.</p></div>
   <div class="card"><b>기기 작동 중 질압 측정 자료</b>
     <table style="margin-top:8px"><tr><th>측정 조건</th><th>평균값</th></tr><tr><td>본인 힘으로 질을 수축할 때</td><td>10~15 [단위]</td></tr><tr><td>웨이브케어가 작동하는 동안</td><td>30~40 [단위]</td></tr></table>
     <p class="f14" style="margin-top:6px">측정 주체: ○○○○○(자사 측정) · 측정일: 0000-00-00 · 방법: ○○○ 측정 · 표본: 여성 테스터 100명 실험군 평균, 오차 ±3%</p>
@@ -205,14 +205,14 @@ td,th{border:1px solid var(--l);padding:8px;vertical-align:top;text-align:left}
 <!-- S9 (접힘, 카드 3장, 사진 있음) -->
 <section data-max-h="1000" id="s09_reviews">
   <h2>구매 고객 후기</h2>
-  <p>★ 0.0점 · 후기 0,000개 · 0000-00-00 기준</p>
+  <p style="font-weight:700;margin-bottom:0">★ 0.0점 · 구매 확인 후기 0,000개</p><p class="f14">이 페이지 미노출 00개 포함 · 0000-00-00 기준</p>
   <div class="f14" style="line-height:1.6">5점 ███████ 980<br>4점 ██ 180<br>3점 ▌ 40<br>2점 ▏ 20<br>1점 ▏ 14</div>
   <div style="display:flex;gap:6px;margin-top:8px"><span class="chip" style="padding:0 8px;font-size:15px">전체</span><span class="chip" style="padding:0 8px;font-size:15px">5점</span><span class="chip" style="padding:0 8px;font-size:15px">4점</span><span class="chip" style="padding:0 8px;font-size:15px">3점 이하</span><span class="chip" style="padding:0 8px;font-size:15px">4주 이상</span></div>
   <div class="card"><div class="svg" style="float:right;width:64px;height:64px;margin-left:8px"></div><div class="f14">★★★★☆ · 구매 확인 · 제공받아 작성 · 0000-00-00</div><div class="f14">김** · 40대 · 3주 사용</div><p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">(길이 확인용 자리 문장 — 실제 후기 원문은 reviews.json에서 채운다) 가나다라 마바사아 자차카타 파하가나 다라마바 사아자차 카타파하 가나다라 마바사아 자차카타 파하가나 다라마바 사아자차 카타파하.</p><div class="tb" style="height:40px;margin-bottom:-4px">더 읽기</div></div>
   <div class="card"><div class="svg" style="float:right;width:64px;height:64px;margin-left:8px"></div><div class="f14">★★★★★ · 구매 확인 · 0000-00-00</div><div class="f14">이** · 50대 · 1~3개월 사용</div><p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">(길이 확인용 자리 문장 — 실제 후기 원문은 reviews.json에서 채운다) 가나다라 마바사아 자차카타 파하가나 다라마바 사아자차 카타파하 가나다라 마바사아 자차카타 파하가나 다라마바 사아자차 카타파하.</p><div class="tb" style="height:40px;margin-bottom:-4px">더 읽기</div></div>
   <div class="btn bo">후기 더 보기 (+6)</div>
   <div class="tb">▸ 후기 노출 기준 보기</div>
-  <p class="f14">후기는 개인의 경험이에요. 느끼는 정도는 사람마다 달라요.</p>
+  <p class="f14">후기는 개인의 경험이라 사람마다 다를 수 있어요.</p>
 </section>
 
 <!-- S10 -->
