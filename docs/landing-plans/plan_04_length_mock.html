@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  ④ 여성 요실금 히든 랜딩 ver5 — 페이지 길이 목업 (기획안 plan_04 v6, 3-1 '목업 실측' 근거 — v3 목업에 v5 변경(S1 근거·배지 버튼 행, S2 통계 카드 2 출처 줄, S5 ② 문장, S8 인물 줄 1 방송 메타 행)을 반영해 다시 잼. v6: S10 마이크로카피를 알림 채널 두 벌(copy-na/copy-ns, html data-notify)로 바꿔 다시 잼 — 변화 없음. v8: S2 보조("이름·연락처는 묻지 않아요")·S3 보조("답은 이 휴대폰 안에서만 계산돼요")·S3 하단 고지(결과 종류 집계 고지 추가, 4줄 유지)를 바꿔 다시 잼 — S2 1,116px·S3 890px·전체 13,414px로 변화 없음)
+  ④ 여성 요실금 히든 랜딩 ver5 — 페이지 길이 목업 (기획안 plan_04 v9, 3-1 '목업 실측' 근거 — v3 목업에 v5 변경(S1 근거·배지 버튼 행, S2 통계 카드 2 출처 줄, S5 ② 문장, S8 인물 줄 1 방송 메타 행)을 반영해 다시 잼. v6: S10 마이크로카피를 알림 채널 두 벌(copy-na/copy-ns, html data-notify)로 바꿔 다시 잼 — 변화 없음. v8: S2 보조("이름·연락처는 묻지 않아요")·S3 보조("답은 이 휴대폰 안에서만 계산돼요")·S3 하단 고지(결과 종류 집계 고지 추가, 4줄 유지)를 바꿔 다시 잼 — S2 1,116px·S3 890px·전체 13,414px로 변화 없음. v9: S10 상담 영역을 #s10_cta로 감싸고 정상 상태(.consult-live)와 전화 예약 대체 블록(.consult-fallback, html.wc-noapp일 때만)을 함께 넣어 다시 잼 — 정상 상태 S10 1,039px·전체 13,414px로 변화 없음, 대체 상태(wc-noapp)는 S10 959px·전체 13,334px로 더 짧음)
   - 목적: 390px 폭에서 섹션별 offsetHeight와 전체 scrollHeight를 '가장 긴 경우'로 실측하기 위한 텍스트 목업. 디자인 시안이 아니다.
   - 조건: D-B 문안, FAQ·후기 접힘(카드 2장·사진), G1 카드 노출, 통계 2행+오래된 자료 문구, S3 결과 D·혼합, S7 D33 덧붙임 3개, S8 모든 행·인물 줄 2개·인물 줄 1 방송 메타 행(D16 확인 시, 가장 긴 경우).
   - 자리표시자 값(가격·번호·날짜·기관명)은 길이 확인용 가짜 값이며 실제 데이터가 아니다. 이미지·도식은 회색 상자로 대신했다.
@@ -39,6 +39,7 @@ td,th{border:1px solid var(--l);padding:8px;vertical-align:top;text-align:left}
 .svg{background:#eee;border-radius:8px}
 .row{display:flex;gap:12px;align-items:flex-start}
 .copy-ns{display:none} html[data-notify="sms"] .copy-na{display:none} html[data-notify="sms"] .copy-ns{display:inline}
+.consult-fallback{display:none} html.wc-noapp .consult-live{display:none} html.wc-noapp .consult-fallback{display:block}
 .faq{min-height:56px;display:flex;align-items:center;border-bottom:1px solid var(--l);font-weight:700;padding:12px 32px 12px 0;line-height:1.4}
 .hero{height:min(100svh,844px);background:var(--bg2);padding:0 16px;display:flex;flex-direction:column}
 .li{min-height:48px;padding:10px 0;border-bottom:1px solid var(--l)}.li2{min-height:48px;padding:6px 0;display:flex;align-items:center}
@@ -227,11 +228,20 @@ td,th{border:1px solid var(--l);padding:8px;vertical-align:top;text-align:left}
   <div class="card row"><div class="svg" style="width:96px;height:96px;border-radius:50%;flex:none"></div><div><b>○○○ 보건교육사</b><div class="f14">국가공인 보건교육사 0급 · 자격번호 0-00-****<br>리진바이오 웨이브케어 고객건강상담팀</div><div style="font-size:15px">운동 방법·생활 습관·사용법을 안내해요. 진단·처방은 하지 않고, 필요하면 진료를 권해요.</div></div></div>
   <p class="f14" style="margin-top:6px">보건교육사는 「국민건강증진법」에 따라 보건복지부 장관이 자격증을 발급하는 국가자격이에요.</p>
   <div class="card" style="font-size:16px"><b>물어볼 수 있어요</b> 내 생활에 맞는 운동법 · 웨이브케어가 맞는지와 주의사항 · 자가진단 결과 · 진료가 필요한 신호<br><b>하지 않아요</b> 진단·처방 · 구매 강요 · 상담 녹화</div>
+  <div id="s10_cta">
+  <div class="consult-live">
   <p class="f14" style="margin-top:12px">자가진단 결과를 상담사에게 미리 전달할 수 있어요(선택)</p>
   <div class="chip" style="margin-top:8px;font-size:15px;align-self:flex-start;display:inline-flex">가장 빠른 상담 가능 시간: 내일 10:30</div>
   <div class="btn bn">무료 상담 예약하기</div>
   <p class="f14" style="margin-top:8px"><span class="copy-na">예약하면 바로 카카오 알림톡(또는 문자)으로 확인 메시지를 보내 드려요.</span><span class="copy-ns">예약하면 바로 문자로 확인 메시지를 보내 드려요.</span></p>
   <div class="tb">전화가 편하시면 고객센터 1566-0398(평일 00:00~00:00)</div>
+  </div>
+  <div class="consult-fallback">
+  <p style="margin-top:12px;font-size:16px;line-height:1.65">지금은 예약 화면을 불러오지 못했어요. 1566-0398로 전화 주시면 상담 시간을 잡아 드려요.</p>
+  <div class="btn bn">1566-0398 전화하기</div>
+  <p class="f14" style="margin-top:8px">고객센터 운영 시간 평일 00:00~00:00(점심 00:00~00:00)</p>
+  </div>
+  </div>
 </section>
 
 <!-- S11 (모두 접힘) -->
