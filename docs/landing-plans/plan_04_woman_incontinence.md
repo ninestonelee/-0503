@@ -11,8 +11,8 @@
 | 항목 | 내용 |
 |---|---|
 | 문서명 | ④ 여성 요실금 히든 랜딩페이지 개선 기획안 |
-| 버전 | **v10** |
-| 작성일 / 수정일 | 2026-10-08 (v1) / 2026-10-08 (v2) / 2026-10-08 (v3) / 2026-10-08 (v4) / 2026-10-08 (v5) / 2026-10-08 (v6) / 2026-10-08 (v7) / 2026-10-08 (v8) / 2026-10-08 (v9) / **2026-10-08 (v10)** |
+| 버전 | **v11** |
+| 작성일 / 수정일 | 2026-10-08 (v1) / 2026-10-08 (v2) / 2026-10-08 (v3) / 2026-10-08 (v4) / 2026-10-08 (v5) / 2026-10-08 (v6) / 2026-10-08 (v7) / 2026-10-08 (v8) / 2026-10-08 (v9) / 2026-10-08 (v10) / **2026-10-08 (v11)** |
 | 대상 URL(현재) | https://m.regenestyle.com/ad/wavecare_woman_ver4.html |
 | 신규 제작 URL | https://m.regenestyle.com/ad/wavecare_woman_ver5.html (운영본) / https://m.regenestyle.com/ad/wavecare_woman_ver5_stg.html (스테이징·QA용. 운영 광고에는 연결하지 않으며, 예외는 13-2 QA 11 ⑥의 QA 전용 소액 테스트 캠페인(캠페인명 `wc_woman_qa_` 시작, 최종 URL = 스테이징, QA 뒤 즉시 중지)뿐) |
 | 현재 URL 처리 | ver5 런칭일에 Google Ads 최종 URL을 모두 ver5로 바꾼다. ver4는 본문을 지우고 `<head>`에서 `location.replace('/ad/wavecare_woman_ver5.html' + location.search)`를 실행하는 리디렉트 전용 파일로 바꾼다(쿼리스트링 유지, noindex 유지). |
@@ -78,14 +78,14 @@
 | 이탈률 / 보정 이탈률 | **M02 이탈률(GTM 로드 뒤 세션 기준)** = 1 − 참여 세션 ÷ 기준 세션(참여 세션 = 10초 이상 머묾, 또는 전환, 또는 2페이지 이상 — GA4 기본 정의. GTM 로드 전에 떠난 방문은 세션이 없어 빠짐) / **M42 보정 이탈률** = 1 − 광고 유입 참여 세션 ÷ Google Ads 클릭(광고 유입 = `lp_view`의 `ad_format`이 long·shorts인 기준 세션, 클릭 = 캠페인 이름이 `wc_woman_incont_`로 시작하는 캠페인의 같은 리포트 주간 클릭수, 경로 Ads + Q1). 12-2 M02·M42와 같은 문장 | 측정 불가 | M02 ≤ 55% / M42 ≤ 62%(= M02 목표 55%와 포착률 목표 85%를 함께 만족할 때 값 1 − 0.45 × 0.85 ≈ 62%) | **M42가 65% 넘으면 히어로 점검**(M02로는 판정하지 않음) |
 | 세션 포착률 | **M41** = 광고 유입 기준 세션(`ad_format`이 long·shorts인 M01 세션) ÷ Google Ads 클릭(캠페인 이름 `wc_woman_incont_` 시작, 같은 리포트 주간, 경로 Ads + Q1). 12-2 M41과 같은 문장 | 측정 불가 | ≥ 85% | 75% 미만이면 11-5 GTM 로드 시점·LCP(1-2 성능 행) 점검 → 11-5 '세션 포착률 경고 대응' |
 | 50% 스크롤 도달률 | `scroll_depth`(percent=50) 세션 ÷ 세션 (`percent` 맞춤 측정기준) | 측정 불가 | ≥ 45% | 30% 미만 |
-| CTA 클릭률(전체) | `cta_click` 세션 ÷ 세션 | 측정 불가 | ≥ 15% | 10% 미만 |
+| CTA 클릭률(전체 = 구매·상담) | `cta_click`(cta_type=purchase 또는 consult) 세션 ÷ 세션. 자가진단 이동(`quiz`)·페이지 안 이동(`nav`, 자가진단 결과 카드의 '사용법 먼저 보기' 등 — 8-4)은 넣지 않는다(자가진단은 M06, 결과 카드 이동은 M27로 따로 봄). 12-2 M04와 같은 문장 | 측정 불가 | ≥ 15% | 10% 미만 |
 | └ 구매 CTA 클릭률 | `cta_click`(cta_type=purchase) 세션 ÷ 세션 | 측정 불가 | ≥ 9% | 6% 미만 |
 | └ 상담 CTA 클릭률 | `cta_click`(cta_type=consult) 세션 ÷ 세션 | 측정 불가 | ≥ 6% | 3% 미만 |
 | 자가진단 시작률 / 완료율 | `quiz_start` 세션 ÷ 세션 / `quiz_complete` 세션 ÷ `quiz_start` 세션 | 없음 | ≥ 25% / ≥ 70% | 15% / 55% 미만 |
 | 상담 신청률 | `generate_lead` 수 ÷ 세션 | 0%(폼 없음) | ≥ 1.5% | 0.8% 미만 |
 | 상담 폼 제출률 | `generate_lead` 세션 ÷ `consult_form_open` 세션 | 없음 | ≥ 40% | 25% 미만 |
 | 상담 노쇼율 | (상담기록 시트) 슬롯 시작이 리포트 주간이고 ②(④-2 포함 — ④-2도 `sent_②`에 기록, 7-7)가 나간 예약 중 `status`=노쇼 ÷ 같은 조건의 예약 중 `status`가 완료 또는 노쇼인 예약(취소·변경된 예약은 분모에서 뺌). 12-2 M12와 같은 문장 | 없음 | ≤ 20% | 30% 넘음 |
-| 주문서 도달률 | `begin_checkout` 세션 ÷ `cta_click`(cta_type=purchase) 세션 | 측정 불가 | ≥ 60% | 40% 미만 |
+| 주문서 도달률 | `begin_checkout` 세션 ÷ `cta_click`(cta_type=purchase) 세션(가격 카드로 이동만 하는 결과 카드 CTA는 `nav`라 분모에 들어가지 않음 — 8-4) | 측정 불가 | ≥ 60% | 40% 미만 |
 | 바로구매 딥링크 대체율 / 소요 시간 | `deeplink_redirect`(result=fallback·fallback_after_click) 수 ÷ 전체 `deeplink_redirect` 수 / `tap_to_next_ms` p75(CTA 탭 → 로그인 화면 또는 주문서 표시, `result=success`만, **BigQuery Q2**) | 없음 | ≤ 5% / ≤ 2.5초 | 10% 넘음 / 3.5초 넘음 → 6-2 선택자·스킨 점검 |
 | 구매 전환율 | 랜딩 경유 주문 수(`purchase` 중 `lp_id=wc_woman_v5`이고 item_id=155 포함, `transaction_id` 중복 제거, **BigQuery Q3**) ÷ 세션 | [확인 필요 D32] | ≥ 0.8% | 0.4% 미만 |
 | 상담→구매율 | **주간 이동 지표**: 상담 후 구매 주문 수 ÷ 주간 상담 완료 수(코호트 값 괄호 병기). 분자 = 주문 시각이 리포트 주간인 상담 후 구매 주문(1-1 B-3 정의 = Q3 `consult_attributed`=Y 주문 ∪ '주문연결' 탭 `in_window`=Y 주문, `order_id` 중복 제거. `lead_pre`·`lead_post`·N은 넣지 않음), 분모 = 슬롯 시작이 리포트 주간이고 `status`=완료인 예약 수. 계산식·코호트 정의는 12-2 M19와 같은 문장 | 없음 | ≥ 20% | 10% 미만 |
@@ -261,7 +261,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 
 ### S1. 히어로 `s01_hero` (동적)
 
-**목적**: 390×844 첫 화면, 스크롤하기 전에 ① 누구를 위한(여성용) ② 무엇을 해결하는(기침·웃음에 새는 소변 → 앉아서 하는 골반저근 운동) ③ 왜 이 제품인지(특허 진동파장, 자극점 3곳) ④ 지금 할 행동(구매·상담 CTA 2개)과 광고에서 약속한 혜택을 3초 안에 보여 준다.
+**목적**: 390×844 첫 화면, 스크롤하기 전에 ① 누구를 위한(여성용) ② 무엇을 해결하는(기침·웃음에 새는 소변 → 앉아서 하는 골반저근 운동) ③ 왜 이 제품인지(근거 1줄 — 아래 '근거 줄 문안 선택 규칙'의 문안 A·B·C 가운데 증빙이 그 문장을 그대로 뒷받침하는 하나) ④ 지금 할 행동(구매·상담 CTA 2개)과 광고에서 약속한 혜택을 3초 안에 보여 준다.
 
 **텍스트 와이어프레임**(위에서 아래 순서 = 시선 위계: 헤드라인 > 서브 > 근거 > CTA)
 
@@ -277,7 +277,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 │ ┌──────────────────────────────────────────────────────┐ │
 │ │        [히어로 사진: 실제 사용 장면]                   │ │ 높이 clamp(180px, calc(100svh - 468px), 320px)
 │ └──────────────────────────────────────────────────────┘ │ 모서리 16px, 아래 간격 0
-│ [✓ 특허 진동파장이 PC·BC 근육 3곳을 자극  증빙 ›]        │ 근거 줄 버튼(행 전체, 높이 48px): 16px/700/#1F2A44 + '증빙 ›' 14px/500/#4A4A55 밑줄
+│ [✓ 특허 진동파장이 PC·BC 근육 3곳을 자극  증빙 ›]        │ 근거 줄 버튼(행 전체, 높이 48px): 16px/700/#1F2A44 + 끝 표시 14px/500/#4A4A55 밑줄(문안 A 예시. B·C는 아래 '근거 줄 문안 선택 규칙')
 │                                                (8px)     │ 행 사이 간격 8px
 │ [KC 인증] · [2022~2025 한국품질만족도 4년 연속 1위¹]      │ 배지 줄(높이 48px): 버튼 2개 14px/500/#4A4A55, 1px 점선 밑줄, 1줄 고정
 │ ┌ 광고 속 혜택 그대로 │ 20,000원 할인 · 무료 화상상담 ┐   │ 혜택 줄: 15px/700, 배경 #FFFFFF, 왼쪽 마젠타 4px 막대, 1줄 고정
@@ -289,7 +289,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 
 - 높이 계산: 사진을 뺀 요소 합계 약 468px(로고 44 + 칩 28 + 간격 12 + H1 2줄 73 + 간격 6 + 서브 2줄 54 + 간격 16 + 근거 줄 48 + 간격 8 + 배지 줄 48 + 혜택 줄 36 + 버튼 60(간격 8 포함) + 마이크로카피 27(간격 6 포함) = 460px, 아래 여유 8px). 사진 높이를 `calc(100svh - 468px)`로 잡아 사파리 주소창이 보이는 실제 가시 영역(390×664)에서도 CTA 2개와 마이크로카피가 스크롤 없이 보인다(사진 196px, 목업 실측 마이크로카피 아래 끝 656px ≤ 664px). 844px 전체 높이에서는 사진이 최대 320px까지 커진다. v4(440px)보다 28px 늘어난 것은 근거 줄·배지 줄을 48px 탭 영역 행으로 바꾼 몫이다(5번 S8 밖 증빙 연결).
 - **근거 줄·배지 줄 1줄 유지 규칙(첫 페인트 전 판정)**: 배지 줄 바로 뒤 인라인 스크립트(0.3KB)가 두 행의 `scrollWidth > clientWidth`를 재서 클래스를 붙인다. 시스템 글꼴만 쓰므로(3-2, 웹폰트 없음) 첫 페인트 전 값이 최종 값이다. app.js는 `resize`·`orientationchange` 때 같은 판정을 다시 한다(250ms 디바운스).
-  - 근거 줄: ① 1줄에 들어가면 '증빙 ›' 텍스트 → ② 넘치면 `.is-compact`: '증빙 ›'를 ⓘ 아이콘(20px SVG, `aria-hidden`)으로 바꿈 → ③ 그래도 넘치면 `.is-wrap`: 같은 48px 행 안에서 2줄(줄 간격 1.35, 2줄 높이 43px)로 감싼다. 행 높이는 어느 단계에서도 48px이라 히어로 높이 계산이 바뀌지 않는다(목업 실측: 390px ① 단계, 375px ② 단계, 360px·320px ③ 단계, 모두 행 높이 48px).
+  - 근거 줄: ① 1줄에 들어가면 끝 표시 텍스트('증빙 ›', 문안 B는 '자료 ›') → ② 넘치면 `.is-compact`: 끝 표시를 ⓘ 아이콘(20px SVG, `aria-hidden`)으로 바꿈 → ③ 그래도 넘치면 `.is-wrap`: 같은 48px 행 안에서 2줄(줄 간격 1.35, 2줄 높이 43px)로 감싼다. 행 높이는 어느 단계에서도 48px이라 히어로 높이 계산이 바뀌지 않는다(목업 실측(v11, 문안별): 문안 A 390px ① · 375px ② · 360px·320px ③ / 문안 B 390px ② · 375px·360px·320px ③ / 문안 C 390px ② · 375px·360px·320px ③ — 모두 행 높이 48px, 320px에서도 2줄 이내).
   - 배지 줄: 1줄에 들어가지 않으면 `.hide-kc`로 'KC 인증' 버튼과 구분점 ` · `을 숨겨 1줄을 지킨다(목업 실측: 360px 이하 기기). 수상 버튼은 숨기지 않는다.
 - 혜택 줄이 1줄을 넘으면(D-B 문안 또는 좁은 기기) 앞 라벨 `광고 속 혜택 그대로 │ `(`<span class="benefit-label">`)만 CSS로 숨긴다. 혜택 내용(할인·무료 화상상담)은 어떤 경우에도 숨기지 않는다.
 - 배경: `#F3F1F7`(광고 엔드카드와 같은 색).
@@ -301,7 +301,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 | 연속성 칩 | 2-4 표 문구를 그대로 쓴다 — 롱폼 "▶ 영상에서 보신 여성용 웨이브케어 V8 포 우먼" / 쇼츠 "▶ 쇼츠에서 보신 여성용 웨이브케어 V8 포 우먼" / 파라미터 없음·미등록 "▶ 여성용 골반저근 운동기구, 웨이브케어 V8 포 우먼" |
 | H1 | 기침·웃음에 새는 소변, 앉아서 운동해요 |
 | 서브카피 | 옷 입은 채 하루 10분, 여성용 진동 방석이 골반저근 운동을 도와요. |
-| 근거 1줄(버튼 1개) | ✓ 특허 진동파장이 PC·BC 근육 3곳을 자극 + 끝에 **증빙 ›**(14px, 1줄을 넘으면 ⓘ 아이콘) — `<button id="heroReason" aria-haspopup="dialog" aria-label="특허 진동파장이 PC·BC 근육 3곳을 자극, 특허 증빙 보기">` |
+| 근거 1줄(버튼·링크 1개) | 아래 **'근거 줄 문안 선택 규칙'** 표의 문안 A·B·C 가운데 D-7에 정한 하나만 HTML에 넣는다(문안·마크업·누르면·측정은 그 표). 문안 A 예: ✓ 특허 진동파장이 PC·BC 근육 3곳을 자극 + 끝에 **증빙 ›**(14px, 1줄을 넘으면 ⓘ 아이콘) |
 | 신뢰 배지 1줄(버튼 2개) | **[KC 인증]** · **[2022~2025 한국품질만족도 4년 연속 1위¹]** — 버튼 1 `aria-label="KC 인증, 인증 정보와 증빙 보기"`, 버튼 2 `aria-label="2022~2025 한국품질만족도 4년 연속 1위, 수상 정보 보기"`. 구분점 ` · `은 버튼 밖 텍스트 |
 | 혜택 줄 | D-A: 광고 속 혜택 그대로 │ 20,000원 할인 · 무료 화상상담 / D-B: 광고 속 혜택 그대로 │ 가입 시 20,000원 할인 · 무료 화상상담 |
 | CTA 1(구매) | D-A: 할인가로 구매하기 / D-B: 가입하고 할인 구매 |
@@ -311,6 +311,20 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 
 - 할인 방식(6-4 D-A/D-B)에 따라 바뀌는 문안은 `wc-config.discount_mode`로 자동 전환된다(2-6 7단계, 6-8 표). 운영자가 문안을 직접 바꾸지 않는다.
 - R3·R7(상담 우선)은 CTA 순서만 바뀐다: 왼쪽 "무료 상담 예약"(채움, 네이비 `#1F2A44`), 오른쪽 "할인가로 구매하기"(외곽선, 마젠타).
+
+**근거 줄 문안 선택 규칙(v11 — 근거 줄의 각 주장은 연결된 증빙이 그대로 뒷받침해야 한다)**
+
+- 원칙: 근거 줄 한 줄 안의 주장마다 그 주장을 담은 증빙에만 연결한다. '특허' ↔ 특허증(D13), '자극점 3곳(PC·BC)' ↔ 특허 청구항(D13 ③에서 확인된 경우) 또는 S5 자극점 비교 카드의 자사 제품 도면 자료(D18). 출처가 다른 두 주장을 한 줄에 섞고 한쪽 증빙만 연결하지 않는다(예: '특허 + 3곳 자극' 문장을 특허증 모달에만 연결하면서 3곳의 실제 출처는 D18인 경우 — v10까지의 문제).
+- 선택 순서(위에서부터 처음 맞는 문안 하나): D13 ③ 확인 결과(D-14)와 D18 확보 여부(D-7)로 **마케팅 책임자가 D-7에 정하고**, HTML에는 정한 문안 하나만 넣는다(세 문안을 함께 넣고 숨기지 않음). 정한 문안과 근거(청구항 번호 또는 D18 모델명)를 13-4 대장에 적는다.
+
+| 문안 | 노출 조건 | 화면 문안 + 끝 표시 | 마크업 | 누르면 | 측정 |
+|---|---|---|---|---|---|
+| **A** | D13 ③ 확인: 특허 청구범위(또는 요약·대표도면)에 PC(회음부)·BC(요도·질 괄약근) 쪽 자극점이 3곳으로 들어 있음(KIPRIS 공보 해당 청구항 캡처) | ✓ 특허 진동파장이 PC·BC 근육 3곳을 자극 + **증빙 ›** | `<button id="heroReason" type="button" data-proof="proof_patent_v8w" aria-haspopup="dialog" aria-label="특허 진동파장이 PC·BC 근육 3곳을 자극, 특허 증빙 보기">` | S8 공용 증빙 모달 `proof_patent_v8w`를 바로 연다. 모달 텍스트 메타 '번호' 칸에 해당 청구항 번호를 함께 쓴다(S8 증빙별 텍스트 메타 표) | `proof_open`(proof_id=proof_patent_v8w, proof_from=hero_reason) |
+| **B** | A 조건을 확인하지 못했거나 청구항에 없음(D13 범위 밖) **그리고** D18(비교 대상 기존 모델명·자극점 위치 도면) 확보 | ✓ 자극점 1→3곳(PC·BC 근육, 자사 제품 비교) + **자료 ›** | `<a id="heroReason" href="#s05_compare" aria-label="자극점 1곳에서 3곳으로, PC·BC 근육, 자사 제품 비교 자료 보기">` (특허를 언급하지 않으므로 S8 'S8 밖 언급' 대상이 아님) | S5 자극점 비교 카드(`#s05_compare`, 각주에 '자사 제품 간 비교 · 자료: 리진바이오 #{D18 기존 모델명} 자극점 위치 도면')로 부드럽게 스크롤(`scroll-margin-top: 16px`, `prefers-reduced-motion`이면 즉시)한 뒤 카드 제목(`tabindex="-1"`)에 포커스. app.js가 없으면 링크 기본 이동 | `trust_footnote_click`(trust_target=compare) |
+| **C** | A 조건 미충족 **그리고** D18 미확보 | ✓ 특허 「진동파장을 통한 여성 질 수축 장치」 + **증빙 ›** | `<button id="heroReason" type="button" data-proof="proof_patent_v8w" aria-haspopup="dialog" aria-label="특허 진동파장을 통한 여성 질 수축 장치, 특허 증빙 보기">` | `proof_patent_v8w` 모달을 바로 연다 | `proof_open`(proof_id=proof_patent_v8w, proof_from=hero_reason) |
+
+- 세 문안 모두 ① 누구를 위한(칩·서브의 '여성') ② 무엇을(H1) 다음의 **③ 왜 이 제품인지**를 한 줄로 채우며, 높이 48px 행·1줄 유지 규칙(위)과 히어로 높이 계산은 문안과 상관없이 같다(목업 실측 v11). 문안 B·C에서 '자극점 3곳' 설명은 S5(② 단계·비교 카드)에서 출처와 함께 읽는다.
+- 운영 중 S8 ③(특허) 행을 내리면 'S8 밖 언급 규칙' 대체표대로 바꾼다(문안 A·C → D18이 있으면 문안 B, 없으면 일반 텍스트).
 
 **비주얼·영상 지시**
 - 사진: 2-3 표의 topic별 **실제 사용 장면** 실사 사진(일러스트·합성 금지). 옷을 입은 채 방석에 앉아 일상 동작(차 마시기, 독서, 통화, TV 시청)을 하는 모습으로, 표정은 편안하게. 배를 움켜쥐거나 찡그리는 모습, 속옷·신체 클로즈업은 쓰지 않는다(현재 히어로의 "배를 움켜쥔 여성" 컷은 폐기).
@@ -322,14 +336,14 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 **인터랙션**
 - 구매 CTA → 6장 즉시구매 플로우(옵션이 없으면 흐름 O1: 주문서 직행, 있으면 흐름 O2: 옵션 바텀시트). 마크업은 JS 없이도 이동하는 링크다: `<a href="/product/detail.html?product_no=155&wc_buy=1&wc_lp=v5" data-cta="purchase" data-cta-location="hero">`(6-2 'CTA 마크업').
 - "무료 상담 예약" → 7장 상담 바텀시트가 열린다(페이지 이동 없음). 마크업은 `<a href="#s10_cta" data-cta="consult" data-cta-location="hero">` — app.js가 가로채 시트를 열고, app.js가 동작하지 않으면 S10 상담 영역(전화 예약 대체 블록)으로 이동한다(7-2 '상담 CTA 마크업').
-- **근거 줄 버튼**(행 전체, 358×48px) → S8 공용 증빙 모달 `proof_patent_v8w`를 바로 연다(S5 근거 줄과 같은 모달, 스크롤 없음). 닫으면 포커스가 근거 줄 버튼으로 돌아간다.
+- **근거 줄 버튼·링크**(행 전체, 358×48px) → 위 '근거 줄 문안 선택 규칙' 표의 '누르면' 열대로 동작한다: 문안 A·C = S8 공용 증빙 모달 `proof_patent_v8w`를 바로 연다(S5 근거 줄과 같은 모달, 스크롤 없음, 닫으면 포커스가 근거 줄 버튼으로 돌아감) / 문안 B = S5 자극점 비교 카드 `#s05_compare`로 스크롤하고 카드 제목에 포커스.
 - **배지 버튼 1 'KC 인증'** → S8 ② 행(`#trust_kc`)으로 부드럽게 스크롤한 뒤(`scroll-margin-top: 16px`, 스크롤이 끝나면 = `scrollend` 이벤트 또는 600ms 중 빠른 때) `proof_kc` 모달을 연다. 모달을 닫으면 포커스는 화면에 보이는 S8 ② 행 버튼으로 간다(히어로로 되돌아가지 않음). `prefers-reduced-motion`이면 즉시 이동.
 - **배지 버튼 2 '…4년 연속 1위¹'** → S8 ① 수상 행(`#trust_award`)으로 부드럽게 스크롤하고 포커스를 그 행 버튼으로 옮긴다(`scroll-margin-top: 16px`). 행에는 날짜·주최·증빙 보기가 있고 각주 ¹(부문·주최)이 함께 보인다.
 - 버튼 3개 모두 보이는 높이는 글자 크기 그대로이고, 탭 영역은 행 높이 48px 전체다(근거 줄 = 행 전체 1개 358×48px, 배지 줄 = 버튼 2개가 행 높이 48px을 채우며 버튼 좌우 패딩 2px, 구분점 ` · ` 좌우 4px. 목업 실측: 'KC 인증' 버튼 55×48px, 두 버튼 사이 12px). 근거 줄과 배지 줄 사이 8px 간격으로 위아래 탭 영역이 겹치지 않는다(11-7).
 - S8 행이 빠진 항목의 버튼은 S8 'S8 밖 언급 규칙' 대체표대로 함께 지우거나 바꾼다(링크 대상이 없는 버튼을 남기지 않음).
 - 히어로 CTA 그룹이 화면에서 벗어나면 하단 고정 CTA 바가 올라온다(5장).
 
-**측정 이벤트**: `lp_view`(match_rule, ad_format), `section_view`(section_id=s01_hero), `cta_click`(cta_type=purchase|consult, cta_location=hero), `trust_footnote_click`(trust_target=kc|award), `proof_open`(proof_id=proof_patent_v8w, proof_from=hero_reason / proof_id=proof_kc, proof_from=hero_badge).
+**측정 이벤트**: `lp_view`(match_rule, ad_format), `section_view`(section_id=s01_hero), `cta_click`(cta_type=purchase|consult, cta_location=hero), `trust_footnote_click`(trust_target=kc|award, 근거 줄 문안 B는 compare), `proof_open`(proof_id=proof_patent_v8w, proof_from=hero_reason — 근거 줄 문안 A·C / proof_id=proof_kc, proof_from=hero_badge).
 
 ---
 
@@ -414,7 +428,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 
 **인터랙션**
 - 장면 칩은 토글 버튼(`aria-pressed`)이다. 누르면 테두리가 마젠타로 바뀌고 체크 아이콘이 나타난다. 선택 문장 영역(`aria-live="polite"`)은 높이가 고정돼 있어 문장이 바뀌어도 아래 콘텐츠가 밀리지 않는다. 1개 이상 고르면 아래 버튼이 채움 스타일로 강조된다.
-- "1분 자가진단으로 확인하기" → S3로 스크롤한 뒤 1번 문항 첫 선택지에 포커스.
+- "1분 자가진단으로 확인하기" → S3로 스크롤한 뒤 1번 문항 첫 선택지에 포커스. 마크업은 `<a href="#s03_quiz" data-cta="quiz" data-cta-location="s02">`(12-2 'cta_type별 마크업·처리' 표): app.js가 `cta_click`(cta_type=quiz)을 보내고 스크롤·포커스를 처리하며, app.js가 없으면 링크 기본 이동.
 
 **측정 이벤트**: `section_view`(s02_empathy), `empathy_chip_toggle`(chip_id 1~6, state on|off), `cta_click`(cta_type=quiz, cta_location=s02).
 
@@ -452,7 +466,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 
 **인터랙션**: 8장 8-5 참조. 한 문항씩 보여 주며, 선택하면 250ms 뒤 자동으로 다음 문항으로 넘어간다(`prefers-reduced-motion`이면 전환 효과 없음). 결과는 `sessionStorage.wc_dx`에 저장한다(탭을 닫으면 삭제).
 
-**측정 이벤트**: `section_view`(s03_quiz), `quiz_start`, `quiz_answer`(q_index), `quiz_complete`(score_band, tendency, red_flag), `cta_click`(cta_location=quiz_result, score_band, red_flag), `quiz_restart`.
+**측정 이벤트**: `section_view`(s03_quiz), `quiz_start`, `quiz_answer`(q_index), `quiz_complete`(score_band, tendency, red_flag), `cta_click`(cta_location=quiz_result, cta_type=purchase|consult|nav, cta_target(nav일 때만), score_band, red_flag — 결과별 값은 8-4 '결과별 CTA 마크업·이벤트 값' 표), `quiz_restart`.
 
 ---
 
@@ -468,7 +482,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 [본문 2문단]
 [H3] 이렇게 나뉘어요
 [유형 목록 3줄: 아이콘 24px + 굵은 유형명 + 설명(카드 테두리 없음)] 복압성 / 절박성 / 혼합성
-[주의 박스(회색 배경, 병원 아이콘)] 이럴 땐 먼저 진료를 받아 보세요
+[주의 박스(회색 배경, 병원 아이콘), id="s04_caution"] 이럴 땐 먼저 진료를 받아 보세요   ← 자가진단 결과 D·RF 이동 CTA의 대상(8-4)
 [H3] 그냥 참고 넘기기보다, 불편이 작을 때 살펴보세요   ← 항상 노출(D21-a 확보 여부와 무관)
 [본문 3: ⓐ 방치 시 생활 결과(고정) → ⓑ 출처 문장¹ → ⓒ 출처 문장² → ⓓ 관리 시작(고정)]
 [각주 ¹·²]
@@ -484,6 +498,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
   - **절박성**: 갑자기 소변이 급해져 화장실까지 참기 어려워요. 화장실에 자주 가거나 밤에 깨기도 해요.
   - **혼합성**: 두 가지가 함께 나타나요.
 - 주의 박스: **이럴 땐 먼저 진료를 받아 보세요.** 소변볼 때 아프거나 화끈거릴 때, 소변에 피가 섞일 때, 열이 날 때, 소변을 봐도 개운하지 않고 조금씩 계속 샐 때는 다른 원인이 있을 수 있어요. 비뇨의학과나 산부인과에서 먼저 확인해 보세요.
+  - 마크업: `<div id="s04_caution" tabindex="-1" style="scroll-margin-top:16px">`(자가진단 결과 D CTA 2·RF CTA 1 '진료 전 알아 둘 점 보기'의 이동 대상, 8-4).
 - H3(항상 노출): **그냥 참고 넘기기보다, 불편이 작을 때 살펴보세요**
 - 본문 3(한 문단, 네 문장 순서 고정):
   - ⓐ **방치 시 생활 결과(고정 문장, 항상 노출)**: 새는 소변을 그냥 참고 지내면 라이너를 챙기고, 운동을 쉬고, 화장실 위치부터 찾는 생활이 이어질 수 있어요.
@@ -523,24 +538,26 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 
 ```
 [H2] 앉아만 있어도 골반저근 운동을 돕는 원리
+[근거 줄(15px, 최소 높이 48px)] 특허(발명의 명칭) 「진동파장을 통한 여성 질 수축 장치」 · 특허 제○호 · [증빙 보기]   ← v11: H2 바로 아래로 옮김(비교 카드와 떨어뜨림)
 [3단계 도식: 세로 3줄, 각 줄 = 왼쪽 그림(SVG 96×96px) + 오른쪽 번호·제목·설명]
   ① 앉아요 → ② 진동이 전해져요 → ③ 골반저근 운동을 도와요
-[자극점 비교 카드] 기존 제품 1곳 ●  →  V8 포 우먼 3곳 ●●●  (방석 윗면 도식 2개, 각 높이 96px)
-[근거 줄] 특허 「진동파장을 통한 여성 질 수축 장치」 · [증빙 보기]
+[자극점 비교 카드, id="s05_compare"] 기존 제품 1곳 ●  →  V8 포 우먼 3곳 ●●●  (방석 윗면 도식 2개, 각 높이 96px) + 카드 안 각주(출처: 자사 제품 비교 · D18)
 [측정 자료 카드] ← 게이트 G1 통과 시에만 노출
 ```
 
 **실제 카피 문안 전문**
 - H2: **앉아만 있어도 골반저근 운동을 돕는 원리**
+- 근거 줄(H2 바로 아래, 15px, 최소 높이 48px 버튼 행): **특허(발명의 명칭)** 「진동파장을 통한 여성 질 수축 장치」 · 특허 제[확인 필요 D13]호 · **증빙 보기**
+  - **위치·라벨 규칙(v11)**: 근거 줄은 자극점 비교 카드와 떨어뜨려 H2 바로 아래(3단계 도식 위)에 둔다. 라벨 '특허(발명의 명칭)'는 이 줄이 특허의 이름을 밝히는 줄이지 아래 비교 데이터(자극점 1곳 → 3곳)의 출처가 아님을 보여 준다 — 비교 카드의 출처는 카드 안 각주(자사 제품 비교 · D18) 하나뿐이다. 근거 줄을 비교 카드나 측정 자료 카드(G1) 바로 위·아래에 붙이지 않는다.
 - ① **앉아요**: 옷을 입은 채 방석 위에 앉으면, 기기가 회음부 쪽 골반저근(PC 근육) 가까이에 닿아요.
 - ② **진동이 전해져요**: 듀얼모터가 만드는 진동파장이 PC 근육과 BC 근육(질·요도괄약근 쪽)의 자극점 3곳으로 전해져요.
-  - 이 단계 설명에는 '특허'를 쓰지 않는다. 특허 표기는 증빙 링크가 붙은 곳(바로 아래 근거 줄 '증빙 보기', S1 근거 줄 '증빙 ›', S8 ③)에만 둔다(S8 'S8 밖 언급 규칙').
+  - 이 단계 설명에는 '특허'를 쓰지 않는다. 특허 표기는 증빙 링크가 붙은 곳(H2 아래 S5 근거 줄 '증빙 보기', S1 근거 줄 문안 A·C의 '증빙 ›', S8 ③)에만 둔다(S8 'S8 밖 언급 규칙').
 - ③ **골반저근 운동을 도와요**: 진동 자극이 골반저근의 수축·이완 운동을 돕도록 설계됐어요. TV를 보거나 책을 읽으며 하루 10분이면 돼요.
-- 자극점 비교 카드 제목: **자극점이 1곳에서 3곳으로**
+- 자극점 비교 카드(`<div id="s05_compare">`, `scroll-margin-top: 16px` — S1 근거 줄 문안 B의 이동 대상) 제목(`<h3 tabindex="-1">`): **자극점이 1곳에서 3곳으로**
   - 왼쪽: 웨이브케어 기존 제품 — 자극점 1곳(PC 근육)
   - 오른쪽: V8 포 우먼 — 자극점 3곳(PC·BC 근육)
-  - 각주(14px): 자사 제품 간 비교예요. 자료: 리진바이오 [확인 필요 D18: 비교 대상 기존 모델명·자극점 위치 도면]. D18이 없으면 "웨이브케어 기존 제품"으로 표기한다.
-- 근거 줄: 특허 「진동파장을 통한 여성 질 수축 장치」(등록번호 [확인 필요 D13]) · **증빙 보기**
+  - 각주(14px, 카드 안 맨 아래 — 이 카드의 유일한 출처 표기): 자사 제품 간 비교예요. 자료: 리진바이오 [확인 필요 D18: 비교 대상 기존 모델명·자극점 위치 도면] 자극점 위치 도면. D18이 없으면 "웨이브케어 기존 제품"으로 표기하고 '자극점 위치 도면' 표기를 뺀다(이때 S1 근거 줄은 문안 B를 쓰지 않음 — S1 '근거 줄 문안 선택 규칙').
+  - 방석 윗면 도식 2개는 D18 도면의 자극점 위치를 그대로 옮겨 그린다(D18이 없으면 현황 자료의 '기존 1곳(PC) → V8 3곳(PC·BC)' 설명대로 그리고 위치는 단순 표시).
 - 측정 자료 카드(게이트 G1):
   - 제목: **기기 작동 중 질압 측정 자료**
   - 표:
@@ -562,7 +579,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 - 자극점 비교: 방석 윗면을 위에서 본 단순 도식 2개를 나란히 두고 자극점은 마젠타 원으로 표시. alt: "기존 제품은 자극점 1곳, V8 포 우먼은 자극점 3곳을 표시한 방석 윗면 비교 그림".
 - 측정 자료 카드는 막대그래프를 쓰지 않고 표만 쓴다(과장된 시각화 방지).
 
-**인터랙션**: "증빙 보기" → S8 공용 증빙 모달 `proof_patent_v8w`(특허증 스캔 WebP + 등록번호·등록일 텍스트).
+**인터랙션**: H2 아래 근거 줄의 "증빙 보기" → S8 공용 증빙 모달 `proof_patent_v8w`(특허증 스캔 WebP + 등록번호·등록일 텍스트, S1 근거 줄이 문안 A이면 청구항 번호와 공보 청구항 캡처도 함께). 자극점 비교 카드는 모달을 열지 않고 카드 안 각주로 출처를 밝힌다.
 
 **측정 이벤트**: `section_view`(s05_how), `proof_open`(proof_id=proof_patent_v8w, proof_from=s05).
 
@@ -622,7 +639,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 [스텝 3]
 ──────────────── 중간 CTA 박스(배경 #F3F1F7, 모서리 16px) ────────────────
 [H3] 오늘부터 하루 10분, 앉아서 시작해요
-[가격 카드(공용 컴포넌트 PriceCard): 줄 1~4 + 요약 줄 5(배송·반품·AS, 누르면 S12 안심 정보로)]
+[가격 카드(공용 컴포넌트 PriceCard, S7은 id="s07_price"): 줄 1~4 + 요약 줄 5(배송·반품·AS, 누르면 S12 안심 정보로)]
 [ 할인가로 구매하기 ]  (전체 폭, 채움)
 [ 구매 전 무료 상담 ]  (전체 폭, 외곽선)
 [마이크로카피]
@@ -643,7 +660,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
   | 2 | 스텝 2 끝에 "○가지 모드·○단계 강도를 골라요." (모드만 확인되면 "○가지 모드를 골라요.", 강도만 확인되면 "진동 강도를 ○단계로 골라요.") | 모드 수, 강도 단계 수 |
   | 3 | 스텝 3 끝에 "10분이 지나면 자동으로 꺼져요." | 자동 종료 기능과 시간 |
 - 중간 CTA H3: **오늘부터 하루 10분, 앉아서 시작해요**
-- 가격 카드(PriceCard) 문안 — 줄 1~4는 S7·S12 공통, 줄 5는 S7 전용(S12에는 같은 정보가 '구매 안심 정보' 6줄로 자세히 있으므로 줄 5를 두지 않는다):
+- 가격 카드(PriceCard) 문안 — 줄 1~4는 S7·S12 공통, 줄 5는 S7 전용(S12에는 같은 정보가 '구매 안심 정보' 6줄로 자세히 있으므로 줄 5를 두지 않는다). S7 가격 카드 마크업은 `<div class="price-card" id="s07_price" tabindex="-1">`(`scroll-margin-top: 16px` — 자가진단 결과 C CTA 2 '제품 가격 보기'의 이동 대상, 8-4):
 
   | 줄 | 문안 | 데이터 |
   |---|---|---|
@@ -698,26 +715,27 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 - 행 `id`는 S8 밖 마커·링크의 스크롤 대상이다(S1 배지 버튼 → `#trust_kc`·`#trust_award`). 모든 행에 `scroll-margin-top: 16px`.
 
 - **메타 줄 규칙(모든 행 공통)**: 메타 줄에는 **날짜**(수상일·인증일·등록일·방영일)와 **주최/발급 기관**(주최 기관·시험인증기관·특허청·방송사)이 반드시 들어가고, 끝은 항상 `증빙 보기 ›`다. 행별 실제 문안은 아래 카피 전문 그대로 쓴다. 날짜와 주최/발급 가운데 하나라도 비면 그 행은 노출하지 않는다(15장 미확보 처리). 방송 행은 행 맨 앞의 방송사명이 발급/주최 칸 역할을 한다.
-- **S8 밖 언급 규칙(날짜·발급 없는 신뢰 근거는 어디에도 노출 금지)**: S8 밖에서 수상·인증·특허·방송을 언급할 수 있는 곳은 10-1 표 #1~#8(#6-2 포함) '노출 위치' 열에 적힌 S8 밖 위치뿐이다(S1 근거 1줄·S1 배지·S5 근거 줄·FAQ01). 건강정보 출처(10-1 #9, S4 각주)와 제품 분류 고지(#10, FAQ08)는 신뢰 배지가 아니라 출처·고지이므로 이 규칙 대신 각자의 규칙(S4 각주·`proof_kegel_sources` 메타, D15)을 따른다. 이 언급은 **S8에 날짜·주최/발급과 함께 노출된 행이 있을 때만** 쓴다. 어떤 이유로든(15장 미확보 처리, 운영 중 증빙 문제 발견) S8 행이 빠지면 S8 밖 언급도 **같은 날 함께** 지우거나 아래 대체 문안으로 바꾼다.
+- **S8 밖 언급 규칙(날짜·발급 없는 신뢰 근거는 어디에도 노출 금지)**: S8 밖에서 수상·인증·특허·방송을 언급할 수 있는 곳은 10-1 표 #1~#8(#6-2 포함) '노출 위치' 열에 적힌 S8 밖 위치뿐이다(S1 근거 1줄(문안 A·C — 문안 B는 특허를 언급하지 않음)·S1 배지·S5 근거 줄·FAQ01). 건강정보 출처(10-1 #9, S4 각주)와 제품 분류 고지(#10, FAQ08)는 신뢰 배지가 아니라 출처·고지이므로 이 규칙 대신 각자의 규칙(S4 각주·`proof_kegel_sources` 메타, D15)을 따른다. 이 언급은 **S8에 날짜·주최/발급과 함께 노출된 행이 있을 때만** 쓴다. 어떤 이유로든(15장 미확보 처리, 운영 중 증빙 문제 발견) S8 행이 빠지면 S8 밖 언급도 **같은 날 함께** 지우거나 아래 대체 문안으로 바꾼다.
 - **S8 밖 언급의 마커·링크(필수)**: **S8 밖의 모든 수상·인증·특허·방송 언급에는 해당 S8 행 또는 ProofModal로 가는 마커·링크를 단다.** 마커 없이 이름만 쓰는 언급은 두지 않는다. 위치별 마커·링크는 아래 표가 전부이며(10-1 '노출 위치' 열과 같음), 새 언급을 추가하려면 이 표와 10-1에 먼저 행을 넣는다.
 
   | 위치 | 언급 | 화면 마커 | 누르면 | 측정 |
   |---|---|---|---|---|
-  | S1 근거 줄 | 특허 진동파장 | 줄 끝 '증빙 ›'(넘치면 ⓘ), 행 전체가 버튼 | `proof_patent_v8w` 모달 바로 열기 | `proof_open`(proof_from=hero_reason) |
+  | S1 근거 줄(문안 A·C) | 특허 진동파장(A — 청구항으로 뒷받침되는 '3곳' 포함) / 특허 「진동파장을 통한 여성 질 수축 장치」(C) | 줄 끝 '증빙 ›'(넘치면 ⓘ), 행 전체가 버튼 | `proof_patent_v8w` 모달 바로 열기(A는 메타에 청구항 번호) | `proof_open`(proof_from=hero_reason) |
   | S1 배지 버튼 1 | KC 인증 | 점선 밑줄 버튼(14px, 탭 시 눌림 배경) | `#trust_kc`로 스크롤 → `proof_kc` 모달 | `trust_footnote_click`(trust_target=kc) → `proof_open`(proof_from=hero_badge) |
   | S1 배지 버튼 2 | 2022~2025 한국품질만족도 4년 연속 1위 | 점선 밑줄 버튼 + 위첨자 ¹ | `#trust_award`로 스크롤(행의 '증빙 보기 ›'로 `proof_award_2022_2025`) | `trust_footnote_click`(trust_target=award) |
-  | S5 근거 줄 | 특허 「진동파장을 통한 여성 질 수축 장치」 | '증빙 보기' | `proof_patent_v8w` 모달 | `proof_open`(proof_from=s05) |
+  | S5 근거 줄(H2 바로 아래, 라벨 '특허(발명의 명칭)' — 자극점 비교 카드와 떨어뜨림) | 특허 「진동파장을 통한 여성 질 수축 장치」 | '증빙 보기' | `proof_patent_v8w` 모달 | `proof_open`(proof_from=s05) |
   | FAQ01 답변 첫 문장 | KC 인증 | 문장 끝 괄호 안 '증빙 보기 ›'(인증번호·인증일·시험인증기관과 함께) | `proof_kc` 모달 | `proof_open`(proof_from=faq01) |
   | S8 안(참고) | 모든 행·인물 줄 1 방송 메타 행 | '증빙 보기 ›' | 각 증빙 모달 | `proof_open`(proof_from=s08) |
 
   - **S8 밖 인라인 증빙 링크 공통 사양(`.proof-link`, FAQ01처럼 문장 안에 들어가는 경우)**: `<button type="button" class="proof-link" aria-haspopup="dialog">`, 14px/600, 네이비 `#1F2A44`, 밑줄. 줄 높이를 바꾸지 않도록 `display:inline-block; line-height:21px; padding:14px 6px; margin:-14px -6px;`로 보이는 크기보다 넓은 탭 영역(높이 21 + 28 = 49px, 폭 '증빙 보기 ›' 글자 폭 + 12px)을 만든다(음수 여백으로 줄 상자 높이는 글자 높이 21px 그대로). 같은 줄의 다른 링크와 8px 이상 떨어뜨린다.
   - 모달을 닫으면 포커스는 연 버튼으로 돌아간다. 예외: S1 'KC 인증'은 화면이 S8 ②로 이동한 뒤 열리므로 S8 ② 행 버튼으로 간다(S1 인터랙션).
+  - S1 근거 줄 문안 B('✓ 자극점 1→3곳(PC·BC 근육, 자사 제품 비교) 자료 ›' → `#s05_compare`, `trust_footnote_click` trust_target=compare)는 수상·인증·특허·방송 언급이 아니므로 이 표의 대상이 아니다. 그 출처는 S5 비교 카드 안 각주(D18)이며, 문안 B는 D18이 있을 때만 쓴다(S1 '근거 줄 문안 선택 규칙').
 
   | S8 행이 빠진 항목 | S1 근거 1줄 | S1 배지 | S5 근거 줄 | FAQ |
   |---|---|---|---|---|
   | ① 수상(D10) | 그대로 | 'KC 인증' 버튼만(수상 버튼·구분점 삭제, 15장 D10) | 해당 없음 | 해당 없음 |
   | ② KC(D12) | 그대로 | 'KC 인증' 버튼과 구분점 ` · ` 삭제(수상 버튼만) | 해당 없음 | FAQ01 첫 문장(인증 메타·증빙 보기 포함) 삭제(둘째 문장부터) |
-  | ③ 특허(D13) | 버튼이 아닌 일반 텍스트 "✓ 진동이 PC·BC 근육 자극점 3곳에 전해져요"('특허' 단어와 '증빙 ›' 제거, 높이 48px 행 유지) | 해당 없음 | 근거 줄 삭제(`proof_patent_v8w` 비노출) | 해당 없음 |
+  | ③ 특허(D13) | 문안 A·C였으면: D18이 있으면 **문안 B**(특허 단어 없음, '자료 ›' → `#s05_compare`, S1 '근거 줄 문안 선택 규칙'), D18이 없으면 버튼이 아닌 일반 텍스트 "✓ 듀얼모터 진동이 골반저근 운동을 도와요"('특허'·'3곳'·끝 표시 없음, 높이 48px 행 유지 — 증빙이 없는 자극점 수는 히어로에 쓰지 않음). 문안 B였으면 그대로 | 해당 없음 | 근거 줄 삭제(`proof_patent_v8w` 비노출) | 해당 없음 |
 
   - D12·D13은 런칭 조건(15장)이므로 런칭 시점에는 ②·③ 행이 항상 있다. 위 표의 ②·③ 행은 운영 중 증빙에 문제가 생겨 S8 행을 내릴 때 쓴다.
   - S5 ② 단계 설명에는 처음부터 '특허'를 쓰지 않으므로(S5) ③ 행이 빠져도 고칠 것이 없다.
@@ -780,7 +798,7 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
   | `proof_award_2022_2025` | 한국품질만족도 인증서 4장(2022·2023·2024·2025년, 헬스케어(케겔운동기구) 부문) | 인증서별 번호(번호가 없는 인증서는 "번호 없음") | 연도별 수상일 YYYY-MM-DD | 주최 기관명 | 관련 기사 매체명·게재일 텍스트 | D10 |
   | `proof_award_2021` | 2021 소비자만족도 1위 인증서 | 인증서 번호(없으면 "번호 없음") | 수상일 YYYY-MM-DD | 주최 기관명 | 주최 기관 발표 자료명·발표일 텍스트 | D11 |
   | `proof_kc` | KC 인증서 | 인증번호 | 인증일 | 시험인증기관 | 인증 종류가 전기용품 안전인증·안전확인이면 "제품안전정보센터에서 인증번호로 조회할 수 있어요", 전자파 적합성평가면 "국립전파연구원 적합성평가 조회에서 인증번호로 확인할 수 있어요" | D12 |
-  | `proof_patent_v8w` | 특허증 「진동파장을 통한 여성 질 수축 장치」 | 특허 제○○○○호 | 등록일 | 특허청 | "특허정보검색서비스(KIPRIS)에서 등록번호로 조회할 수 있어요" | D13 |
+  | `proof_patent_v8w` | 특허증 「진동파장을 통한 여성 질 수축 장치」(S1 근거 줄 문안 A일 때만 특허 공보 해당 청구항 캡처를 둘째 스캔으로 추가) | 특허 제○○○○호 (문안 A일 때만 뒤에 " · 청구항 제○항(PC·BC 자극점 3곳 구조)"를 덧붙임 — D13 ③에서 확인한 청구항 번호) | 등록일 | 특허청 | "특허정보검색서비스(KIPRIS)에서 등록번호로 조회할 수 있어요"(문안 A: "…조회하면 청구항 제○항에서 자극점 구조를 확인할 수 있어요") | D13(①②③) |
   | `proof_design_tm` | 디자인등록증 · 상표등록증(WAVECARE) | 디자인등록 제○○호 · 상표등록 제○○호 | 디자인·상표 각 등록일 | 특허청 | "KIPRIS에서 등록번호로 조회할 수 있어요" | D14 |
   | `proof_broadcast_sbscnbc` | SBS CNBC 「생생경제정보톡톡」 388회 방송 캡처(사용 허락 시 15초 클립) | 388회 | 방영일 | SBS CNBC(방송사) | 프로그램명·회차·방영일 텍스트, 협찬 여부("협찬 방송"/"협찬 아님") | D16 |
   | `proof_broadcast_mktv` | 매일경제TV 「매거진투데이」 53회 방송 캡처(같음) | 53회 | 방영일 | 매일경제TV(방송사) | 같음 | D16 |
@@ -803,7 +821,8 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 
 ```
 [H2] 구매 고객 후기
-[요약] ★ #{평균}  (#{총건수}개 · #{기준일} 기준)
+[요약 1줄(17px/700)] ★ #{평균}점 · 구매 확인 후기 #{총건수}개
+[요약 2줄(14px)] 이 페이지 미노출 #{제외건수}개 포함 · #{기준일} 기준   ← 평균·총건수·분포 = 구매 확인 후기 전체(제외 후기 포함), 아래 '집계 규칙'
 [별점 분포 막대 5줄] 5점 ███████ #{n} / 4점 ██ #{n} / 3점 / 2점 / 1점
 [필터 칩 1줄(15px, 높이 48px, 줄바꿈 없음)] 전체 | 5점 | 4점 | 3점 이하 | 4주 이상
 [후기 카드 2장(접힘 상태)]
@@ -817,22 +836,25 @@ utm_source=youtube&utm_medium=paid_video&utm_campaign=wc_woman_incont_{yyyymm}&u
 
 **실제 카피 문안 전문**
 - H2: **구매 고객 후기**
-- 요약: ★ #{평균}점 · 후기 #{총건수}개 · #{기준일} 기준
+- 요약(2줄, v11): **★ #{평균}점 · 구매 확인 후기 #{총건수}개**(17px/700) / 이 페이지 미노출 #{제외건수}개 포함 · #{기준일} 기준(14px) — 제외 건수가 0이면 2줄째는 "#{기준일} 기준"만 쓴다. 숫자의 범위는 아래 '집계 규칙' 그대로(평균·총건수·별점 분포 막대 = 제외 후기를 포함한 구매 확인 후기 전체, 카드·필터 = 노출분).
 - 필터 칩: 전체 / 5점 / 4점 / 3점 이하 / 4주 이상 (마지막 칩의 `aria-label`은 "4주 이상 사용한 후기")
 - 카드 배지: "구매 확인"(모든 노출 후기), "제공받아 작성"(체험단·보상 후기일 때만)
 - 빈 필터 문구: 이 조건에 맞는 후기가 아직 없어요.
-- 하단 고지: 후기는 개인의 경험이에요. 느끼는 정도는 사람마다 달라요.
+- 하단 고지(14px 1줄): 후기는 개인의 경험이라 사람마다 다를 수 있어요.
 - "후기 노출 기준 보기" 펼침 문안:
-  1. 쇼핑몰 상품 후기 게시판(웨이브케어 V8 포 우먼)에 실제 구매를 확인한 고객이 쓴 후기만 보여 드려요.
+  1. 쇼핑몰 상품 후기 게시판(웨이브케어 V8 포 우먼)은 이 상품을 주문한 고객만 후기를 쓸 수 있게 설정돼 있어요. 이 게시판의 후기(구매 확인 후기)만 보여 드려요. 별점 평균·후기 수·별점 분포는 이 후기 전체로 계산해요(아래 4번 기준으로 이 페이지에서 뺀 후기도 포함). (`verified_since`가 있으면 끝에 "#{verified_since}부터 쓰인 후기예요."를 붙인다)
   2. 최신순으로 보여 드리고, 별점으로 거르지 않아요. 낮은 별점 후기도 똑같이 보여요.
   3. 연령대와 사용 기간은 작성자가 직접 고른 값이에요.
-  4. 개인정보·욕설이 있거나, 광고 심의 기준상 질병이 나았다고 단정하는 표현이 있는 후기는 이 페이지에서만 빼고 쇼핑몰 후기 게시판에는 그대로 둬요. 이 기준으로 빠진 후기는 #{제외건수}개예요.
+  4. 개인정보·욕설이 있거나, 광고 심의 기준상 질병이 나았다고 단정하는 표현이 있는 후기는 이 페이지에서만 빼고 쇼핑몰 후기 게시판에는 그대로 둬요. 이 기준으로 빠진 후기는 #{제외건수}개예요(별점 요약·분포에는 포함돼요).
   5. 제품을 무료로 받거나 보상을 받고 쓴 후기에는 '제공받아 작성'을 표시해요.
   6. 후기 목록은 매주 월요일에 새로 고쳐요.
 
 **후기 데이터·운영 기준(운영자용)**
 - 데이터 원천: cafe24 상품 후기 게시판(`product_no=155`) 또는 사용 중인 리뷰 솔루션([확인 필요 D22: 솔루션명·내보내기 방식]).
-- 구현: CS 담당자가 매주 월요일 10:00에 후기를 CSV로 내려받아 `reviews.json`(필드: `id, rating, date(YYYY-MM-DD), author_masked, age_band, use_period, verified(Y), sponsored(Y/N), text, photo_url, excluded_reason`)으로 바꿔 `/ad/wc_w5/reviews.json`에 올린다. 평균·총건수·분포·제외 건수는 JSON에서 자동 계산한다. "평균 평점 4.8"처럼 숫자를 HTML에 고정하지 않는다.
+- **구매 확인 판정 방법(하나로 고정, v11)**: 후기 원천(이하 '게시판' — cafe24 상품 후기 게시판 `product_no=155`, 리뷰 솔루션을 쓰면 그 솔루션의 후기 목록·관리자 화면)의 **작성 권한을 '이 상품을 주문한 고객만 작성'으로 둔 설정** 하나로 판정한다 — 이 설정이 켜진 상태에서 쓰인 후기는 게시판이 주문 내역 없이는 작성을 막으므로 모두 `verified=Y`다. CS가 주문번호를 손으로 대조하는 방식은 쓰지 않는다. 설정 메뉴명·설정 화면 캡처·설정을 켠 날짜는 [확인 필요 D22]로 받는다. 설정을 켜기 전에 쓰인 후기가 게시판에 남아 있으면 켠 날짜를 `verified_since`로 두고, 그 전 작성 후기는 `reviews.json`에 넣지 않는다(집계·노출 모두 제외, 게시판 원문은 그대로). 처음부터 켜져 있었으면 `verified_since`는 비운다.
+- **집계 규칙(하나로 고정, v11)**: **평균·총건수·별점 분포 = cafe24 상품 후기 게시판(`product_no=155`)의 구매 확인 후기 전체(작성일 ≥ `verified_since`, 랜딩 제외 후기 포함 — 게시판 관리자 화면에서 같은 조건으로 검색한 건수·평균과 같음). 카드·필터 칩·더 보기 = 그중 제외 후기(`excluded_reason`이 있는 행)를 뺀 노출분.** 제외 건수 = `excluded_reason`이 있는 행 수. 평균 = 집계 대상 `rating` 합 ÷ 총건수를 소수 둘째 자리에서 반올림해 첫째 자리까지 표시. 별점 분포 막대의 5~1점 건수 합 = 총건수. 기준일 = CSV를 내려받은 날(월요일). 관리자가 숨김·삭제한 글(스팸 등)과 관리자 답글·공지는 CSV에 없으므로 세지 않는다. '제공받아 작성' 후기(`sponsored=Y`)도 게시판의 구매 확인 후기이면 집계·노출에 포함하고 카드에 배지를 단다.
+- 구현: CS 담당자가 매주 월요일 10:00에 후기를 CSV로 내려받아 `reviews.json`(머리: `meta{as_of(YYYY-MM-DD), verified_since(YYYY-MM-DD 또는 null)}` / 행 필드: `id, rating, date(YYYY-MM-DD), author_masked, age_band, use_period, verified(Y), sponsored(Y/N), text, photo_url, excluded_reason`)으로 바꿔 `/ad/wc_w5/reviews.json`에 올린다. **제외 후기 행은 `id`·`rating`·`date`·`verified`·`excluded_reason`만 채우고 `author_masked`·`text`·`photo_url`은 빈 값으로 둔다**(화면에 쓰지 않는 원문·개인정보를 공개 파일에 두지 않음). app.js는 위 '집계 규칙'대로 평균·총건수·분포·제외 건수를 모든 행으로, 카드·필터·더 보기를 `excluded_reason`이 빈 행으로만 계산한다. "평균 평점 4.8"처럼 숫자를 HTML에 고정하지 않는다.
+- 갱신 대조: 올리기 전에 `reviews.json`의 총건수·평균을 게시판 관리자 화면(상품 `product_no=155`, 작성일 ≥ `verified_since` 검색)의 건수·평균과, 별점별 건수를 같은 날 내려받은 CSV의 별점별 개수와 대조해 모두 같을 때만 올린다(다르면 게시 보류 후 원인 확인, 13-2 D 주간 점검·QA 18 '후기 집계 대조').
 - 연령대·사용 기간 수집: cafe24 게시판 "추가 항목"에 연령대(20대/30대/40대/50대/60대 이상, 선택)와 사용 기간(1주 미만/1~2주/3~4주/1~3개월/3개월 이상, 선택)을 넣는다. 예전 후기처럼 값이 없으면 "연령대 미입력"으로 표시한다.
 - 제외 기준: 개인정보(전화번호·주소), 욕설, 질병 치료·완치·증상 소실을 단정하는 문장(예: "실금 증상이 사라졌다"). 이렇게 뺀 후기는 `excluded_reason`에 사유를 적고 건수를 공개한다. 현재 페이지의 후기 카드 2개(강** "실금 증상 사라짐", 최** "절박성 요실금 증상 좋아져")는 이 기준에 따라 랜딩에 쓰지 않는다.
 - 후기를 고치거나 요약하지 않는다(원문 그대로). 맞춤법도 고치지 않는다.
@@ -1049,7 +1071,7 @@ addEventListener('load',()=>setTimeout(()=>{if(!window.wcAppReady){document.docu
 window.wcAppReady = true;
 try { initStickyBar(); } catch (e) { document.documentElement.classList.remove('js'); }
 // initStickyBar(): 'IntersectionObserver' in window가 아니면 throw → catch에서 노출.
-try { initConsultSheet(); initCtaHandlers(); window.wcCtaReady = true; }   // 상담 바텀시트 + 구매·상담 CTA 가로채기(6-2·7-2)
+try { initConsultSheet(); initCtaHandlers(); window.wcCtaReady = true; }   // 상담 바텀시트 + 모든 a[data-cta]의 cta_click·구매·상담 가로채기(6-2·7-2·12-2)
 catch (e) { document.documentElement.classList.add('wc-noapp'); }          // 실패하면 S10 대체 블록, 구매는 head 인라인 위임 스크립트가 처리
 // 자가진단·폼 부가 기능·A/B·섹션 노출 측정(initSectionView, 12-2) 등 다른 모듈은 이 다음에 각각 try/catch로 실행한다.
 ```
@@ -1057,7 +1079,7 @@ catch (e) { document.documentElement.classList.add('wc-noapp'); }          // �
 ④ **노출 판정식**(app.js `initStickyBar`): `visible = heroOut && !midIn && !finalIn && !sheetOpen && !keyboardOpen` — `heroOut` = `#heroCta`의 `isIntersecting`이 false(첫 관찰 콜백 전에는 false로 시작), `midIn`·`finalIn` = `#midCta`·`#finalCta`의 `intersectionRatio ≥ 0.5`, `sheetOpen` = `body[data-sheet-open]` 있음, `keyboardOpen` = 위 표의 `visualViewport` 조건. 값이 바뀔 때마다 판정식을 다시 계산해 `.is-visible`만 붙이거나 뗀다. 처음 참이 될 때 `sticky_bar_view`를 1회 보낸다(5-4).
 
 - defer 스크립트는 `load` 이벤트 전에 반드시 실행되므로, app.js가 정상이면 대체 타이머가 도는 시점에는 항상 `wcAppReady`가 있다(정상 페이지에서 바가 잘못 나오는 경우 없음). 대체 타이머가 `js`를 지우면 판정식과 상관없이 바가 계속 보인다(JS 없는 페이지와 같은 상태, 하단 여백 5-3은 그대로라 콘텐츠를 가리지 않음).
-- ⑤ **버튼 동작 연결**: app.js `initCtaHandlers()`는 `a[data-cta="purchase"]`·`a[data-cta="consult"]` 클릭을 받아 `preventDefault()` 뒤 구매(6-2 '누가 링크를 처리하나'의 app.js 처리)·상담(7장 바텀시트)을 실행하고, 상담 링크에는 `aria-haspopup="dialog"`를 붙인다. head 인라인 위임 스크립트(6-2 '누가 링크를 처리하나')는 `window.wcCtaReady`가 참이 아닐 때만 같은 클릭을 처리한다(캡처 단계, 두 처리기가 한 클릭을 함께 처리하지 않음). 그래서 'app.js가 오기 전 · 받지 못함 · 초기화 실패' 어느 경우에도 링크가 살아 있다.
+- ⑤ **버튼 동작 연결**: app.js `initCtaHandlers()`는 모든 `a[data-cta]` 클릭에서 먼저 `cta_click`(12-2 'cta_type별 마크업·처리' 표의 파라미터 — `data-cta`·`data-cta-location`과, 있으면 `data-cta-target`·`data-score-band`·`data-red-flag`)을 보낸 뒤 값별로 처리한다: `purchase`·`consult`는 `preventDefault()` 뒤 구매(6-2 '누가 링크를 처리하나'의 app.js 처리)·상담(7장 바텀시트)을 실행하고 상담 링크에는 `aria-haspopup="dialog"`를 붙인다 / `quiz`는 `preventDefault()` 뒤 S3 스크롤·첫 선택지 포커스(S2) / **`nav`는 `preventDefault()`를 하지 않아 브라우저 기본 앵커 이동**(대상 `scroll-margin-top: 16px`, 8-4 표)을 그대로 둔다. head 인라인 위임 스크립트(6-2 '누가 링크를 처리하나')는 `window.wcCtaReady`가 참이 아닐 때만 같은 클릭을 처리한다(캡처 단계, 두 처리기가 한 클릭을 함께 처리하지 않음). 그래서 'app.js가 오기 전 · 받지 못함 · 초기화 실패' 어느 경우에도 링크가 살아 있다.
 
 ### 5-3. 여백 처리(콘텐츠 가림 방지)
 
@@ -1097,7 +1119,7 @@ catch (e) { document.documentElement.classList.add('wc-noapp'); }          // �
 
 ### 6-2. 바로구매 딥링크 구현(흐름 O1·O2 공통)
 
-**CTA 마크업(점진적 향상 — JS 없이도 이동)**: 랜딩의 모든 구매 CTA(히어로·S3 결과 카드·S7·S12·고정 바 버튼 1)는 HTML에 **기본 링크** `<a href="/product/detail.html?product_no=155&wc_buy=1&wc_lp=v5" data-cta="purchase" data-cta-location="{hero|quiz_result|s07_mid|s12_final|sticky}">`로 쓴다(S3 결과 카드는 app.js가 같은 마크업으로 그린다). `<button>`이나 `href` 없는 요소로 만들지 않는다. 상담 CTA 마크업은 7-2 '상담 CTA 마크업'.
+**CTA 마크업(점진적 향상 — JS 없이도 이동)**: 랜딩의 모든 구매 CTA(히어로·S3 결과 카드·S7·S12·고정 바 버튼 1)는 HTML에 **기본 링크** `<a href="/product/detail.html?product_no=155&wc_buy=1&wc_lp=v5" data-cta="purchase" data-cta-location="{hero|quiz_result|s07_mid|s12_final|sticky}">`로 쓴다(S3 결과 카드는 app.js가 같은 마크업으로 그리며 `data-score-band`·`data-red-flag`를 더한다, 8-4). `<button>`이나 `href` 없는 요소로 만들지 않는다. 상담 CTA 마크업은 7-2 '상담 CTA 마크업', 자가진단 이동(`quiz`)·페이지 안 이동(`nav`, 자가진단 결과 카드의 '사용법 먼저 보기'·'제품 가격 보기'·'진료 전 알아 둘 점 보기')을 포함한 `cta_type` 4종 전체는 12-2 'cta_type별 마크업·처리' 표.
 
 **링크 형식**(이동하는 순간의 최종 주소, 랜딩의 모든 구매 CTA 공통)
 
@@ -1116,7 +1138,7 @@ catch (e) { document.documentElement.classList.add('wc-noapp'); }          // �
 | **JavaScript 꺼짐** | 처리 없음. 기본 링크 그대로 이동 | 상품 상세도 JS가 꺼져 ①이 로딩 화면을 씌우지 않으므로 일반 상세 화면에서 옵션·구매하기 → 로그인 화면·주문서(광고 정보·측정 없음) |
 
 - 클릭 순간에 처리하는 이유(DOMContentLoaded에 미리 링크를 바꾸지 않는 이유): DOMContentLoaded는 defer 스크립트(app.js)의 다운로드·실행이 끝날 때까지 늦춰지므로, app.js가 늦거나 멈춘 동안에는 링크에 광고 정보가 붙지 않는다. 클릭 순간 처리는 app.js 상태와 상관없이 항상 같은 주소를 만든다.
-- 위임 스크립트 본문(head 인라인, 어트리뷰션 보존 스크립트 뒤쪽, 1KB 이하. `wcClick()` = 쿠키 `wc_click` JSON 읽기, `wcConfig()` = `wc-config` JSON 읽기 — 같은 스크립트 안에 정의):
+- 위임 스크립트 본문(head 인라인, 어트리뷰션 보존 스크립트 뒤쪽, 1.2KB 이하 — v11에서 결과 CTA 파라미터 2줄 추가로 1KB → 1.2KB. `wcClick()` = 쿠키 `wc_click` JSON 읽기, `wcConfig()` = `wc-config` JSON 읽기 — 같은 스크립트 안에 정의):
 
 ```js
 window.wcBuyHref = function (base) {                       // 기본 링크 + utm·클릭 ID(URL 우선, 없으면 wc_click)
@@ -1134,11 +1156,13 @@ document.addEventListener('click', function (e) {
   if (!a || window.wcCtaReady === true) return;            // app.js가 처리할 수 있으면 손대지 않음
   var dl = (window.dataLayer = window.dataLayer || []);
   if (a.classList.contains('fallback-tel')) { dl.push({event: 'tel_click', location: 's10_fallback'}); return; }
-  var ev = {event: 'cta_click', cta_type: a.dataset.cta, cta_location: a.dataset.ctaLocation,
+  var d = a.dataset, ev = {event: 'cta_click', cta_type: d.cta, cta_location: d.ctaLocation,
             cta_text: a.textContent.trim().slice(0, 40)};
+  if (d.ctaTarget) ev.cta_target = d.ctaTarget;             // nav만(8-4 표)
+  if (d.scoreBand) { ev.score_band = d.scoreBand; ev.red_flag = d.redFlag; }  // 자가진단 결과 CTA(8-4 표)
   var qev = Object.assign({ts: Date.now()}, ev);            // 큐용 사본(GTM이 push 객체에 붙이는 값이 섞이지 않게 먼저 복사)
   dl.push(ev);
-  if (a.dataset.cta !== 'purchase') return;                 // 상담: 기본 이동(#s10_cta → S10 대체 블록)
+  if (d.cta !== 'purchase') return;                         // 상담·자가진단(quiz)·이동(nav): cta_click만 보내고 기본 이동(#s10_cta → S10 대체 블록 / #s03_quiz / 8-4 이동 대상)
   var cfg = wcConfig(), u = new URL(wcBuyHref(a.getAttribute('href')));
   try { sessionStorage.setItem('wc_discount_mode', cfg.discount_mode || 'period'); } catch (x) {}
   if (cfg.flow === 'O2') u.searchParams.delete('wc_buy');   // 옵션 시트 없이 일반 상세로
@@ -1385,7 +1409,7 @@ html.wc-buying #prdDetail{display:none} /* 상세 설명 영역. 스킨별 실�
   ※ 모든 정보성 알림톡은 실패 결과가 오면 같은 내용·같은 링크의 LMS판(①L~⑨-3L)으로 대체 발송(7-7 '정보성 메시지 발송 경로')
 ```
 
-- **상담 CTA 마크업(점진적 향상)**: 랜딩의 모든 상담 CTA(고정 바 버튼 2·히어로·S6·S7·S10·S11·S12·자가진단 결과 카드)는 `<a href="#s10_cta" data-cta="consult" data-cta-location="{sticky|hero|s06|s07_mid|s10|s11|s12_final|quiz_result}">`로 쓴다(자가진단 결과 카드는 app.js가 같은 마크업으로 그림). app.js가 동작하면(`window.wcCtaReady === true`) 클릭을 가로채 이 바텀시트를 열고(`consult_form_open`), 동작하지 않으면(JS 꺼짐 · app.js 미수신 · 상담 시트·CTA 연결 초기화 실패) 링크 그대로 S10의 `#s10_cta`로 이동해 **전화 예약 대체 블록**(S10, "지금은 예약 화면을 불러오지 못했어요. 1566-0398로 전화 주시면 상담 시간을 잡아 드려요." + [1566-0398 전화하기])을 보여 준다. 전화로 받은 예약은 7-11 '전화 예약'으로 처리한다. 대체 블록 표시 조건은 S10 '보이는 조건', 상태별 동작은 5-2 '버튼 동작' 열.
+- **상담 CTA 마크업(점진적 향상)**: 랜딩의 모든 상담 CTA(고정 바 버튼 2·히어로·S6·S7·S10·S11·S12·자가진단 결과 카드)는 `<a href="#s10_cta" data-cta="consult" data-cta-location="{sticky|hero|s06|s07_mid|s10|s11|s12_final|quiz_result}">`로 쓴다(자가진단 결과 카드는 app.js가 같은 마크업에 `data-score-band`·`data-red-flag`를 더해 그림, 8-4 '결과별 CTA 마크업·이벤트 값' 표). app.js가 동작하면(`window.wcCtaReady === true`) 클릭을 가로채 이 바텀시트를 열고(`consult_form_open`), 동작하지 않으면(JS 꺼짐 · app.js 미수신 · 상담 시트·CTA 연결 초기화 실패) 링크 그대로 S10의 `#s10_cta`로 이동해 **전화 예약 대체 블록**(S10, "지금은 예약 화면을 불러오지 못했어요. 1566-0398로 전화 주시면 상담 시간을 잡아 드려요." + [1566-0398 전화하기])을 보여 준다. 전화로 받은 예약은 7-11 '전화 예약'으로 처리한다. 대체 블록 표시 조건은 S10 '보이는 조건', 상태별 동작은 5-2 '버튼 동작' 열.
 
 - 시각 규칙 요약(세부는 7-5·7-7·7-11): 노출되는 슬롯은 항상 **기준 시각 T + 90분 이후**에 시작하므로, ① → ② → ④ 순서가 모든 예약에서 지켜진다. ②의 확정 기한은 ④ 발송 시각(슬롯 시작 − 60분)보다 최소 15분 이르고, 입장 링크(room_url)는 예약 저장 때 이미 있으므로 ④ 시각에 링크가 없는 경우가 생기지 않는다. T는 '다음 배정 공백 30분 전'을 기준으로 정하므로(7-5 일반 규칙), 점심 당번이 없는 운영 모드를 포함한 모든 운영 모드에서 확정 기한과 1·2차 미배정 경보가 배정 인력이 있는 시간에 온다. 고객이 시간을 바꾸면 바꾸는 시각을 접수 시각으로 보고 T·노출 규칙·확정 기한을 처음부터 다시 적용하므로(7-13 ③), 변경된 예약도 ① → ② → ④ 순서가 지켜진다.
 
@@ -2168,7 +2192,25 @@ band = total <= 3  ? 'A'
   - (상담 CTA가 있는 결과) 상담을 신청할 때 이 결과를 상담사에게 미리 전달할 수 있어요(선택).
   - 이 결과는 의학적 진단이 아니에요. 응답은 이 휴대폰 안에서만 계산됐어요.
   - [다시 해 보기](텍스트 버튼)
-- 결과 카드의 구매·상담 CTA는 6장·7장 플로우와 같다(`cta_location=quiz_result`, `score_band`·`red_flag` 파라미터 추가 — RF 결과 카드의 CTA 클릭을 A~D와 나눠 13-3 §5 '결과 CTA 클릭률'을 계산하기 위함).
+- 결과 카드의 CTA는 **구매(`purchase`)·상담(`consult`)·페이지 안 이동(`nav`) 3종**이다. 구매·상담은 6장·7장 플로우와 같고, 이동은 같은 페이지의 섹션으로 앵커 이동만 한다. **결과 카드의 CTA 10개는 모두 `cta_click`을 보낸다**(`cta_location=quiz_result`, `cta_type`, `score_band`·`red_flag` — RF 결과 카드의 CTA 클릭을 A~D와 나눠 13-3 §5 '결과 CTA 클릭률'(M27)을 계산하기 위함, 이동 CTA는 `cta_target` 추가). 결과별 마크업과 이벤트 값은 아래 표 하나로 고정한다(app.js가 이 표대로 그림 — 표에 없는 CTA를 두지 않는다).
+
+**결과별 CTA 마크업·이벤트 값(v11)** — 모든 결과 CTA에 공통 속성 `data-cta-location="quiz_result" data-score-band="{A|B|C|D}" data-red-flag="{Y|N}"`을 붙인다(RF 결과는 `data-red-flag="Y"`, `data-score-band`는 기록용으로 함께 저장한 band 값 — 8-3). 아래 '마크업' 열은 공통 속성을 뺀 나머지다.
+
+| 결과 | CTA(스타일 — CTA 1 채움, CTA 2는 위 결과표대로 외곽선·텍스트) | 문안 | 마크업(공통 속성 외) | `cta_click` 값 | 동작 |
+|---|---|---|---|---|---|
+| A | CTA 1(채움) | 할인가로 구매하기(D-B: 간편가입하고 할인가로 구매, 6-8) | `<a href="/product/detail.html?product_no=155&wc_buy=1&wc_lp=v5" data-cta="purchase">` | cta_type=purchase | 6장 구매(6-2) |
+| A | CTA 2 | 사용법 먼저 보기 | `<a href="#s07_use_cta" data-cta="nav" data-cta-target="s07_use">` | cta_type=nav, cta_target=s07_use | S7 맨 위로 기본 앵커 이동 |
+| B | CTA 1(채움) | 할인가로 구매하기(D-B 문안 6-8) | `<a href="/product/detail.html?product_no=155&wc_buy=1&wc_lp=v5" data-cta="purchase">` | cta_type=purchase | 6장 구매 |
+| B | CTA 2 | 무료 상담으로 물어보기 | `<a href="#s10_cta" data-cta="consult">` | cta_type=consult | 7장 상담 바텀시트 |
+| C | CTA 1(채움) | 무료 상담 예약하기 | `<a href="#s10_cta" data-cta="consult">` | cta_type=consult | 7장 상담 바텀시트 |
+| C | CTA 2 | 제품 가격 보기 | `<a href="#s07_price" data-cta="nav" data-cta-target="s07_price">` | cta_type=nav, cta_target=s07_price | S7 가격 카드로 기본 앵커 이동(구매 CTA 아님 — 구매 클릭률·주문서 도달률 분모에 들어가지 않음) |
+| D | CTA 1(채움) | 무료 상담 예약하기 | `<a href="#s10_cta" data-cta="consult">` | cta_type=consult | 7장 상담 바텀시트 |
+| D | CTA 2 | 진료 전 알아 둘 점 보기 | `<a href="#s04_caution" data-cta="nav" data-cta-target="s04_caution">` | cta_type=nav, cta_target=s04_caution | S4 주의 박스로 기본 앵커 이동 |
+| RF | CTA 1(채움) | 진료 전 알아 둘 점 보기 | `<a href="#s04_caution" data-cta="nav" data-cta-target="s04_caution">` | cta_type=nav, cta_target=s04_caution | S4 주의 박스로 기본 앵커 이동 |
+| RF | CTA 2 | 무료 상담 예약하기 | `<a href="#s10_cta" data-cta="consult">` | cta_type=consult | 7장 상담 바텀시트 |
+
+- 이벤트 처리: app.js `initCtaHandlers()`(5-2 ⑤)가 `cta_click`을 보내고, `purchase`·`consult`만 `preventDefault()`로 가로챈다. **`nav`는 `cta_click`만 보내고 기본 앵커 이동을 막지 않는다**(대상 `#s07_use_cta`·`#s07_price`·`#s04_caution`은 모두 `scroll-margin-top: 16px`). app.js의 CTA 연결이 실패한 경우(`wcCtaReady`가 없음)에는 head 인라인 위임 스크립트(6-2)가 같은 속성을 읽어 같은 값의 `cta_click`을 보낸다. `cta_target` 값은 이 표의 3종(`s07_use`·`s07_price`·`s04_caution`)뿐이다.
+- '다시 해 보기'는 CTA가 아니다(`quiz_restart`만 보냄, `cta_click` 없음).
 
 ### 8-5. 인터랙션 상세
 
@@ -2186,7 +2228,7 @@ band = total <= 3  ? 'A'
 | `quiz_start` | Q1 첫 선택 | — |
 | `quiz_answer` | 문항 응답마다 | `q_index`(1~8) — 응답 값은 보내지 않음 |
 | `quiz_complete` | 결과 표시 | `score_band`(A/B/C/D), `tendency`(stress/urge/mixed/none), `red_flag`(Y/N) |
-| `cta_click` | 결과 CTA | `cta_location=quiz_result`, `cta_type`, `score_band`, `red_flag`(Y면 RF 결과 카드의 CTA) |
+| `cta_click` | 결과 CTA 10개 모두(구매·상담·이동 — 8-4 '결과별 CTA 마크업·이벤트 값' 표) | `cta_location=quiz_result`, `cta_type`(purchase/consult/nav — 결과·CTA별 값은 8-4 표), `cta_target`(nav일 때만: s07_use/s07_price/s04_caution), `score_band`, `red_flag`(Y면 RF 결과 카드의 CTA) |
 | `quiz_restart` | 다시 하기 | — |
 
 - 결과 구간 데이터는 성과 분석에만 쓰고, **Google Ads 리마케팅 잠재고객이나 GA4 잠재고객 공유에 쓰지 않는다**(Google 맞춤 광고 정책의 건강 관련 제한, 12-1 참조).
@@ -2221,7 +2263,7 @@ band = total <= 3  ? 'A'
 | 1 | 품질만족도 수상 | 2022~2025 한국품질만족도 4년 연속 1위 — 헬스케어(케겔운동기구) 부문 | 연도별 수상일 [D10] (S8 메타 줄은 YYYY.MM, 증빙 모달은 YYYY-MM-DD) | [확인 필요 D10] | 증빙 모달 `proof_award_2022_2025`(연도별 인증서 스캔 4장 + 기사 매체·일자 텍스트) | S1 배지 버튼 2(축약: "2022~2025 한국품질만족도 4년 연속 1위¹" — 마커: 점선 밑줄 + ¹ → `#trust_award` 스크롤), S8 ①('증빙 보기 ›' → `proof_award_2022_2025`) | 구버전 "2022~2024 3년 연속 1위" 배지 2곳(현재 섹션 9·14) 삭제 |
 | 2 | 소비자만족도 수상 | 2021 소비자만족도 1위 | 2021 [D11: 수상일] | [확인 필요 D11] | `proof_award_2021` | S8 ① 연혁 줄 | 히어로·상단 배지에서 제외(최신 표기 우선). D11 미확인 시 삭제 |
 | 3 | KC 인증 | KC 인증 | 인증일 [D12] | 시험인증기관 [확인 필요 D12: 인증 종류·시험인증기관] | `proof_kc`(인증서 스캔 + 인증번호 텍스트) | S1 배지 버튼 1('KC 인증' — 마커: 점선 밑줄 → `#trust_kc` 스크롤 뒤 `proof_kc` 모달), S8 ②('증빙 보기 ›' → `proof_kc`), FAQ01(첫 문장 끝 '(인증번호 · 인증일 · 시험인증기관 · 증빙 보기 ›)' → `proof_kc`) | 인증서 콜라주 반복(현재 섹션 13·14) 삭제 |
-| 4 | 특허(V8 포 우먼) | 특허 「진동파장을 통한 여성 질 수축 장치」 | 등록일 [D13] | 특허청, 등록번호 [D13] | `proof_patent_v8w`(특허증 스캔 + 등록번호, "KIPRIS에서 등록번호로 조회 가능" 텍스트) | S1 근거 1줄("특허 진동파장" — 마커: 줄 끝 '증빙 ›'/ⓘ, 행 전체 버튼 → `proof_patent_v8w`), S5 근거 줄('증빙 보기' → `proof_patent_v8w`), S8 ③('증빙 보기 ›') (D13 런칭 조건. S8 ③이 빠지면 S8 'S8 밖 언급 규칙'대로 S1·S5 언급도 함께 대체·삭제. S5 ② 단계 설명에는 '특허'를 쓰지 않음) | "실제 임상시험을 통해 입증된 결과로 특허취득" 삭제. "진동파장 특허증"이 같은 특허인지 [D13]으로 확인해 하나로 합침 |
+| 4 | 특허(V8 포 우먼) | 특허 「진동파장을 통한 여성 질 수축 장치」 | 등록일 [D13] | 특허청, 등록번호 [D13] | `proof_patent_v8w`(특허증 스캔 + 등록번호, "KIPRIS에서 등록번호로 조회 가능" 텍스트) | S1 근거 1줄(문안 A "특허 진동파장이 PC·BC 근육 3곳을 자극"(D13 ③ 청구항 확인 시) 또는 문안 C "특허 「진동파장을 통한 여성 질 수축 장치」" — 마커: 줄 끝 '증빙 ›'/ⓘ, 행 전체 버튼 → `proof_patent_v8w`. 문안 B는 특허를 언급하지 않음, S1 '근거 줄 문안 선택 규칙'), S5 근거 줄(H2 바로 아래, 라벨 '특허(발명의 명칭)', '증빙 보기' → `proof_patent_v8w`), S8 ③('증빙 보기 ›') (D13 런칭 조건. S8 ③이 빠지면 S8 'S8 밖 언급 규칙'대로 S1·S5 언급도 함께 대체·삭제. S5 ② 단계 설명에는 '특허'를 쓰지 않음) | "실제 임상시험을 통해 입증된 결과로 특허취득" 삭제. "진동파장 특허증"이 같은 특허인지 [D13]으로 확인해 하나로 합침 |
 | 5 | 디자인·상표 | 디자인등록 · 상표등록(WAVECARE) | 디자인·상표 각 등록일 [D14] | 특허청, 디자인·상표 각 등록번호 [D14] | `proof_design_tm` | S8 ④ | — |
 | 6 | 방송 소개 ① | SBS CNBC 「생생경제정보톡톡」 388회 | 방영일 [D16] | SBS CNBC | `proof_broadcast_sbscnbc`(캡처 + 클립) | S8 ⑤('증빙 보기 ›'), S8 인물 줄 1 방송 메타 행(D16에서 장성해 인터뷰가 388회로 회차·방영일·협찬 여부까지 확인된 경우만: "SBS CNBC 「생생경제정보톡톡」 388회 인터뷰 · 방영일 #{D16} · 증빙 보기 ›" → 같은 증빙) | 방송 콜라주 재반복(현재 섹션 14) 삭제. 협찬이면 "협찬 방송" 표기. 현재 페이지의 "장성해 대표(SBS CNBC 인터뷰)" 표기는 회차·방영일 확인 전에는 쓰지 않음 |
 | 6-2 | (조건부) 방송 소개 — 장성해 인터뷰(388회가 아닌 회차일 때만) | #{D16 방송사} 「#{D16 프로그램명}」 #{D16 회차}회 인터뷰 | 방영일 [D16] | #{D16 방송사} | `proof_broadcast_interview`(캡처 + 사용 허락 시 클립) | S8 인물 줄 1 방송 메타 행('증빙 보기 ›') | D16에서 회차·방영일·협찬 여부를 확인하지 못하면 이 행과 인물 줄 방송 언급 모두 없음 |
@@ -2248,11 +2290,11 @@ band = total <= 3  ? 'A'
 
 | 항목 | 기준 |
 |---|---|
-| 구매 인증 | 쇼핑몰 상품 후기 게시판의 구매 확인 후기만 노출, 카드에 "구매 확인" 배지 |
+| 구매 인증 | 판정 방법 하나: 게시판 작성 권한 '이 상품을 주문한 고객만 작성' 설정(D22 — 설정 화면 캡처, 설정을 켠 날 = `verified_since`, 그 전 후기는 집계·노출 제외). 구매 확인 후기만 노출, 카드에 "구매 확인" 배지 |
 | 작성일 | 모든 카드에 YYYY-MM-DD 표시 |
 | 연령대·사용 기간 | 작성자가 고른 값(게시판 추가 항목), 없으면 "연령대 미입력" |
-| 별점 분포 | 5~1점 막대 + 건수, 평균·총건수·기준일 자동 계산 |
-| 선정 기준 공개 | 최신순, 별점으로 거르지 않음, 제외 기준과 제외 건수 공개 |
+| 별점 분포·집계 규칙 | **평균·총건수·별점 분포 = cafe24 상품 후기 게시판(product_no=155)의 구매 확인 후기 전체(랜딩 제외 후기 포함, 게시판 관리자 화면 수치와 같음). 카드·필터·더 보기 = 제외 후기를 뺀 노출분.** 요약 "★ #{평균}점 · 구매 확인 후기 #{총건수}개 / 이 페이지 미노출 #{제외건수}개 포함 · #{기준일} 기준", 5~1점 막대 + 건수(합 = 총건수), 갱신 때 게시판 관리자 화면과 대조(S9 '갱신 대조', QA 18) |
+| 선정 기준 공개 | 최신순, 별점으로 거르지 않음, 제외 기준과 제외 건수 공개(제외 후기도 별점 요약·분포에는 포함된다고 '후기 노출 기준 보기'에 밝힘) |
 | 제외 기준 | 개인정보, 욕설, 질병 치료·완치·증상 소실 단정 표현(게시판 원문은 유지) |
 | 갱신 | 매주 월요일 10:00(CS 담당) |
 | 편집 | 원문 그대로(요약·수정 금지) |
@@ -2355,7 +2397,7 @@ band = total <= 3  ? 'A'
 | Google Ads(AW-741641154) + 전환 링커 | GTM 안 | GTM과 함께 |
 | Meta 픽셀, TikTok 픽셀, 카카오 픽셀, 네이버 분석(wcs) | **이 페이지에서 제거**(기본안). 유입이 유튜브 광고뿐이고, 건강 관련 페이지 방문자 리타기팅은 광고 정책상 제한이 커서 쓸 일이 적다. 다른 채널 광고가 이 페이지를 쓰게 되면 그 채널 픽셀만 GTM에서 `load` 후 5초 지연으로 추가하고, 기본 페이지뷰 외 이벤트·파라미터는 보내지 않는다 | — |
 
-- **어트리뷰션 보존(즉시 실행 인라인 스크립트, 1.6KB 이하 — 보존 0.6KB + 구매 링크 위임 처리 1KB)**: 태그를 늦게 불러도 광고 정보를 잃지 않도록 `gclid`·`gbraid`·`wbraid`·`utm_*`를 읽어 1st-party 쿠키 `wc_click`(속성은 12-6, 90일)과 `sessionStorage`에 저장한다. 이 값은 바로구매 딥링크(6-2)에 다시 실려 상품 상세·주문서의 전환 링커로 넘어간다. `window.dataLayer = window.dataLayer || []`도 즉시 선언해, GTM이 늦게 와도 그전 이벤트가 큐에 쌓였다가 처리되게 한다. 같은 스크립트 뒤쪽에 `wcBuyHref()`·`wcQueue()`와 CTA 클릭 위임 처리(6-2 '누가 링크를 처리하나')를 둔다 — app.js와 무관하게 실행되므로 app.js가 늦거나 없어도 구매 링크에 광고 정보가 붙고, GTM이 뜨기 전 빠른 구매 클릭의 랜딩 이벤트가 다음 화면 재전송 큐에 들어간다(12-2).
+- **어트리뷰션 보존(즉시 실행 인라인 스크립트, 1.8KB 이하 — 보존 0.6KB + CTA 링크 위임 처리 1.2KB)**: 태그를 늦게 불러도 광고 정보를 잃지 않도록 `gclid`·`gbraid`·`wbraid`·`utm_*`를 읽어 1st-party 쿠키 `wc_click`(속성은 12-6, 90일)과 `sessionStorage`에 저장한다. 이 값은 바로구매 딥링크(6-2)에 다시 실려 상품 상세·주문서의 전환 링커로 넘어간다. `window.dataLayer = window.dataLayer || []`도 즉시 선언해, GTM이 늦게 와도 그전 이벤트가 큐에 쌓였다가 처리되게 한다. 같은 스크립트 뒤쪽에 `wcBuyHref()`·`wcQueue()`와 CTA 클릭 위임 처리(6-2 '누가 링크를 처리하나')를 둔다 — app.js와 무관하게 실행되므로 app.js가 늦거나 없어도 구매 링크에 광고 정보가 붙고, GTM이 뜨기 전 빠른 구매 클릭의 랜딩 이벤트가 다음 화면 재전송 큐에 들어간다(12-2).
 - **ver5 파일에 직접 넣는 태그는 GTM 지연 로더(운영 컨테이너 1개)와 위 어트리뷰션 보존 스크립트뿐이다.** 그 밖의 태그는 어떤 것도 HTML에 직접 넣지 않는다.
 - GTM 컨테이너 안에서도 이 페이지에 필요 없는 태그(다른 상품 리마케팅 등)는 페이지 조건으로 막는다.
 - **재전송용 GTM 태그 2종(D-10, 13-2 A)**: ① 운영 컨테이너의 'lp_view 처리 표시'(맞춤 HTML `<script>window.wcLpSent=true</script>`) — GA4 `lp_view` 이벤트 태그의 태그 순서 지정 '정리 태그'로 실행해, 랜딩의 `lp_view`가 GA4 태그로 처리된 뒤에만 `wcLpSent`가 참이 되게 한다(6-2 `wcQueue`의 판정값) ② 상품 상세·로그인·주문서가 쓰는 사이트 GTM의 '랜딩 이벤트 재전송'(12-2 '빠른 구매 클릭 재전송'). 운영 컨테이너(D31)와 사이트 GTM이 같은 컨테이너면 둘 다 그 컨테이너에, 다르면 ①은 운영 컨테이너·②는 사이트 GTM에 둔다.
@@ -2441,7 +2483,7 @@ ver5는 독립 HTML이라 ver4에 하드코딩된 태그와 스킨 레이아웃 
 | `lp_view` | 변형 결정 직후(인라인 스크립트 → dataLayer). GTM이 처리하기 전에 구매 CTA로 떠나면 다음 화면에서 재전송(아래 '빠른 구매 클릭 재전송') | `match_rule`, `ad_format`, (재전송일 때만) `replayed`=Y·`page_location`=큐의 `lp_loc`(정리 변수 적용) | 변형별 분석 기준. 기준 세션(M01) 판정에 재전송 포함 |
 | `scroll_depth` | 페이지 25·50·75·90% 지점에 둔 투명 표식이 화면에 들어올 때(각 1회) | `percent`(정수 25/50/75/90 — dataLayer에 `percent: 50`처럼 숫자로) | 1-2 '50% 스크롤 도달률'. GA4 기본 `percent_scrolled`(향상된 측정 스크롤, 꺼 둠)와 이름이 달라 기본 측정기준 '스크롤된 비율'로는 보이지 않으므로 **맞춤 측정기준 `percent` 등록 필수** |
 | `section_view` | **섹션의 보이는 높이가 min(섹션 높이, 뷰포트 높이)의 50% 이상인 상태가 1초 이어질 때(섹션별 1회)** — 섹션이 화면보다 짧으면 섹션의 절반 이상, 화면보다 길면(3-1 실측상 뷰포트 높이의 2배를 넘는 섹션 포함) 화면의 절반 이상이 그 섹션으로 채워진 채 1초. 구현·판정식은 아래 '섹션 노출 판정' | `section_id`(s01_hero~s12_final), `section_index`(1~12, 정수 — 섹션의 `data-section-index`) | 섹션별 이탈 분석(M24·M25). 섹션 높이·기기 높이와 상관없이 12개 섹션 모두에서 발생해야 함(QA 11 ⑦) |
-| `cta_click` | 구매·상담·자가진단 CTA 클릭(app.js가 보냄. app.js가 동작하지 않을 때의 구매·상담 CTA는 head 인라인 위임 스크립트가 보냄, 6-2). 구매 CTA로 떠날 때 GTM이 `lp_view`를 아직 처리하지 않았으면 다음 화면에서 재전송 | `cta_type`(purchase/consult/quiz), `cta_location`(hero/s02/s06/s07_mid/s10/s11/s12_final/sticky/quiz_result), `cta_text`, `score_band`·`red_flag`(자가진단 결과 CTA일 때, 8-6), (재전송일 때만) `replayed`=Y·`page_location`=큐의 `lp_loc` | 구매/상담 구분 |
+| `cta_click` | `a[data-cta]` 링크 클릭 — 구매·상담·자가진단 이동·페이지 안 이동(자가진단 결과 카드) CTA 4종(아래 'cta_type별 마크업·처리' 표, app.js가 보냄. app.js의 CTA 연결이 동작하지 않을 때는 head 인라인 위임 스크립트가 같은 값으로 보냄, 6-2). 구매 CTA로 떠날 때 GTM이 `lp_view`를 아직 처리하지 않았으면 다음 화면에서 재전송 | `cta_type`(purchase/consult/quiz/nav), `cta_location`(hero/s02/s06/s07_mid/s10/s11/s12_final/sticky/quiz_result), `cta_text`, `cta_target`(nav일 때만: s07_use/s07_price/s04_caution — 8-4), `score_band`·`red_flag`(자가진단 결과 CTA일 때, 8-6), (재전송일 때만) `replayed`=Y·`page_location`=큐의 `lp_loc` | 구매/상담 구분(`purchase`·`consult`). 구매·상담 KPI(M04·M13·M18)는 이 두 값만 센다 |
 | `sticky_bar_view` | 고정 바 첫 노출 | — | — |
 | `empathy_chip_toggle` | S2 장면 칩 토글 | `chip_id`(1~6), `state`(on/off) | 13-3 §4 장면 칩 선택률 |
 | `quiz_start` | Q1 첫 선택 | — | 자가진단 시작 |
@@ -2450,7 +2492,7 @@ ver5는 독립 HTML이라 ver4에 하드코딩된 태그와 스킨 레이아웃 
 | `quiz_restart` | 다시 하기 | — | — |
 | `compare_tab` | S6 탭 변경 | `tab` | — |
 | `proof_open` | 증빙 모달 열기 | `proof_id`, `proof_from`(hero_reason/hero_badge/s04/s05/s08/faq01 — 어느 마커·행에서 열었는지) | S8 밖 마커·링크 사용 측정(S8 'S8 밖 언급의 마커·링크' 표) |
-| `trust_footnote_click` | 히어로 배지 버튼 클릭(스크롤 시작 시점) | `trust_target`(kc/award) | kc는 이어서 `proof_open`(proof_from=hero_badge)도 보냄 |
+| `trust_footnote_click` | 히어로 배지 버튼 클릭, 또는 히어로 근거 줄 문안 B 클릭(스크롤 시작 시점, S1 '근거 줄 문안 선택 규칙') | `trust_target`(kc/award/compare — compare = 근거 줄 문안 B → S5 자극점 비교 카드) | kc는 이어서 `proof_open`(proof_from=hero_badge)도 보냄 |
 | `review_filter` / `review_more` / `review_expand` | 후기 필터·더 보기·원문 펼침 | `filter` / `page` / — | — |
 | `faq_open` | FAQ 펼침 | `faq_id`(faq01~faq10) | — |
 | `video_start` / `video_complete` | 영상 재생 시작 / 끝까지 재생 | `video_id`(use_loop, broadcast_sbscnbc 등) | — |
@@ -2476,6 +2518,16 @@ ver5는 독립 HTML이라 ver4에 하드코딩된 태그와 스킨 레이아웃 
 | `exp_impression` | A/B 대상 페이지 로드 | `exp_id`, `exp_variant` | 13-1 |
 | `web_vitals` | 지표 확정 시(지표별 페이지 로드당 1회, 11-2) | `metric_name`(LCP/CLS/INP), `value`(LCP·INP 밀리초, CLS 소수), `rating`(good/needs-improvement/poor) | 성능. p75는 BigQuery Q2(12-7) |
 
+- **`cta_type`별 마크업·처리(v11 — `cta_click`의 유일한 기준)**: 랜딩의 CTA는 모두 `<a href … data-cta="{purchase|consult|quiz|nav}" data-cta-location="…">`이고, `data-cta` 값이 그대로 `cta_type`이다. `<a data-cta>`가 아닌 요소(근거 줄·배지·증빙 링크·FAQ·필터·'다시 해 보기' 등)는 `cta_click`을 보내지 않는다(각자 표의 이벤트).
+
+  | `cta_type` | 대상 CTA(`cta_location`) | 마크업 | app.js 처리(5-2 ⑤ `initCtaHandlers`) | app.js 없을 때(6-2 위임 스크립트) | 쓰는 KPI |
+  |---|---|---|---|---|---|
+  | `purchase` | 히어로·S7·S12·고정 바·자가진단 결과 A·B CTA 1(hero/s07_mid/s12_final/sticky/quiz_result) | `<a href="/product/detail.html?product_no=155&wc_buy=1&wc_lp=v5" data-cta="purchase" …>` | `cta_click` → `preventDefault` → 6-2 구매(O1 이동·O2 옵션 시트) | `cta_click` → 링크에 광고 정보를 붙여 기본 이동(6-2) | M04 구매·전체, M05, M13 분모, M18 |
+  | `consult` | 히어로·S6·S7·S10·S11·S12·고정 바·자가진단 결과 B CTA 2·C·D CTA 1·RF CTA 2 | `<a href="#s10_cta" data-cta="consult" …>`(7-2) | `cta_click` → `preventDefault` → 상담 바텀시트(`consult_form_open`) | `cta_click` → 기본 이동(S10 대체 블록) | M04 상담·전체, M05 |
+  | `quiz` | S2 '1분 자가진단으로 확인하기'(s02) | `<a href="#s03_quiz" data-cta="quiz" data-cta-location="s02">`(S2) | `cta_click` → `preventDefault` → S3 스크롤·첫 선택지 포커스 | `cta_click` → 기본 이동 | 없음(M04에 넣지 않음, 자가진단은 M06) |
+  | `nav` | 자가진단 결과 A·C·D CTA 2, RF CTA 1(quiz_result) | `<a href="#{대상 id}" data-cta="nav" data-cta-location="quiz_result" data-cta-target="{s07_use|s07_price|s04_caution}" data-score-band data-red-flag>`(8-4 표) | **`cta_click`만 보내고 기본 앵커 이동**(`preventDefault` 안 함) | `cta_click` → 기본 이동 | M27 '이동'·'전체'만(M04·M13에 넣지 않음) |
+
+  - 구매(`purchase`)·상담(`consult`)만 전환 CTA다. 그래서 M04 'CTA 클릭률(전체)'의 분자는 이 두 값만이고, 자가진단 결과 카드의 이동 CTA('제품 가격 보기' 포함)는 구매 CTA 클릭률·주문서 도달률(M13 분모)·T2 가드레일·T4 보조 지표에 섞이지 않는다.
 - **이름 일치 규칙**: dataLayer 키 = GTM GA4 이벤트 태그의 이벤트 매개변수 이름 = GA4 맞춤 측정기준의 '이벤트 매개변수' 값이며 글자 하나까지 같다(예: `percent`, `state`, `replayed`). GTM에서 이름을 바꿔 보내지 않는다. 예외 하나: 재전송 위치 `wc_replay_loc`(dataLayer) → GA4 표준 매개변수 `page_location`(아래 '빠른 구매 클릭 재전송' — 데이터 영역에 `page_location` 키가 남아 다음 이벤트의 위치를 바꾸지 않게 다른 이름을 쓰며, 표준 매개변수라 맞춤 정의 등록이 없다).
 - **빠른 구매 클릭 재전송(`wc_ev_queue`)** — GTM이 뜨기 전(첫 사용자 동작 또는 `load` + 2초, 11-5)에 구매 CTA를 눌러 떠난 세션의 랜딩 이벤트가 사라지지 않게 한다. 구매 전환율·RPV(분자는 쿠키 `wc_lp`로 잡힘)와 분모 M01이 같은 세션을 세게 하기 위함이다.
   1. **저장(랜딩)**: 구매로 페이지를 떠나기 직전(O1 = 구매 CTA 탭, O2 = 옵션 시트 "주문서로 이동"), `window.wcLpSent`가 참이 아니면(= 운영 컨테이너의 GA4 `lp_view` 태그가 아직 실행되지 않음, 11-5 'lp_view 처리 표시') `wcQueue()`가 `sessionStorage.wc_ev_queue` = `[{event:'lp_view', lp_id, match_rule, ad_format, lp_loc, ts}, {event:'cta_click', cta_type, cta_location, cta_text, ts}(, {event:'purchase_sheet_open', ts})]`를 저장한다. 개인정보 없음(12-6). app.js 처리·head 인라인 위임 처리 어느 경로든 같은 함수(6-2).
@@ -2515,17 +2567,17 @@ function initSectionView() {                                     // 12-2 '섹션
 ```
 
   5. **운영 규칙**: 판정은 섹션 높이와 상관없으므로 3-1 상한 안에서 카피·섹션 길이가 바뀌어도 판정식을 고치지 않는다. 섹션을 넣거나 빼거나 순서를 바꾸면 `data-section-index`를 3-1 표 순서대로 1부터 다시 매기고 QA 11 ⑦을 다시 한다. 지원 환경(11-8)은 모두 IntersectionObserver를 지원한다. app.js가 동작하지 않는 세션(5-2 대체 상태)에는 `section_view`가 없으므로, 12개 섹션 도달률이 한꺼번에 떨어지거나 도달 세션이 0인 섹션이 생기면 수집 이상으로 보고 13-3 §4 경보 규칙대로 점검한다(대조표 M24).
-- GA4 맞춤 측정기준(이벤트 범위) 등록 — **36개**(표준 속성 한도 50개 안). 표시 이름은 매개변수 이름과 같게 쓴다(대조하기 쉽게):
+- GA4 맞춤 측정기준(이벤트 범위) 등록 — **37개**(표준 속성 한도 50개 안. v11에서 `cta_target` 추가로 36 → 37). 표시 이름은 매개변수 이름과 같게 쓴다(대조하기 쉽게):
   - 랜딩·변형: `lp_id`, `match_rule`, `ad_format`, `replayed`(값 Y — 빠른 구매 클릭 재전송분, M43·QA 11 ⑤, v9 추가)
   - 스크롤·섹션·공감: `percent`, `section_id`, `section_index`, `chip_id`, `state`(`empathy_chip_toggle`·`consent_toggle` 공용)
-  - CTA·자가진단: `cta_type`, `cta_location`, `score_band`, `tendency`, `red_flag`, `q_index`
+  - CTA·자가진단: `cta_type`, `cta_location`, `cta_target`(nav 이동 대상 — M27 '이동'의 대상 구분·QA 11 ⑧, v11 추가), `score_band`, `tendency`, `red_flag`, `q_index`
   - 신뢰·콘텐츠: `proof_id`, `proof_from`, `trust_target`, `faq_id`, `video_id`
   - 상담·예약: `error_field`, `consent_id`, `ads_consent`, `booking_state`, `msg_src`, `reschedule_from`
   - 구매: `result`, `consult_attributed`(값 Y/lead_pre/lead_post/N)
   - A/B: `exp_id`, `exp_variant`, `exp_t1`, `exp_t2`, `exp_t3`, `exp_t4`
   - 성능: `metric_name`, `rating`
 - GA4 맞춤 측정항목(이벤트 범위, 단위 밀리초) 등록: `duration_ms, tap_to_next_ms, tap_to_checkout_ms`(GA4 탐색 분석에서는 합계·평균만 나오며, p75는 12-7 Q2).
-- **등록 시점**: 맞춤 정의는 등록한 뒤 수집된 데이터에만 적용되고 과거 데이터에 소급되지 않는다. 그래서 개발이 D-10에 위 36개·3개를 등록하고(13-2 A), 런칭 전 QA 11에서 목록을 대조한다. 아래 대조표에도, 대조표 아래 주석의 이슈 분석용 목록에도 없는 파라미터(`cta_text`, `form_id`, `days_ahead`, `hour`, `lead_hours_ahead`, `hours_before`, `dx_available`, `dx_attached`, `marketing_opt_in`, `filter`, `page`, `tab`, `payment_type`, `location`, `link`)는 KPI·리포트에 쓰지 않으므로 등록하지 않는다. BigQuery 내보내기(12-7)에는 등록 여부와 상관없이 모든 이벤트 파라미터가 들어가므로, 필요하면 그쪽에서 본다.
+- **등록 시점**: 맞춤 정의는 등록한 뒤 수집된 데이터에만 적용되고 과거 데이터에 소급되지 않는다. 그래서 개발이 D-10에 위 37개·3개를 등록하고(13-2 A), 런칭 전 QA 11에서 목록을 대조한다. 아래 대조표에도, 대조표 아래 주석의 이슈 분석용 목록에도 없는 파라미터(`cta_text`, `form_id`, `days_ahead`, `hour`, `lead_hours_ahead`, `hours_before`, `dx_available`, `dx_attached`, `marketing_opt_in`, `filter`, `page`, `tab`, `payment_type`, `location`, `link`)는 KPI·리포트에 쓰지 않으므로 등록하지 않는다. BigQuery 내보내기(12-7)에는 등록 여부와 상관없이 모든 이벤트 파라미터가 들어가므로, 필요하면 그쪽에서 본다.
 - 핵심 이벤트(전환): `generate_lead`, `purchase`. 나머지는 보조.
 - 내부 트래픽(회사 IP)과 개발자 트래픽(debug_mode)은 필터로 뺀다. 데이터 보존 기간은 14개월로 설정한다.
 - 개인정보(이름·휴대폰)는 GA4에 보내지 않는다. 자가진단 문항별 응답도 보내지 않는다.
@@ -2539,14 +2591,14 @@ function initSectionView() {                                     // 12-2 '섹션
 - **'X 세션'** = 기준 세션 가운데 X 이벤트(괄호 안 파라미터 조건 포함)가 1회 이상 있는 세션 수 — GA4 탐색 분석 '자유 형식'에서 행 = 이벤트 이름(+ 해당 맞춤 측정기준), 필터 = 파라미터 조건, 값 = '세션'. **'X 수'** = 같은 조건의 '이벤트 수'.
 - **기간**: 리포트 주간(월 00:00 ~ 일 23:59, Asia/Seoul).
 - **기준점**: GA4 탐색 분석에 기준점 적용(데이터 임계값) 표시가 뜨거나 표본이 작아 행이 비면, 같은 계산을 BigQuery(12-7)로 한다(내보내기 데이터에는 기준점이 적용되지 않음).
-- **경로 표기**: 'GA4 탐색' = GA4 탐색 분석 자유 형식 / 'Q1~Q3' = 12-7 BigQuery 쿼리의 결과 열 / '시트' = 상담기록 시트(12-4 열)의 COUNTIFS / 'Ads' = Google Ads 보고서 / 'cafe24' = cafe24 관리자 주문 목록 엑셀. '등록' 열의 ✓ = 위 36개 목록에 있음.
+- **경로 표기**: 'GA4 탐색' = GA4 탐색 분석 자유 형식 / 'Q1~Q3' = 12-7 BigQuery 쿼리의 결과 열 / '시트' = 상담기록 시트(12-4 열)의 COUNTIFS / 'Ads' = Google Ads 보고서 / 'cafe24' = cafe24 관리자 주문 목록 엑셀. '등록' 열의 ✓ = 위 37개 목록에 있음.
 
 | # | 지표 | 쓰는 곳 | 계산식(분자 ÷ 분모) | 이벤트 · 파라미터(조건) | 등록 | 계산 경로 |
 |---|---|---|---|---|---|---|
 | M01 | 기준 세션 | 1-2 모든 '÷ 세션'의 분모, 13-3 §2 '세션'·§3, M41 분자 | `lp_view` 세션(위 정의, **재전송 포함**) | `lp_view` · 페이지 위치(재전송분은 `page_location` = 큐의 `lp_loc`) | 기본 측정기준 '페이지 위치' / `lp_id`·`match_rule`·`ad_format` ✓ | GA4 탐색(세그먼트) · Q1 `sessions` |
 | M02 | 이탈률(GTM 로드 뒤 세션 기준) | 1-2, 13-3 §2 | 1 − 참여 세션 ÷ 기준 세션. **GTM 로드 전(첫 사용자 동작 또는 `load` + 2초 전)에 떠난 방문은 GA4 세션이 생기지 않아 분모·분자 모두에서 빠진다** — 그래서 실제 광고 클릭 대비 이탈은 M42로 보고, 히어로 점검 경고는 M42로 판정한다(1-2) | GA4 자동 `session_engaged`(10초 이상·핵심 이벤트·2페이지 이상. 데이터 스트림 태그 설정의 '참여 세션 타이머'는 기본값 10초 유지) | 기본 측정항목 '참여율'(등록 불필요) | GA4 탐색 · Q1 `bounce_rate` |
 | M03 | 50% 스크롤 도달률 | 1-2, 13-3 §2, 13-1 T2 보조 | `scroll_depth`(percent=50) 세션 ÷ 기준 세션 | `scroll_depth` · `percent` = 50 | **`percent` ✓(v7 추가)** | GA4 탐색(행 `percent`, 필터 50) · Q1 `scroll50_rate` |
-| M04 | CTA 클릭률(전체 / 구매 / 상담) | 1-2, 13-3 §2, 13-1 T2 가드레일(구매)·T4 보조(구매) | `cta_click` 세션 / `cta_click`(cta_type=purchase) 세션 / `cta_click`(cta_type=consult) 세션 ÷ 기준 세션(분자·분모 모두 **재전송 포함** — 빠른 구매 클릭의 `cta_click`·`lp_view`는 다음 화면에서 `replayed`=Y로 들어옴. app.js 미동작 때의 `cta_click`도 head 인라인 위임 스크립트가 보냄, 6-2) | `cta_click` · `cta_type` | `cta_type` ✓ | GA4 탐색 · Q1 `cta_rate`·`cta_buy_rate`·`cta_consult_rate` |
+| M04 | CTA 클릭률(전체 = 구매·상담 / 구매 / 상담) | 1-2, 13-3 §2·§3, 13-1 T2 가드레일(구매)·T4 보조(구매) | `cta_click`(cta_type=purchase 또는 consult) 세션 / `cta_click`(cta_type=purchase) 세션 / `cta_click`(cta_type=consult) 세션 ÷ 기준 세션. **'전체'에 `quiz`(S2 자가진단 이동)·`nav`(자가진단 결과 카드의 페이지 안 이동, 8-4)는 넣지 않는다**(v11 — 자가진단은 M06, 결과 카드 이동은 M27로 봄. 그래서 결과 C의 '제품 가격 보기'는 구매 클릭률에 들어가지 않음). 분자·분모 모두 **재전송 포함** — 빠른 구매 클릭의 `cta_click`·`lp_view`는 다음 화면에서 `replayed`=Y로 들어옴. app.js 미동작 때의 `cta_click`도 head 인라인 위임 스크립트가 보냄, 6-2) | `cta_click` · `cta_type`(전체 = purchase·consult 두 값 필터) | `cta_type` ✓ | GA4 탐색(행 `cta_type`, 필터 purchase·consult) · Q1 `cta_rate`·`cta_buy_rate`·`cta_consult_rate` |
 | M05 | 히어로 CTA 클릭 세션 비율 | 13-1 T1 핵심 | `cta_click`(cta_location=hero) 세션 ÷ 기준 세션 — 대상은 `match_rule`이 R3·R7이 아닌 세션, `exp_t1`별(**재전송 포함** — GTM이 뜨기 전 히어로 구매 CTA를 누른 세션이 빠지지 않음) | `cta_click` · `cta_location`, `match_rule`, `exp_t1` | ✓ | GA4 탐색 · Q1 `hero_cta_rate`(대상·군별 조건) |
 | M06 | 자가진단 시작률 / 완료율 | 1-2, 13-3 §2 | `quiz_start` 세션 ÷ 기준 세션 / `quiz_complete` 세션 ÷ `quiz_start` 세션 | `quiz_start`, `quiz_complete` | 이벤트 이름(등록 불필요) | GA4 탐색 · Q1 `quiz_start_rate`·`quiz_complete_rate` |
 | M07 | 자가진단 완료 세션 비율 | 13-1 T2 핵심 | `quiz_complete` 세션 ÷ 기준 세션, `exp_t2`별 | `quiz_complete` · `exp_t2` | `exp_t2` ✓ | GA4 탐색 · Q1 `quiz_done_rate`(군별) |
@@ -2555,7 +2607,7 @@ function initSectionView() {                                     // 12-2 '섹션
 | M10 | 폼 오류 비율 | 13-1 T3 보조 | `form_error` 세션 ÷ `consult_form_open` 세션(종류는 `error_field`별) | `form_error` · `error_field` | `error_field` ✓ | GA4 탐색 · Q1 `form_error_rate` |
 | M11 | 동의 항목별 체크율(필수 / 민감정보 / 광고성 정보 / 광고 성과 측정) | 13-3 §6, 13-1 T3 보조 | `consent_toggle`(consent_id=X, state=on) 세션 ÷ `consult_form_open` 세션 (X = required / sensitive / marketing / ads) | `consent_toggle` · `consent_id`, `state` = on | `consent_id` ✓, **`state` ✓(v7 추가)** | GA4 탐색(행 `consent_id`, 필터 `state`=on) · Q1 `consent_*_rate` |
 | M12 | 상담 노쇼율 | 1-2, 13-3 §2·§6, 13-1 T3 가드레일(M37) | 슬롯 시작이 리포트 주간이고 ②(④-2 포함 — ④-2도 `sent_②`에 기록, 7-7)가 나간 예약 중 `status`=노쇼 ÷ 같은 조건의 예약 중 `status`가 완료 또는 노쇼인 예약(취소·변경된 예약은 분모에서 뺌). 1-2 노쇼율과 같은 문장 | (GA4 아님) 시트 `slot`·`sent_②`·`status` | 해당 없음 | 시트 |
-| M13 | 주문서 도달률 | 1-2, 13-3 §2 | `begin_checkout` 세션 ÷ `cta_click`(cta_type=purchase) 세션(분모·기준 세션 모두 **재전송 포함** — 재전송된 `lp_view`·`cta_click`은 주문서 진입과 같은 세션에 들어감) | `begin_checkout`(랜딩과 같은 세션의 주문서 진입) | 이벤트 이름 | GA4 탐색 · Q1 `checkout_reach_rate` |
+| M13 | 주문서 도달률 | 1-2, 13-3 §2 | `begin_checkout` 세션 ÷ `cta_click`(cta_type=purchase) 세션(분모는 `purchase`만 — 자가진단 결과의 이동 CTA `nav`는 넣지 않음, 8-4. 분모·기준 세션 모두 **재전송 포함** — 재전송된 `lp_view`·`cta_click`은 주문서 진입과 같은 세션에 들어감) | `begin_checkout`(랜딩과 같은 세션의 주문서 진입) | 이벤트 이름 | GA4 탐색 · Q1 `checkout_reach_rate` |
 | M14 | 주문서 도달 세션 비율 | 13-1 T4 핵심 | `begin_checkout` 세션 ÷ 기준 세션, `exp_t4`별(**재전송 포함**) | `begin_checkout` · `exp_t4`(쿠키 `wc_ab`) | `exp_t4` ✓ | GA4 탐색 · Q1 `checkout_session_rate`(군별) |
 | M15 | 바로구매 딥링크 대체율 | 1-2, 13-3 §2 | `deeplink_redirect`(result=fallback·fallback_after_click) 수 ÷ `deeplink_redirect` 수(랜딩 CTA·상담 구매 링크가 같은 스크립트이므로 합산) | `deeplink_redirect` · `result` | `result` ✓ | GA4 탐색 · Q2 `deeplink_fallback_rate` |
 | M16 | `tap_to_next_ms` p75 | 1-2, 13-3 §2, 6-1 출시 후 기준 | `deeplink_redirect`(result=success)의 `tap_to_next_ms` 75번째 백분위(밀리초) | `deeplink_redirect` · `result`=success, `tap_to_next_ms` | 맞춤 측정항목 ✓(GA4는 합계·평균만) | **Q2** `APPROX_QUANTILES(값, 100)[OFFSET(75)]` — GA4 탐색으로는 계산 불가 |
@@ -2569,7 +2621,7 @@ function initSectionView() {                                     // 12-2 '섹션
 | M24 | 섹션 도달률 / 이전 섹션 대비 이탈 | 13-3 §4 | `section_view`(section_id=X) 세션 ÷ 기준 세션 / 1 − 도달률(X) ÷ 도달률(`section_index`가 하나 작은 섹션). **`section_view` = 섹션의 보이는 높이가 min(섹션 높이, 뷰포트 높이)의 50% 이상인 상태가 1초 이어질 때(섹션별 1회, 12-2 '섹션 노출 판정')** — 그래서 뷰포트보다 긴 섹션(390×664의 S4·S8, 375×548의 S2·S4~S8·S12)도 도달이 잡힌다. T2 진행 중에는 `exp_t2`=A 세션만(B군은 S3가 S2 앞이라 순서가 다름). **도달 세션이 0인 섹션은 경보**(수집 이상으로 보고 13-3 §4에 '⚠ 도달 0' 표시·점검): 그 섹션과 바로 다음 섹션의 '이전 섹션 대비 이탈'은 '계산 불가'(도달 0 섹션은 측정 누락이 이탈 100%로 읽히지 않게, 다음 섹션은 분모 0)로 적고 판정하지 않는다 | `section_view` · `section_id`, `section_index`, `exp_t2` | `section_id` ✓, **`section_index` ✓(v7 추가)** | GA4 탐색(행 `section_index`·`section_id`) · **Q1 섹션별 결과**(12행: `reach_sessions`·`reach_rate`·`drop_from_prev`·`zero_alarm`, v10) |
 | M25 | S2 장면 칩 선택률(칩 1~6) | 13-3 §4(v7 추가) | `empathy_chip_toggle`(chip_id=n, state=on) 세션 ÷ `section_view`(section_id=s02_empathy) 세션 | `empathy_chip_toggle` · `chip_id`, `state` | **`chip_id`·`state` ✓(v7 추가)** | GA4 탐색 |
 | M26 | 자가진단 결과 비율(A·B·C·D·RF) | 13-3 §5 | `quiz_complete`(red_flag=N, score_band=X) 수 ÷ `quiz_complete` 수 / RF = `quiz_complete`(red_flag=Y) 수 ÷ `quiz_complete` 수(8-3 화면 결과 규칙: RF가 있으면 RF) | `quiz_complete` · `score_band`, `red_flag` | ✓ | GA4 탐색 |
-| M27 | 결과 CTA 클릭률(결과별) | 13-3 §5 | `cta_click`(cta_location=quiz_result, 결과 조건) 세션 ÷ `quiz_complete`(같은 결과 조건) 세션. 결과 조건: A~D = red_flag=N 그리고 score_band=X, RF = red_flag=Y | `cta_click`·`quiz_complete` · `cta_location`, `score_band`, `red_flag`(v7: `cta_click`에도 보냄) | ✓ | GA4 탐색 |
+| M27 | 결과 CTA 클릭률(결과별 × 전체 / 구매 / 상담 / 이동) | 13-3 §5 | `cta_click`(cta_location=quiz_result, 결과 조건[, 종류 조건]) 세션 ÷ `quiz_complete`(같은 결과 조건) 세션. 결과 조건: A~D = red_flag=N 그리고 score_band=X, RF = red_flag=Y. 종류 조건: **전체** = 없음(결과 카드의 purchase·consult·nav 모두) / **구매** = cta_type=purchase / **상담** = cta_type=consult / **이동** = cta_type=nav(대상은 `cta_target`). 결과별로 없는 종류(8-4 표 — A: 구매·이동, B: 구매·상담, C·D: 상담·이동, RF: 이동·상담)는 '—'(v11) | `cta_click`·`quiz_complete` · `cta_location`, `cta_type`, `cta_target`, `score_band`, `red_flag`(v7: `cta_click`에도 보냄) | ✓(`cta_target` v11 추가) | GA4 탐색(행 결과 조건 × `cta_type`) |
 | M28 | 자가진단 문항별 도달률(Q1~Q8) | 13-3 §5(v7 추가) | `quiz_answer`(q_index=n) 세션 ÷ `quiz_start` 세션 | `quiz_answer` · `q_index` | **`q_index` ✓(v7 추가)** | GA4 탐색 |
 | M29 | 상담 퍼널(신청·확정·완료·노쇼·취소·변경, 확정 기한 준수율, ④-2 발송 수, 슬롯 사용률, ⑦-1/⑦-2 발송(친구톡/LMS), 사은품 재고) | 13-3 §6 | 신청 = 접수 시각이 주간인 예약 행(웹 `consent_by=web`과 전화 `consent_by=phone`을 나눠 적음. 웹 행 수가 같은 주 `generate_lead` 수와 5% 넘게 다르면 이벤트·시트 저장 점검 — 전화 예약은 `generate_lead`가 없으므로 비교에서 뺌) / 확정 = `sent_②`가 있는 행 / 완료·노쇼·취소·변경 = `status` / 확정 기한 준수율 = 7-11 정의 / ④-2 = `sent_②`와 `sent_④`가 같은 시각인 행(7-7) / 슬롯 사용률 = 예약된 슬롯 ÷ 정원 합(7-5) / ⑦ = `msg7_channel`·`msg7_sent_at` / 재고 = '사은품 재고' 탭의 일요일 값 | (GA4 아님) 시트 열 | 해당 없음 | 시트 |
 | M30 | 14일 내 구매(쿠키 / 대조, `utm_medium`별) | 13-3 §6 | M19 분자의 ①(Q3 `consult_attributed`=Y 주문을 세션 첫 `page_view` 주소의 `utm_medium`별: alimtalk(⑥)·sms(⑥L·⑦-1L·⑦-2L)·kakao_ft(⑦)·whereby_chat(채팅), 세션에 utm이 없으면 '이전 방문') / ②('주문연결' 탭 `in_window`=Y 주문) — 둘 다에 있는 주문은 ①에만 센다 | `purchase` · `consult_attributed`, `page_location` | ✓ | Q3 `utm_medium` + 시트('주문연결' 탭) |
@@ -2588,7 +2640,7 @@ function initSectionView() {                                     // 12-2 '섹션
 | M43 | 재전송 세션 비율 | 13-3 §2(v9 추가) | `lp_view`(replayed=Y) 세션 ÷ 기준 세션. 높으면(참고 기준 10% 초과) GTM이 늦게 떠서 빠른 구매 클릭이 많다는 뜻이므로 11-5 로드 시점·LCP를 함께 본다(판정·목표 없음, 감시 지표) | `lp_view` · `replayed` | **`replayed` ✓(v9 추가)** | GA4 탐색(행 `replayed`) · Q1 `replayed_sessions` |
 
 - Ads 행(M21·M41·M42)의 클릭수·비용은 리포트 작성자가 월요일 15:00 쿼리 실행 때 Google Ads 보고서(캠페인 보고서 + 광고 보고서, 리포트 주간)를 내려받아 주간 리포트 시트 'Ads' 탭에 붙여 쓴다(13-2 D).
-- 이 표 '등록' 열에 나온 맞춤 측정기준은 모두 위 36개 목록에 있다(빠진 것 0건, QA 11 ①에서 GA4 화면과 다시 대조). 목록에 있지만 이 표에 없는 `proof_id`·`proof_from`·`trust_target`·`faq_id`·`video_id`·`tendency`·`ads_consent`는 13-3 §8 이슈 분석(신뢰 마커·FAQ·영상·자가진단 경향·동의 결과)에 GA4 탐색 분석으로 쓴다.
+- 이 표 '등록' 열에 나온 맞춤 측정기준은 모두 위 37개 목록에 있다(빠진 것 0건, QA 11 ①에서 GA4 화면과 다시 대조). 목록에 있지만 이 표에 없는 `proof_id`·`proof_from`·`trust_target`·`faq_id`·`video_id`·`tendency`·`ads_consent`는 13-3 §8 이슈 분석(신뢰 마커·FAQ·영상·자가진단 경향·동의 결과)에 GA4 탐색 분석으로 쓴다.
 
 ### 12-3. Google Ads 전환과 향상된 전환
 
@@ -2598,7 +2650,7 @@ function initSectionView() {                                     // 12-2 '섹션
 | `WC_W_상담신청` | 웹사이트(GTM, `generate_lead`) | 리드 양식 제출 | 고정값(가정) = 할인가 × 상담→구매율 20%. D01 확정 후 계산해 입력 | 1회 | 30일 | 3일 | **기본** | 리드 향상된 전환(휴대폰) — **광고 성과 측정 동의자만**(`ads_consent=Y`). 미동의자는 사용자 제공 데이터 없이 전환만 기록 |
 | `WC_W_상담완료` | 오프라인 가져오기 | 적격 리드 | 0 | 1회 | 30일 | — | 보조 | 해시 휴대폰 + 클릭 ID(광고 성과 측정 동의자만 업로드) |
 | `WC_W_상담후구매` | 오프라인 가져오기 | 전환된 리드 | 주문 금액 | 1회 | 30일 | — | 보조(웹 구매와 중복 집계 방지를 위해 입찰에는 쓰지 않음) | 해시 휴대폰 + 클릭 ID(광고 성과 측정 동의자만 업로드) |
-| `WC_W_자가진단완료`, `WC_W_CTA클릭` | GA4 가져오기 | 기타 | 0 | 1회 | 30일 | — | 보조(관찰용) | — |
+| `WC_W_자가진단완료`, `WC_W_CTA클릭` | GA4 가져오기 | 기타 | 0 | 1회 | 30일 | — | 보조(관찰용 — 입찰·KPI·리포트에 쓰지 않음. `WC_W_CTA클릭`은 `cta_click` 전체(quiz·nav 포함)라 M04 구매·상담 클릭률과 비교하지 않는다, 12-2 'cta_type별 마크업·처리') | — |
 
 - 입찰: 기본 전환 2개(구매·상담신청)를 캠페인 목표로 쓴다. 최근 30일 전환이 30건 미만이면 "전환수 최대화", 그 이상이면 "전환 가치 극대화"로 바꾼다.
 - **구매 향상된 전환 구현**: Google Ads에서 향상된 전환(GTM 방식)을 켠다([확인 필요 D37: 고객 데이터 약관 동의] — **런칭 조건**, D-14에 동의·설정, D-1에 테스트 통과해야 런칭. 향상된 전환 없이 런칭하는 경우는 두지 않는다, 15장). cafe24 주문서의 '결제하기' 클릭 때 GTM이 주문자 이메일·휴대폰 입력값을 읽어 정규화(이메일 소문자·공백 제거, 휴대폰 `+8210…` E.164)한 뒤 `sessionStorage.wc_ud`에 잠시 저장한다. 주문완료 페이지의 구매 전환 태그가 이 값을 "사용자 제공 데이터" 변수로 넘기면 Google 태그가 SHA-256으로 해시해 보낸다. 보낸 뒤 `wc_ud`를 지운다.
@@ -2700,7 +2752,7 @@ SELECT sid, lp.match_rule, lp.ad_format, lp.exp_t1, lp.exp_t2, lp.exp_t3, lp.exp
   LOGICAL_OR(p(e.event_params, 'session_engaged') = '1')                                         AS engaged,
   LOGICAL_OR(e.event_name = 'lp_view'       AND p(e.event_params, 'replayed') = 'Y')             AS replayed,
   LOGICAL_OR(e.event_name = 'scroll_depth'  AND p(e.event_params, 'percent') = '50')             AS scroll50,
-  LOGICAL_OR(e.event_name = 'cta_click')                                                         AS cta_any,
+  LOGICAL_OR(e.event_name = 'cta_click'     AND p(e.event_params, 'cta_type') IN ('purchase', 'consult')) AS cta_any,  -- M04 전체 = 구매·상담만(quiz·nav 제외, v11)
   LOGICAL_OR(e.event_name = 'cta_click'     AND p(e.event_params, 'cta_type') = 'purchase')      AS cta_buy,
   LOGICAL_OR(e.event_name = 'cta_click'     AND p(e.event_params, 'cta_type') = 'consult')       AS cta_consult,
   LOGICAL_OR(e.event_name = 'cta_click'     AND p(e.event_params, 'cta_location') = 'hero')      AS cta_hero,
@@ -2726,7 +2778,7 @@ SELECT
   COUNT(*)                                                  AS sessions,                -- M01
   1 - SAFE_DIVIDE(COUNTIF(engaged), COUNT(*))               AS bounce_rate,             -- M02
   SAFE_DIVIDE(COUNTIF(scroll50), COUNT(*))                  AS scroll50_rate,           -- M03
-  SAFE_DIVIDE(COUNTIF(cta_any), COUNT(*))                   AS cta_rate,                -- M04
+  SAFE_DIVIDE(COUNTIF(cta_any), COUNT(*))                   AS cta_rate,                -- M04 전체(구매·상담)
   SAFE_DIVIDE(COUNTIF(cta_buy), COUNT(*))                   AS cta_buy_rate,
   SAFE_DIVIDE(COUNTIF(cta_consult), COUNT(*))               AS cta_consult_rate,
   SAFE_DIVIDE(COUNTIF(cta_hero), COUNT(*))                  AS hero_cta_rate,           -- M05(T1은 아래 군별 실행)
@@ -2881,11 +2933,11 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 
 | 시점 | 할 일 | 담당 |
 |---|---|---|
-| D-14 | 15장 데이터 요청서 발송, **알림톡 템플릿 11종(①, ②, ③, ④, ④-2 확정+입장 통합, ⑤, ⑥, ⑧, ⑨, ⑨-2 고객 요청 취소, ⑨-3 상담사 사정 취소) 카카오 심사 신청 — 버튼은 7-7 '알림톡 버튼 링크 표'대로 모두 웹링크로 등록하고 버튼 URL 도메인은 `m.regenestyle.com`(①·②·③·④-2의 예약 관리, ⑤·⑨·⑨-2·⑨-3의 재예약, ⑥의 사용법 링크)과 Whereby 방 주소 도메인(④·④-2 입장, D42) 두 가지로 신청, 모든 템플릿에서 SOLAPI 자동 문자 대체 끔**, **정보성 LMS판 11종(①L~⑨-3L) 문안 확정·대행사 발송 테스트**(본문 링크가 전체 주소로 들어가는지), **문자 발신번호 1566-0398 사전 등록(D26)**, 친구톡 ⑦-1·⑦-2와 LMS판 ⑦-1L·⑦-2L 문안 확정·대행사 발송 테스트, 080 무료 수신거부 번호 신청(D27), D21-a② 원문 확보(런칭 조건), **D20 심평원 「질병 세분류(4단 상병) 통계」 N39.3 여성 환자 수 직접 조회·화면 캡처(런칭 조건, 공개된 가장 최근 연도, 조회 조건은 S2 '숫자의 정의')**, **D13 특허 등록번호·등록일·특허증 스캔 확보(런칭 조건, KIPRIS 교차 확인)**, **Google Ads 고객 데이터 약관 동의(D37, 런칭 조건)와 향상된 전환 설정: `WC_W_구매`·`WC_W_상담신청` 전환 액션에서 향상된 전환(GTM 방식) 켜기, GTM 사용자 제공 데이터 변수(`wc_ud`, `wc_ud_phone`) 생성·매핑(12-3)**, **GA4 BigQuery 연결(일일 내보내기, D43 프로젝트 — 없으면 샌드박스. 과거 데이터가 내보내지지 않으므로 이날 연결, 12-7)**, 히어로 스틸 추출·촬영, Whereby(API 플랜 D42)·SOLAPI 계정 개설 | 마케팅 / 상담팀 / 영상팀 / 광고 운영(D37) / 품질·지식재산(D13) / 개발·마케팅(D43) |
-| D-10 | 스테이징(ver5_stg) 구현 완료, **예약 관리 페이지(`booking.html`·`booking.js`)와 7-13 ③ API 구현, Apps Script 스크립트 속성 `MANAGE_SECRET`(32바이트 무작위)·`NOTIFY_CHANNEL`(D26 결과) 입력, SOLAPI 결과 웹훅(`/solapi-report`) 연결**, 11-5 태그 출처 감사표 작성(감사 기록 칸 채움), 상품 상세 스킨에 6-2 ①·② 설치, 시트 '휴무일'·'사은품 재고'·'발송결과'·'전화 예약'(7-11, 설치형 onEdit 연결) 탭 생성, **'주문연결' 탭 열(`order_at`·`amount`·`match_by`·`in_window` 자동 계산)과 상담기록 탭 `slot_start_epoch`·`chat_buy_link` 열 생성, GTM 맞춤 JavaScript 변수 '`consult_attributed` 4값 판정'(12-2 `purchase`)·'`page_location`·`page_referrer` 예약 ID 삭제'(12-2 데이터 결합 금지) 생성**, **빠른 구매 클릭 재전송 설정(v9): 운영 컨테이너 'lp_view 처리 표시' 태그(GA4 `lp_view` 태그의 정리 태그, 11-5), 사이트 GTM '랜딩 이벤트 재전송' 태그(로그인·주문서 초기화 + 상세 `deeplink_redirect` 대체 이벤트 트리거, "wc_buy 결과 전송"보다 먼저 — 12-2), GA4 이벤트 태그 `lp_view`·`cta_click`·`purchase_sheet_open`의 페이지 조건 제거와 `replayed`·`page_location`(`wc_replay_loc` 정리값) 매개변수 매핑**, **랜딩 CTA 마크업 점검: 모든 구매 CTA가 6-2 기본 링크 `<a href>`, 모든 상담 CTA가 `<a href="#s10_cta">`이고 S10 `.consult-live`/`.consult-fallback`·`<noscript>` 스타일이 들어갔는지(5-2 '버튼 동작')**, **GA4 맞춤 정의 등록(12-2 측정기준 36개·측정항목 3개 — 등록 전 데이터에는 소급되지 않으므로 런칭 전 등록), BigQuery '저장된 쿼리' Q1~Q3 저장(12-7)** | 개발 / 마케팅 / 상담팀 |
-| D-7 | 미확보 데이터를 15장 "미확보 시 처리"대로 정리, D26 결과로 `wc-config.notify_channel`과 스크립트 속성 `NOTIFY_CHANNEL`을 같은 값으로 입력, D02 할인 방식 확정(미정이면 D-A) → `wc-config.discount_mode` 입력, D08로 `wc-config.flow`(O1/O2) 입력, D25·D39로 ⑦ 운영판(⑦-1/⑦-2) 확정 | 마케팅 책임자 |
+| D-14 | 15장 데이터 요청서 발송, **알림톡 템플릿 11종(①, ②, ③, ④, ④-2 확정+입장 통합, ⑤, ⑥, ⑧, ⑨, ⑨-2 고객 요청 취소, ⑨-3 상담사 사정 취소) 카카오 심사 신청 — 버튼은 7-7 '알림톡 버튼 링크 표'대로 모두 웹링크로 등록하고 버튼 URL 도메인은 `m.regenestyle.com`(①·②·③·④-2의 예약 관리, ⑤·⑨·⑨-2·⑨-3의 재예약, ⑥의 사용법 링크)과 Whereby 방 주소 도메인(④·④-2 입장, D42) 두 가지로 신청, 모든 템플릿에서 SOLAPI 자동 문자 대체 끔**, **정보성 LMS판 11종(①L~⑨-3L) 문안 확정·대행사 발송 테스트**(본문 링크가 전체 주소로 들어가는지), **문자 발신번호 1566-0398 사전 등록(D26)**, 친구톡 ⑦-1·⑦-2와 LMS판 ⑦-1L·⑦-2L 문안 확정·대행사 발송 테스트, 080 무료 수신거부 번호 신청(D27), D21-a② 원문 확보(런칭 조건), **D20 심평원 「질병 세분류(4단 상병) 통계」 N39.3 여성 환자 수 직접 조회·화면 캡처(런칭 조건, 공개된 가장 최근 연도, 조회 조건은 S2 '숫자의 정의')**, **D13 특허 등록번호·등록일·특허증 스캔 확보(런칭 조건, KIPRIS 교차 확인)와 D13 ③ 청구범위·요약의 PC·BC 자극점 3곳 구조 포함 여부 확인(KIPRIS 공보 해당 청구항 캡처 — S1 근거 줄 문안 A 조건)**, **Google Ads 고객 데이터 약관 동의(D37, 런칭 조건)와 향상된 전환 설정: `WC_W_구매`·`WC_W_상담신청` 전환 액션에서 향상된 전환(GTM 방식) 켜기, GTM 사용자 제공 데이터 변수(`wc_ud`, `wc_ud_phone`) 생성·매핑(12-3)**, **GA4 BigQuery 연결(일일 내보내기, D43 프로젝트 — 없으면 샌드박스. 과거 데이터가 내보내지지 않으므로 이날 연결, 12-7)**, 히어로 스틸 추출·촬영, Whereby(API 플랜 D42)·SOLAPI 계정 개설 | 마케팅 / 상담팀 / 영상팀 / 광고 운영(D37) / 품질·지식재산(D13) / 개발·마케팅(D43) |
+| D-10 | 스테이징(ver5_stg) 구현 완료, **예약 관리 페이지(`booking.html`·`booking.js`)와 7-13 ③ API 구현, Apps Script 스크립트 속성 `MANAGE_SECRET`(32바이트 무작위)·`NOTIFY_CHANNEL`(D26 결과) 입력, SOLAPI 결과 웹훅(`/solapi-report`) 연결**, 11-5 태그 출처 감사표 작성(감사 기록 칸 채움), 상품 상세 스킨에 6-2 ①·② 설치, 시트 '휴무일'·'사은품 재고'·'발송결과'·'전화 예약'(7-11, 설치형 onEdit 연결) 탭 생성, **'주문연결' 탭 열(`order_at`·`amount`·`match_by`·`in_window` 자동 계산)과 상담기록 탭 `slot_start_epoch`·`chat_buy_link` 열 생성, GTM 맞춤 JavaScript 변수 '`consult_attributed` 4값 판정'(12-2 `purchase`)·'`page_location`·`page_referrer` 예약 ID 삭제'(12-2 데이터 결합 금지) 생성**, **빠른 구매 클릭 재전송 설정(v9): 운영 컨테이너 'lp_view 처리 표시' 태그(GA4 `lp_view` 태그의 정리 태그, 11-5), 사이트 GTM '랜딩 이벤트 재전송' 태그(로그인·주문서 초기화 + 상세 `deeplink_redirect` 대체 이벤트 트리거, "wc_buy 결과 전송"보다 먼저 — 12-2), GA4 이벤트 태그 `lp_view`·`cta_click`·`purchase_sheet_open`의 페이지 조건 제거와 `replayed`·`page_location`(`wc_replay_loc` 정리값) 매개변수 매핑**, **랜딩 CTA 마크업 점검: 모든 구매 CTA가 6-2 기본 링크 `<a href>`, 모든 상담 CTA가 `<a href="#s10_cta">`이고 S10 `.consult-live`/`.consult-fallback`·`<noscript>` 스타일이 들어갔는지(5-2 '버튼 동작')**, **GA4 맞춤 정의 등록(12-2 측정기준 37개·측정항목 3개 — 등록 전 데이터에는 소급되지 않으므로 런칭 전 등록), BigQuery '저장된 쿼리' Q1~Q3 저장(12-7)** | 개발 / 마케팅 / 상담팀 |
+| D-7 | 미확보 데이터를 15장 "미확보 시 처리"대로 정리, D26 결과로 `wc-config.notify_channel`과 스크립트 속성 `NOTIFY_CHANNEL`을 같은 값으로 입력, D02 할인 방식 확정(미정이면 D-A) → `wc-config.discount_mode` 입력, D08로 `wc-config.flow`(O1/O2) 입력, D25·D39로 ⑦ 운영판(⑦-1/⑦-2) 확정, **D13 ③·D18 결과로 S1 근거 줄 문안(A/B/C) 확정 → HTML에 그 문안 하나만 반영·13-4 대장 기록(S1 '근거 줄 문안 선택 규칙')**, D22로 후기 작성 권한 설정·`verified_since` 확정(S9) | 마케팅 책임자 |
 | D-5 | 광고심의·법무 검토(14장 + 전체 카피), 개인정보처리방침 개정 게시 | 법무·개인정보 담당 |
-| D-3 | 아래 QA 18개 항목 통과(QA 11 ③·④는 GA4 처리 지연 24~48시간 때문에 D-3에 테스트 시나리오만 실행하고 값 확인은 D-1. QA 11 ⑤·⑦은 D-3에 실행·DebugView 확인, ⑥ⓑ QA 전용 테스트 캠페인은 D-3에 시작해 D-1에 계산 캡처 뒤 중지) | 개발·마케팅·상담팀 |
+| D-3 | 아래 QA 18개 항목 통과(QA 11 ③·④는 GA4 처리 지연 24~48시간 때문에 D-3에 테스트 시나리오만 실행하고 값 확인은 D-1. QA 11 ⑤·⑦·⑧은 D-3에 실행·DebugView 확인, ⑥ⓑ QA 전용 테스트 캠페인은 D-3에 시작해 D-1에 계산 캡처 뒤 중지) | 개발·마케팅·상담팀 |
 | D-1 | Google Ads 전환 액션 생성·테스트 전환, 최종 URL 접미사 준비. **구매·상담신청 향상된 전환 테스트**: 스테이징에서 테스트 주문(비회원·회원 각 1건)과 광고 성과 측정 동의 상담 예약 1건을 넣고, Google 태그 어시스턴트에서 `WC_W_구매`·`WC_W_상담신청` 전환 태그 요청에 사용자 제공 데이터(이메일·휴대폰, 해시 전송)가 실리는지 확인(캡처 첨부). 광고 성과 측정 미동의 예약은 사용자 제공 데이터 없이 전송되는지도 확인. 하나라도 실패하면 런칭하지 않는다(D37 런칭 조건). **QA 11 ③·④ 확인**(GA4 탐색 분석의 `percent`=50·`state`=on·`replayed`=Y 값과 `section_view`의 `section_index` 1~12 12개 값, BigQuery Q1~Q3 실행 결과(Q1 섹션별 결과 12행 `zero_alarm` 0건 포함), 캡처 첨부 — 실패하면 런칭하지 않음), **QA 11 ⑥ⓑ M41·M42 계산 경로 캡처 후 테스트 캠페인 중지** | 광고 운영·개발·마케팅 |
 | D | 최종 URL 교체, ver4 리디렉트 전환, Search Console·서치어드바이저 삭제 요청 | 광고 운영·개발 |
 | D+7 | Google Ads 진단에서 향상된 전환(구매·상담신청) 상태 "정상" 확인 — 정상이 아니면 아래 **D+7 향상된 전환 진단 조치표**를 그날 시작, 첫 주간 리포트 | 광고 운영 |
@@ -2907,7 +2959,7 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 2. 동적 매칭: R0~R7 × long/shorts 16개 URL과 미등록 값 1개, 파라미터 없음 1개를 열어 H1·서브·칩·이미지·CTA 순서·alt 확인(미등록·없음 → R0). **모든 URL에서 첫 화면(스크롤 전)에 '여성용'이 HTML 텍스트로 보임**(칩 문구가 2-4 표와 글자 하나까지 같음, 320px 폭에서도 '여성용'이 숨지 않음). `wc-variants` JSON의 `rules`·`formats` 값이 2-3·2-4 표와 같음.
 3. 광고-랜딩 일치: 소재 대장의 엔드카드 문구 = H1, 광고 혜택 = 혜택 줄.
 4. 기기·브라우저: iPhone SE(375×667), iPhone 15(393×852), Galaxy S23(360×780), 저사양 Galaxy A 시리즈 × Safari·Chrome·삼성 인터넷·유튜브 앱 인앱·카카오톡 인앱.
-5. 첫 화면: 390×844와 390×664에서 H1·서브·근거·배지·혜택·CTA 2개·마이크로카피가 스크롤 없이 보임(히어로 사진 식 `calc(100svh - 468px)`). 모든 변형의 서브카피가 2줄 이내, 칩·배지·혜택 줄·마이크로카피가 1줄(D-A·D-B 두 문안 모두). 근거 줄·배지 줄은 각각 높이 48px 행이고 두 행 사이 8px(개발자 도구로 확인), 근거 줄은 폭에 따라 '증빙 ›' → ⓘ → 2줄 순서로만 바뀌며 행 높이는 그대로, 배지 줄이 넘치는 기기(360px 이하)에서는 'KC 인증' 버튼과 구분점만 숨음.
+5. 첫 화면: 390×844와 390×664에서 H1·서브·근거·배지·혜택·CTA 2개·마이크로카피가 스크롤 없이 보임(히어로 사진 식 `calc(100svh - 468px)`). 모든 변형의 서브카피가 2줄 이내, 칩·배지·혜택 줄·마이크로카피가 1줄(D-A·D-B 두 문안 모두). 근거 줄·배지 줄은 각각 높이 48px 행이고 두 행 사이 8px(개발자 도구로 확인), 근거 줄은 폭에 따라 끝 표시('증빙 ›', 문안 B는 '자료 ›') → ⓘ → 2줄 순서로만 바뀌며 행 높이는 그대로(D-7에 정한 문안으로 확인, S1 '근거 줄 문안 선택 규칙'), 배지 줄이 넘치는 기기(360px 이하)에서는 'KC 인증' 버튼과 구분점만 숨음.
 6. 고정 바: 5-2 표 11개 상황 모두 확인, 맨 아래 회사 정보·링크가 가리지 않음. **첫 페인트·대체 시나리오(화면 녹화·캡처 첨부)**: (a) Chrome DevTools 네트워크 '4G'(Fast 4G) 제한·390×664 기기 모드에서 캐시를 비우고 새로고침하며 Performance 패널 스크린샷(또는 30fps 이상 화면 녹화)으로 첫 페인트부터 히어로 CTA를 지나 스크롤하기 전까지 고정 바가 히어로 위에 **한 프레임도 보이지 않음**(R0 URL과 R3·shorts URL 각각) (b) DevTools 'Block request URL'로 `/ad/wc_w5/app.js`를 차단하고 `?utm_content=cough_shorts_c012&gclid=TEST_QA6` 주소로 새로고침 → `load` 이벤트 뒤 3초 안에 바가 나옴(`<html>`에서 `js` 클래스가 지워지고 `wc-noapp`이 붙음, 콘솔에서 `window.wcAppReady` undefined 확인). **이어서 버튼 동작 합격 기준**: ① 바의 구매 버튼 탭 → 상품 상세(주소에 `wc_buy=1&wc_lp=v5`·`utm_content=cough_shorts_c012`·`gclid=TEST_QA6`이 붙음) → 로딩 화면 → **로그인 화면 또는 주문서 도달**(흐름 O1. `wc-config.flow`를 O2로 바꾼 사본에서는 `wc_buy` 없이 일반 상세 화면이 열리고 옵션 선택 → 구매하기로 로그인 화면 또는 주문서 도달) ② 바의 상담 버튼 탭 → `#s10_cta`가 화면 위쪽으로 오고 **S10 대체 블록(안내 문장 + [1566-0398 전화하기] + 운영 시간) 표시**, 정상 상태(빠른 시간 칩·[무료 상담 예약하기]·마이크로카피)는 숨김, 전화 버튼이 `tel:15660398`로 전화 앱을 엶 ③ `load` + 3초 전에 히어로 구매 CTA를 눌러도 ①과 같은 주소로 이동(head 인라인 위임 스크립트) (c) DevTools 'Disable JavaScript'를 켜고 새로고침 → 첫 페인트부터 바가 보이고 맨 아래 회사 정보·링크가 가리지 않음. **버튼 동작 합격 기준**: ① 바의 구매 버튼 탭 → 상품 상세(일반 상세 화면, 로딩 화면으로 가려지지 않음) → 옵션·구매하기 → **로그인 화면 또는 주문서 도달** ② 바의 상담 버튼 탭 → 처음부터 보이던 **S10 대체 블록·전화 버튼 표시**(`<noscript>` 스타일). 추가로 app.js의 `initStickyBar`에서 일부러 예외를 던진 스테이징 사본에서 바가 바로 나오고 바의 상담 버튼이 바텀시트를 여는지(대체 블록이 나오지 않음), `initConsultSheet`에서 예외를 던진 사본에서는 `wc-noapp`이 붙어 상담 버튼이 S10 대체 블록으로 이동하고 구매 버튼은 (b) ①과 같이 동작하는지 확인. 버튼 동작 확인 결과는 5-2 표 '버튼 동작' 열과 한 행씩 대조해 기록한다.
 7. 바로구매: ① **할인 방식 D-A/D-B × 구매 흐름 O1/O2 4가지 조합**마다 `wc-config`의 `discount_mode`·`flow`를 바꿔 6-8 표의 모든 위치(히어로·S3·S7·S12·고정 바·옵션 시트·로그인 화면·FAQ10·주문서 배너) 문안이 해당 열과 같은지 확인. 특히 D-A일 때 '간편가입'·'가입 시' 문구가 한 곳도 나오지 않는지 확인 ② 4가지 조합 × 회원/비회원 × 3개 기기에서 주문서 도달, 할인(쿠폰) 자동 반영 ③ 상세 페이지에서 상세 화면이 한 번도 보이지 않고 첫 페인트부터 로딩 화면이 보임 ④ 버튼 선택자를 일부러 틀리게 한 스테이징 사본에서 3초 실패 처리(`fallback`)와 토스트 동작 ⑤ **시간 합격 기준: CTA 탭 → 로그인 화면 또는 주문서(`orderform.html`) 표시까지 4G 실기기 3종 각 3회 측정(총 9회), 기기별 중앙값 ≤ 2.5초이고 9회 전체 p75 ≤ 2.5초**(화면 녹화로 측정, 기록표 첨부) ⑥ `deeplink_redirect`(success·fallback)와 `tap_to_next_ms`·`tap_to_checkout_ms`가 DebugView에 들어옴 ⑦ 딥링크 URL에 `gclid`·`gbraid`·`wbraid`가 실림(랜딩 URL에 없을 때 `wc_click` 쿠키 값으로 채워짐). app.js를 차단한 상태(QA 6 (b))에서도 같은 주소가 만들어짐(head 인라인 `wcBuyHref`, 6-2 '누가 링크를 처리하나').
 8. 결제: 실제 소액 결제 후 취소 → GA4 `purchase`(`exp_t*`·`lp_id`·`consult_attributed` 포함), Ads `WC_W_구매`, 향상된 전환 데이터 수신 확인. **iOS 유튜브 앱 인앱 브라우저에서 실제 광고(운영 광고 또는 소액 테스트 캠페인)를 눌러 `wbraid`가 붙은 URL로 들어온 뒤, GTM이 뜨기 전(첫 화면에서 바로) 구매 CTA를 눌러 테스트 구매 → 24~48시간 안에 Google Ads 전환 보고서·진단에서 해당 전환 수신 확인**(테스트 주문은 취소하고 전환 조정 업로드로 철회). 같은 상황에서 GA4 랜딩 이벤트가 같은 세션에 재전송되는지는 QA 11 ⑤에서 확인한다.
@@ -2922,15 +2974,16 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
    - **상담사 사정 변경·전화 변경(7-11)**: ② 발송 뒤 `counselor`를 다른 상담사로 바꿈 → 새 담당자 이름의 ② 재수신 / `admin_new_slot`에 새 슬롯 입력 → `admin_result=성공`, 새 방·① 재수신(담당자 유지 시 ②도) / `staff_change_result=연결 안 됨(2회)` → 취소·방 삭제·⑨-3 수신, [다른 시간 고르기]로 상담 시트 자동 열림, `noshow_count` 그대로 / 전화 취소(`status=취소`·`cancel_by=customer_phone`) → ⑨-2 수신.
    - **전화 예약(7-11, v9)**: 상담기록 시트 '전화 예약' 탭에 테스트 행(슬롯·닉네임·테스트 번호·`consent_staff`·`consent_at`) 입력 → 상담기록 탭에 `consent_by=phone`·`ads_consent`·`marketing_consent`·`sensitive_consent`=N 행이 생기고 `admin_result=성공`, Whereby 방 생성, ①(또는 ①L) 수신, ①의 [예약 확인·변경]으로 booking.html이 `changeable`로 열림 / 7-5 노출 규칙을 어긴 슬롯(T + 90분 전) 입력 → 예약이 만들어지지 않고 `admin_result`에 실패 사유 / 같은 주 13-3 §6 '신청'에서 전화 예약이 웹과 나뉘어 집계되고 `generate_lead` 비교에서 빠짐. 응대자가 7-4 필수 동의 문안을 그대로 읽는지 상담팀장이 녹취 없이 동석 확인(체크 기록).
    - **알림 채널 전환(D26)**: `wc-config.notify_channel`과 `NOTIFY_CHANNEL`을 둘 다 "sms"로 바꿈 → S10 마이크로카피·7-3 ③ 입력 안내·하단 안내·7-6 다음 단계 1·4번·.ics 설명이 문자판으로 바뀌고 랜딩·시트·완료 화면 텍스트에서 '알림톡' 검색 0건, 예약 시 알림톡 요청 없이 ①L만 발송 / `NOTIFY_CHANNEL`만 "sms"로 바꿈 → 시트 문안과 S10 문안이 서버 값(문자판)을 따르고 콘솔 경고 / 둘 다 "alimtalk" → 알림톡판 문안.
-10. 자가진단: 경계값(총점 3/4, 8/9, 13/14, S=1/2, U=2/3, RF 선택) 결과 문구·CTA 확인.
+10. 자가진단: 경계값(총점 3/4, 8/9, 13/14, S=1/2, U=2/3, RF 선택) 결과 문구·CTA 확인. **결과 CTA 마크업·이동(v11)**: A·B·C·D·RF 결과 카드를 각각 띄워 CTA 10개의 `href`·`data-cta`·`data-cta-target`·`data-cta-location`·`data-score-band`·`data-red-flag`가 8-4 '결과별 CTA 마크업·이벤트 값' 표와 같음을 개발자 도구로 확인(캡처 첨부), 이동 CTA 4개(A CTA 2 → S7 맨 위, C CTA 2 → S7 가격 카드 `#s07_price`, D CTA 2·RF CTA 1 → S4 주의 박스 `#s04_caution`)를 탭하면 대상이 화면 위쪽(16px 아래)에 오고 상담 시트·구매 화면이 열리지 않음. 이벤트 값은 QA 11 ⑧.
 11. 측정: GTM 미리보기·GA4 DebugView에서 12-2 모든 이벤트·파라미터 확인(파라미터 이름이 dataLayer 키와 같고 `percent`가 정수로 들어옴), UA 요청 0건, GA4 설정 태그 중복 없음, 비구글 픽셀 요청 0건. 하나라도 실패하면 11-5 태그 출처 감사표의 출처별 처리 방법대로 조치하고 다시 확인한다. 12-6 쿠키 5종(`wc_lp`·`wc_ab`·`wc_click`·`wc_consult`·`wc_lead`)이 `domain=.regenestyle.com; path=/`로 생성되고 주문서 페이지 GTM에서 읽힘. **맞춤 정의·계산 경로 확인(캡처 첨부, 런칭 전 통과 필수)**:
-   - ① **등록 대조(D-10 등록 뒤)**: GA4 관리 > 맞춤 정의의 맞춤 측정기준 목록을 12-2 등록 목록(36개)·대조표 '등록' 열과 한 줄씩 대조 — 빠진 것 0건, 범위 '이벤트', 이벤트 매개변수 이름이 글자 하나까지 같음(특히 `percent`·`state`·`section_index`·`q_index`·`chip_id`·`metric_name`·`rating`·`red_flag`·`replayed`). 맞춤 측정항목 3개(`duration_ms`·`tap_to_next_ms`·`tap_to_checkout_ms`, 단위 밀리초) 확인.
-   - ② **테스트 시나리오 실행(D-3)**: 개발자·내부 트래픽 필터에 걸리지 않도록 **회사 밖 네트워크(휴대폰 LTE)에서 GTM 미리보기를 끈 일반 브라우저**로 `ver5_stg`를 열어 순서대로 실행 — **S1~S12를 섹션마다 2초 이상 머물며 끝까지 스크롤**(섹션 노출 12개 생성, 가능하면 iPhone SE 실기기 — v10), 50%·90% 스크롤, S2 장면 칩 1번 on → off, 3번 on, 자가진단 완료(Q7에서 증상 1개 선택 → RF 결과) 후 결과 카드 CTA 클릭, 상담 시트 열기, 동의 체크 필수·민감정보·광고성 on, 광고 성과 측정 on → off, 예약 제출, 구매 CTA → 딥링크 성공(로그인 화면 표시). 실행 시각과 기기를 기록한다.
-   - ③ **탐색 분석 값 확인(D-1, 처리 지연 뒤)**: GA4 탐색 분석 자유 형식(필터: 페이지 위치에 `ver5_stg` 포함, 날짜 = ② 실행일)에서 **`scroll_depth`를 `percent`=50으로 거른 세션 값이 1 이상**, **`consent_toggle`을 `state`=on으로 거른 값이 `consent_id`별(required·sensitive·marketing·ads)로 보임**, `empathy_chip_toggle`의 `chip_id`×`state` 값, `cta_click`(cta_location=quiz_result)의 `red_flag`=Y 값, **`section_view`의 `section_index` 1~12 값이 12개 모두**(하나라도 없으면 실패 — 특정 섹션 누락을 잡기 위함, v10), `quiz_answer`의 `q_index` 1~8 값이 보임. 기준점 표시 때문에 값이 숨겨지면 ④의 BigQuery 값으로 대신 확인한다.
+   - ① **등록 대조(D-10 등록 뒤)**: GA4 관리 > 맞춤 정의의 맞춤 측정기준 목록을 12-2 등록 목록(37개)·대조표 '등록' 열과 한 줄씩 대조 — 빠진 것 0건, 범위 '이벤트', 이벤트 매개변수 이름이 글자 하나까지 같음(특히 `percent`·`state`·`section_index`·`q_index`·`chip_id`·`metric_name`·`rating`·`red_flag`·`replayed`·`cta_target`). 맞춤 측정항목 3개(`duration_ms`·`tap_to_next_ms`·`tap_to_checkout_ms`, 단위 밀리초) 확인.
+   - ② **테스트 시나리오 실행(D-3)**: 개발자·내부 트래픽 필터에 걸리지 않도록 **회사 밖 네트워크(휴대폰 LTE)에서 GTM 미리보기를 끈 일반 브라우저**로 `ver5_stg`를 열어 순서대로 실행 — **S1~S12를 섹션마다 2초 이상 머물며 끝까지 스크롤**(섹션 노출 12개 생성, 가능하면 iPhone SE 실기기 — v10), 50%·90% 스크롤, S2 장면 칩 1번 on → off, 3번 on, 자가진단 완료(Q7에서 증상 1개 선택 → RF 결과) 후 결과 카드 CTA 1('진료 전 알아 둘 점 보기', `nav`) 클릭, 상담 시트 열기, 동의 체크 필수·민감정보·광고성 on, 광고 성과 측정 on → off, 예약 제출, 구매 CTA → 딥링크 성공(로그인 화면 표시). 실행 시각과 기기를 기록한다.
+   - ③ **탐색 분석 값 확인(D-1, 처리 지연 뒤)**: GA4 탐색 분석 자유 형식(필터: 페이지 위치에 `ver5_stg` 포함, 날짜 = ② 실행일)에서 **`scroll_depth`를 `percent`=50으로 거른 세션 값이 1 이상**, **`consent_toggle`을 `state`=on으로 거른 값이 `consent_id`별(required·sensitive·marketing·ads)로 보임**, `empathy_chip_toggle`의 `chip_id`×`state` 값, `cta_click`(cta_location=quiz_result)의 `red_flag`=Y 값과 `cta_type`=nav·`cta_target`=s04_caution 값(RF 결과 CTA 1, v11), **`section_view`의 `section_index` 1~12 값이 12개 모두**(하나라도 없으면 실패 — 특정 섹션 누락을 잡기 위함, v10), `quiz_answer`의 `q_index` 1~8 값이 보임. 기준점 표시 때문에 값이 숨겨지면 ④의 BigQuery 값으로 대신 확인한다.
    - ④ **BigQuery 확인(D-1)**: 12-7 Q1~Q3을 `wk_start` = ② 실행일이 든 주 월요일, `lp_url` = 스테이징 주소로 실행해 Q1의 `scroll50_rate`·`consent_*_rate`가 ③과 같은 세션 수로 계산되고, **Q1 섹션별 결과가 12행이고 모두 `reach_sessions` ≥ 1·`zero_alarm`=FALSE**(v10)이며, Q2의 `tap_to_next_ms`·LCP·CLS·INP 행에 p75 숫자가 나오며(`n_events` ≥ 1), Q3에 ②의 테스트 주문이 있으면 그 주문이 나옴(테스트 결제를 하지 않았으면 QA 8의 결제 테스트 주문으로 확인). 결과 화면 캡처 첨부.
    - ⑤ **빠른 구매 클릭 재전송(D-3 실행, 같은 날 DebugView로 확인 — v9)**: Chrome DevTools 네트워크 'Fast 4G'·390×664 기기 모드, 캐시 비움, Tag Assistant 미리보기를 운영(스테이징) 컨테이너와 사이트 GTM에 연결(DebugView용 debug_mode). 스테이징을 `?utm_content=cough_long_c001&wc_qa_gtm_delay=10`(스테이징 파일만 읽는 QA 파라미터, GTM 로더를 10초 늦춤 — 운영 파일에는 이 코드를 넣지 않음)로 열고 **gtm.js 응답 전에**(네트워크 탭에 gtm.js 완료가 없고 콘솔 `window.wcLpSent`가 undefined인 상태) 히어로 구매 CTA를 탭 → 상품 상세 → 주문서까지 진행. 합격 기준: ⓐ 상세로 떠나기 직전 `sessionStorage.wc_ev_queue`에 `lp_view`·`cta_click` 2건이 있음(Application 탭 캡처, 이름·휴대폰 없음) ⓑ 주문서 도착 뒤 큐가 지워짐 ⓒ GA4 DebugView의 같은 기기·같은 세션에 **`lp_view`(replayed=Y, `page_location`이 `…ver5_stg.html`로 시작) → `cta_click`(cta_type=purchase, cta_location=hero, replayed=Y) → `deeplink_redirect`(result=success) → `begin_checkout`** 순서로 들어옴 ⓓ 그 뒤 이벤트(`begin_checkout` 등)의 `page_location`이 주문서 주소이고 `replayed` 값이 없음(데이터 영역 값 지움 확인) ⓔ 같은 절차를 GTM이 뜬 뒤(`wcLpSent`=true)에 하면 큐가 만들어지지 않음. D-1에 ③ 탐색 분석에서 `replayed`=Y 행이 보이고, ④ Q1 `replayed_sessions` ≥ 1인지도 함께 확인한다.
    - ⑥ **GTM 로드 전 이탈과 세션 포착률 경로(v9)**: ⓐ 새 시크릿 창(스테이징, 일반 브라우저·미리보기 끔)에서 첫 화면을 연 뒤 **1초 동안 아무 동작 없이** 뒤로 가기 → 네트워크 탭에 `gtm.js`·GA4 수집 요청(`/g/collect`)이 0건임을 캡처(= 이 방문은 GA4 세션이 생기지 않아 M02에서 빠짐을 확인) ⓑ D-3~D-1에 QA 전용 소액 테스트 캠페인(캠페인 이름 `wc_woman_qa_{yyyymm}`, 최종 URL = 스테이징, 2-2 UTM 규칙 그대로, 일 예산 최소, QA 뒤 즉시 중지 — 0장 '신규 제작 URL' 예외)을 돌려 Google Ads 클릭수와 Q1(`lp_url` = 스테이징)의 `ad_sessions`·`ad_engaged_sessions`로 M41·M42를 계산한 시트 화면을 캡처한다(값의 크기는 판정하지 않고 계산 경로가 끝까지 이어지는지만 본다. 테스트 캠페인 이름이 `wc_woman_incont_`로 시작하지 않으므로 런칭 뒤 M21·M41·M42에 섞이지 않는다).
    - ⑦ **섹션 노출 전수 확인(D-3 실행, 같은 날 DebugView로 확인 — v10)**: **합격 기준 — 375×548(iPhone SE Safari 가시 영역)과 390×664에서 S1~S12를 끝까지 스크롤하면 DebugView에 `section_view`가 `section_index` 1~12로 12개 모두 들어옴(캡처 첨부)**. 방법: Tag Assistant 미리보기를 스테이징 컨테이너에 연결(debug_mode)하고, Chrome DevTools 기기 모드를 375×548 → 390×664 순서로 바꿔 크기마다 새 탭에서 스테이징을 연다. 섹션마다 화면을 채운 위치에서 2초 이상 멈추며 손으로 끝까지 스크롤한다(재현이 필요하면 콘솔 `(async()=>{for(const s of document.querySelectorAll('main > section[data-section-index]')){s.scrollIntoView({block:'start'});await new Promise(r=>setTimeout(r,2000))}console.log(Object.keys(window.wcSecSent||{}).length)})()` — 섹션마다 맨 위로 옮겨 2초씩 머묾). 크기마다 확인: ⓐ DebugView에 `section_view` 12개, `section_index` 1~12가 하나씩(누락 0·중복 0), `section_id`가 3-1 표 섹션 ID와 같음 ⓑ 콘솔 `Object.keys(window.wcSecSent).length`가 12 ⓒ 뷰포트보다 긴 섹션(375×548의 S2·S4·S5·S6·S7·S8·S12, 390×664의 S4·S8 — 3-1 실측)이 빠지지 않음 ⓓ 새 탭에서 한 섹션을 0.5초만 보이고 지나가면 그 섹션의 `section_view`가 생기지 않고, 되돌아와 1초 넘게 머물면 그때 1개만 생김(1초 규칙). 이어서 iPhone SE 실기기 Safari(QA 4 기기, 미리보기 공유 링크로 연결)에서 손 스크롤로 ⓐ를 한 번 더 확인한다. T2가 진행 중인 기간에 다시 할 때는 A군·B군 쿠키로 각각 실행해 둘 다 12개인지 본다(B군은 순서만 S3 → S2). ⓐ~ⓓ 가운데 하나라도 실패하면 12-2 '섹션 노출 판정'의 코드·`data-section-index`(3-1)·GTM `section_view` 태그를 고치고 다시 한다.
+   - ⑧ **자가진단 결과 CTA 이벤트 값(D-3 실행, 같은 날 DebugView로 확인 — v11)**: Tag Assistant 미리보기(debug_mode)로 스테이징을 열고, 문항 응답을 바꿔 A·B·C·D·RF 결과를 차례로 띄워 결과 카드의 **CTA를 하나씩 모두 탭**한다(구매 CTA는 상품 상세로 떠나기 전 DebugView에 들어온 이벤트를 확인하고 뒤로 가기, 상담 CTA는 시트를 닫고 다음으로). 합격 기준: 탭마다 DebugView `cta_click`의 `cta_type`·`cta_target`·`cta_location`·`score_band`·`red_flag`가 8-4 '결과별 CTA 마크업·이벤트 값' 표와 같음(결과 × CTA 10행 대조표 캡처 첨부) — 특히 **A CTA 2 = nav·s07_use, C CTA 2 = nav·s07_price(purchase가 아님), D CTA 2·RF CTA 1 = nav·s04_caution**, nav 탭 뒤에는 `consult_form_open`·`deeplink_redirect`·`begin_checkout`이 생기지 않음, `cta_target`은 nav에만 있음. 이어서 app.js의 `initCtaHandlers`에서 일부러 예외를 던진 스테이징 사본(QA 6과 같은 사본, 자가진단 모듈은 동작)에서 A·C·RF 결과의 nav CTA를 탭해 head 인라인 위임 스크립트가 같은 값의 `cta_click`을 보내고 기본 이동하는지 확인한다. D-1에 ③ 탐색 분석에서 `cta_type`=nav 행과 `cta_target` 3값이 보이는지, BigQuery 저장된 쿼리 Q1의 `cta_any` 조건이 `cta_type` IN ('purchase', 'consult')인지(12-7) 함께 확인한다.
    - 하나라도 비면 맞춤 정의 등록·GTM 이벤트 매개변수 이름·BigQuery 연결을 고치고 ②부터 다시 한다.
 12. 성능: Lighthouse 모바일 3회 중앙값 LCP ≤ 2.5초·CLS ≤ 0.1·TBT ≤ 200ms, WebPageTest(4G) 첫 화면 ≤ 500KB·전체 ≤ 2.5MB, GIF 0개. **WebPageTest 요청 목록에서 `hero_*` 이미지 요청 1건**(R0 URL과 R3·shorts URL 두 경우 모두 확인).
 13. 접근성: axe DevTools 심각·중대 위반 0건, VoiceOver·TalkBack으로 자가진단·폼·시트 조작 가능, 200% 확대 시 가로 스크롤 없음.
@@ -2938,7 +2991,7 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 15. 광고 표현: 페이지 텍스트에서 "100%", "확실", "완치", "치료 효과", "치료됩니다", "해결", "세계최초", "독보적", "보장", "최고" 검색 결과 0건. "1위"는 수상 표기(S1 배지, S8 ①, S8 연혁 줄)에서만, "추천"은 S8 이해관계 고지 문장("추천·보증이 없으며")에서만 나와야 한다. 14장 변경 표현 반영 확인. **익명성·비저장 문구 대조**: 랜딩·상담 바텀시트·완료 화면·예약 관리 페이지 텍스트에서 '저장', '전송', '기록', '익명', '묻지 않', '연결하지', '휴대폰 안에서', '집계'를 검색해 나온 고객 노출 문장을 모두 뽑고, 문장마다 그 화면의 행동이 만드는 12-2 이벤트·파라미터, 12-6 쿠키·저장소, 7-4 동의 항목과 대조한 표(문장 위치 · 문장 · 관련 이벤트/저장소 · 판정)를 QA 기록에 첨부한다. 문구가 약속한 범위를 넘는 수집·저장·전송(예: 문구는 '저장되지 않아요'인데 그 행동이 GA4 이벤트로 전송됨) **모순 0건**이어야 통과다. 최소 대조 행: S2 보조('이름·연락처는 묻지 않아요' ↔ `empathy_chip_toggle`), S3 보조·하단 고지('이 휴대폰 안에서만 계산'·'따로 동의해야 상담사에게 전달'·'결과 종류 … 방문 통계로만 집계' ↔ `quiz_complete`·결과 CTA `cta_click`의 `score_band`·`tendency`·`red_flag`, `sessionStorage.wc_dx`, `POST /book` `dx`), 결과 카드 하단('응답은 이 휴대폰 안에서만 계산됐어요'), S10·7-1('닉네임', '카메라를 꺼도'), 상담 안내('상담 녹화' 하지 않음 ↔ Whereby 녹화 꺼짐 7-7 ④). 함께 확인: ⑥·⑦·⑤ 링크로 들어온 세션의 GA4 DebugView `page_location`·`page_referrer`에 예약 ID와 `wc_s`가 없음(`summary_id`처럼 바뀜, 12-2 '데이터 결합 금지'), BigQuery 저장된 쿼리에 시트 `ga_client_id`와 맞추는 쿼리가 없음.
 16. 미확보 처리: 15장의 각 D 항목을 받았는지 표시하고, 받지 못한 항목은 "미확보 시 처리"대로 반영됐는지 확인(특히 D21-a①·D21-a②·D21-b·D33·D35·D36·D39·D40·D42). **S4에 방치 시 결과 고정 문장(ⓐ)·관리 시작 문장(ⓓ)·H3가 D21-a·D21-b 확보 여부와 상관없이 노출됨**, D21-a② 원문 확인 기록(URL·게시일·확인일·캡처)이 QA 기록에 첨부됨(런칭 조건), ⓑ 문장 단어가 원문과 같고 14장 6번 금지어('중증'·'점점 나빠진다'·'악화'·단계 도식)가 없음. S8에서 남아 있는 인물 줄마다 그 인물의 이해관계 고지가 붙어 있고 공통 고지가 박스 하단에 있음. **S2에 출처·연도가 있는 통계 행이 최소 1개(통계 카드 2) 노출됨** — 카드 2 설명과 출처 줄의 연도가 같은 값이고, D20 조회 화면 캡처(조회일·메뉴명·코드·조회 조건·연도·환자 수가 보이게)가 QA 기록에 첨부됨(런칭 조건). **카드 2 출처 줄의 상병 분류 단계·코드·메뉴명('질병 세분류(4단 상병) 통계', N39.3)과 상병명이 조회 화면 캡처와 같고(공식 상병명에 '복압성'이 없으면 괄호 병기가 붙었는지), 설명 문장의 집계 정의('복압성 요실금으로 진료받은 여성' = N39.3 단일 코드·여성·입원+외래 전체 환자 수)가 큰 숫자 값과 맞음**(다른 코드 값을 더하지 않았는지 캡처로 대조). 런칭 조건 항목(D01·D12·D13·D15·D20·D21-a②·D23 실명·자격번호·D26 ②발송 대행사 계약·③문자 발신번호 등록·D28·D37·D43 BigQuery 연결(샌드박스 포함))이 모두 확보됐는지 표시(하나라도 없으면 런칭하지 않음). D26 ①(알림톡 발신 프로필) 미확보면 `notify_channel`·`NOTIFY_CHANNEL`이 둘 다 "sms"인지 확인.
 17. 페이지 길이: 390×844(Chrome 기기 모드)와 iPhone 15 실기기(Safari, Mac Web Inspector 콘솔)에서 3-1 측정 스니펫 실행 → **모든 section의 `offsetHeight` ≤ `data-max-h`(3-1 표 값), `document.documentElement.scrollHeight` ≤ `data-max-total`(3-1 전체 상한)**. 먼저 HTML의 `data-max-h`·`data-max-total` 값이 3-1 표와 같은지 확인한다(다르면 3-1 표가 기준). 측정 조건: FAQ·후기 접힘, 할인 방식 D-A와 D-B 두 문안 모두(`wc-config.discount_mode`를 바꿔 각각 측정), 실제 데이터가 들어간 상태(G1 카드·D33 덧붙임은 노출 여부 그대로), S3는 결과 카드 D 상태, S10은 정상 상태(`.consult-live` 노출·대체 블록 숨김 — 대체 상태는 더 짧음, 3-1 'v9 길이 확인'). 하나라도 넘으면 3-1 '상한을 넘었을 때 조치 순서'대로 고치고 다시 잰다. 섹션 수 12개 확인.
-18. 신뢰 표기 메타: S8 목록의 카드 행 5종(수상·KC·특허·디자인/상표·방송)과 연혁 행, 방송 3행, (노출 시) 인물 줄 1 방송 메타 행 모두 메타 줄에 **날짜와 주최/발급 기관**이 표시됨(방송은 행 맨 앞 방송사명). S8 ProofModal 9종(조건부 `proof_broadcast_interview` 노출 시 10종)의 텍스트 메타 표(문서명·번호·날짜·발급/주최·확인 방법)에 빈칸이 0개이고, 10-1 표·15장 값과 같음(FAQ01 첫 문장의 인증번호·인증일·시험인증기관도 `proof_kc` 메타와 같은 값). 날짜나 주최/발급이 빈 항목은 행과 모달이 모두 숨겨져 있음. 모든 행의 탭 영역이 48px 이상. **S8 밖 언급 대조**: **S8 인물 줄을 포함한 페이지 전체** 텍스트에서 '특허'·'KC'·'1위'·'수상'·'방송'·'인터뷰'·방송사명(SBS CNBC·매일경제TV·MTN)을 검색해, ① S8 밖(S1 근거 줄·S1 배지·S5 근거 줄·FAQ01)의 모든 언급이 S8에 날짜·주최/발급과 함께 노출된 행에 해당하는지 10-1 '노출 위치' 열과 대조(S8 행이 숨겨진 항목의 언급은 0건, 'S8 밖 언급 규칙' 대체 문안 적용 확인, S5 ② 단계 설명에 '특허' 0건) ② S8 안의 방송 언급은 ⑤ 방송 행과 인물 줄 1 방송 메타 행뿐이고, 둘 다 방영일·방송사·증빙 보기가 있음(인물 줄 1 본문에 방송사명·'인터뷰 출연' 0건, D16에서 회차·방영일 미확인 시 방송 메타 행 0건). **S8 밖 언급마다 증빙 링크 동작 확인**(390×844, 탭으로 실행, GA4 DebugView 캡처 첨부): S1 근거 줄 → `proof_patent_v8w` 모달 열림(`proof_open` proof_from=hero_reason) / S1 'KC 인증' → `#trust_kc`로 스크롤된 뒤 `proof_kc` 모달 열림, 닫으면 포커스가 S8 ② 행 버튼(`trust_footnote_click` trust_target=kc → `proof_open` proof_from=hero_badge) / S1 '…1위¹' → `#trust_award`로 스크롤·행 버튼 포커스(`trust_footnote_click` trust_target=award) / S5 근거 줄 → `proof_patent_v8w`(proof_from=s05) / FAQ01 '증빙 보기 ›' → `proof_kc`(proof_from=faq01), 탭 영역 48px 이상이고 펼친 FAQ 줄 높이가 바뀌지 않음 / (노출 시) 인물 줄 1 방송 메타 행 → `proof_broadcast_sbscnbc` 또는 `proof_broadcast_interview`(proof_from=s08). 링크 대상이 없는 마커(모달이 비노출인데 버튼이 남은 경우)는 0건.
+18. 신뢰 표기 메타: S8 목록의 카드 행 5종(수상·KC·특허·디자인/상표·방송)과 연혁 행, 방송 3행, (노출 시) 인물 줄 1 방송 메타 행 모두 메타 줄에 **날짜와 주최/발급 기관**이 표시됨(방송은 행 맨 앞 방송사명). S8 ProofModal 9종(조건부 `proof_broadcast_interview` 노출 시 10종)의 텍스트 메타 표(문서명·번호·날짜·발급/주최·확인 방법)에 빈칸이 0개이고, 10-1 표·15장 값과 같음(FAQ01 첫 문장의 인증번호·인증일·시험인증기관도 `proof_kc` 메타와 같은 값). 날짜나 주최/발급이 빈 항목은 행과 모달이 모두 숨겨져 있음. 모든 행의 탭 영역이 48px 이상. **S8 밖 언급 대조**: **S8 인물 줄을 포함한 페이지 전체** 텍스트에서 '특허'·'KC'·'1위'·'수상'·'방송'·'인터뷰'·방송사명(SBS CNBC·매일경제TV·MTN)을 검색해, ① S8 밖(S1 근거 줄·S1 배지·S5 근거 줄·FAQ01)의 모든 언급이 S8에 날짜·주최/발급과 함께 노출된 행에 해당하는지 10-1 '노출 위치' 열과 대조(S8 행이 숨겨진 항목의 언급은 0건, 'S8 밖 언급 규칙' 대체 문안 적용 확인, S5 ② 단계 설명에 '특허' 0건) ② S8 안의 방송 언급은 ⑤ 방송 행과 인물 줄 1 방송 메타 행뿐이고, 둘 다 방영일·방송사·증빙 보기가 있음(인물 줄 1 본문에 방송사명·'인터뷰 출연' 0건, D16에서 회차·방영일 미확인 시 방송 메타 행 0건). **S8 밖 언급마다 증빙 링크 동작 확인**(390×844, 탭으로 실행, GA4 DebugView 캡처 첨부): S1 근거 줄 문안 A·C → `proof_patent_v8w` 모달 열림(`proof_open` proof_from=hero_reason, 문안 A면 메타 '번호'에 청구항 번호) · 문안 B → `#s05_compare`로 스크롤·카드 제목 포커스(`trust_footnote_click` trust_target=compare) / S1 'KC 인증' → `#trust_kc`로 스크롤된 뒤 `proof_kc` 모달 열림, 닫으면 포커스가 S8 ② 행 버튼(`trust_footnote_click` trust_target=kc → `proof_open` proof_from=hero_badge) / S1 '…1위¹' → `#trust_award`로 스크롤·행 버튼 포커스(`trust_footnote_click` trust_target=award) / S5 근거 줄 → `proof_patent_v8w`(proof_from=s05) / FAQ01 '증빙 보기 ›' → `proof_kc`(proof_from=faq01), 탭 영역 48px 이상이고 펼친 FAQ 줄 높이가 바뀌지 않음 / (노출 시) 인물 줄 1 방송 메타 행 → `proof_broadcast_sbscnbc` 또는 `proof_broadcast_interview`(proof_from=s08). 링크 대상이 없는 마커(모달이 비노출인데 버튼이 남은 경우)는 0건. **근거 줄 주장 ↔ 증빙 대조(v11)**: S1 근거 줄(실제 노출 문안)과 S5 근거 줄 문장을 주장 단위로 나누고(예: 문안 A = '특허' · '진동파장' · 'PC·BC 근육' · '3곳 자극' / 문안 B = '자극점 1곳 → 3곳' · 'PC·BC 근육' · '자사 제품 비교' / 문안 C·S5 = '특허' · 발명의 명칭), 주장마다 연결된 증빙(문안 A·C·S5 = `proof_patent_v8w`의 특허증·청구항 캡처 / 문안 B = S5 비교 카드 각주의 D18 기존 모델명·자극점 위치 도면)에서 그 주장을 찾은 위치(특허 번호·청구항 번호·도면 쪽)를 적은 표(문장 위치 · 주장 · 연결된 증빙 · 찾은 위치 · 판정)를 첨부한다. **찾지 못한 주장 0건**이어야 통과(예: 문안 A인데 청구항에 PC·BC 자극점 3곳 구조가 없으면 실패 → 문안 B 또는 C로 바꿈). 함께 확인: S1 근거 줄 문안이 15장 D13 ③·D18 결과와 'S1 근거 줄 문안 선택 규칙'의 선택 순서에 맞음, S5 근거 줄이 H2 바로 아래(3단계 도식 위)에 있고 라벨이 '특허(발명의 명칭)'이며 자극점 비교 카드·측정 자료 카드(G1)에 붙어 있지 않음, 비교 카드 출처는 카드 안 각주 하나. **후기 집계 대조(v11)**: `reviews.json`의 총건수·평균·별점별 건수·제외 건수를 게시판 관리자 화면(상품 `product_no=155`, 작성일 ≥ `verified_since` 검색)의 건수·평균과 같은 날 내려받은 CSV의 별점별 개수와 대조해 모두 같음(관리자 화면·CSV 캡처 첨부), S9 요약 1줄의 평균·총건수·분포 막대 합 = 그 값(제외 후기 포함), 요약 2줄의 미노출 건수 = `excluded_reason` 행 수, 카드·필터·더 보기 결과에 `excluded_reason` 행 0건, 제외 행의 `text`·`author_masked`·`photo_url`이 빈 값, 게시판 작성 권한이 '이 상품을 주문한 고객만 작성'으로 설정된 화면 캡처(D22).
 
 **C. 일일 점검(운영자, 매일 10:00)**
 - 랜딩 가격(`wc-config`) = cafe24 관리자 가격, 품절 여부, `wc-config.discount_mode` = cafe24 혜택 설정(기간할인이면 `period`, 회원가입 쿠폰이면 `member_coupon`).
@@ -2949,7 +3002,7 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 - 14:00 상담 고객 주문 대조(7-10 5번: 휴대폰 번호 + `POST /consult-order` booking_id) → '주문연결' 탭에 `match_by`·`order_at`·`amount` 기록과 `in_window` 재계산(12-4) 확인, 대조 실패 문의(사은품 문의) 처리. 월요일은 이 대조가 끝난 뒤 15:00에 주간 리포트 쿼리를 실행한다(12-7).
 
 **D. 주간 점검(월요일)**
-- `reviews.json` 갱신, 주간 리포트 작성(14:00 주문 대조가 끝난 뒤 15:00에 12-7 Q1~Q3 실행 → 리포트 시트 'BQ'·'BQ_주문' 탭에 붙임, Google Ads 캠페인·광고 보고서(리포트 주간 클릭수·비용)를 'Ads' 탭에 붙임 → 12-2 대조표 경로대로 13-3 작성. 세션 포착률(M41)이 75% 미만이면 11-5 '세션 포착률 경고 대응'. **Q1 섹션별 결과에 `zero_alarm`=TRUE 행이 있으면 13-3 §4 경보 규칙대로 그날 개발에 점검 요청** — v10), A/B 진행 상태, 상담 슬롯 사용률, 오프라인 전환 업로드 오류, UTM 대장 불일치 값, BigQuery 일일 테이블이 7개 모두 생겼는지(빠진 날이 있으면 GA4 BigQuery 연결 상태·일일 한도 확인).
+- `reviews.json` 갱신(올리기 전 S9 '갱신 대조' — 총건수·평균 = 게시판 관리자 화면, 별점별 건수 = 같은 날 CSV, 다르면 게시 보류), 주간 리포트 작성(14:00 주문 대조가 끝난 뒤 15:00에 12-7 Q1~Q3 실행 → 리포트 시트 'BQ'·'BQ_주문' 탭에 붙임, Google Ads 캠페인·광고 보고서(리포트 주간 클릭수·비용)를 'Ads' 탭에 붙임 → 12-2 대조표 경로대로 13-3 작성. 세션 포착률(M41)이 75% 미만이면 11-5 '세션 포착률 경고 대응'. **Q1 섹션별 결과에 `zero_alarm`=TRUE 행이 있으면 13-3 §4 경보 규칙대로 그날 개발에 점검 요청** — v10), A/B 진행 상태, 상담 슬롯 사용률, 오프라인 전환 업로드 오류, UTM 대장 불일치 값, BigQuery 일일 테이블이 7개 모두 생겼는지(빠진 날이 있으면 GA4 BigQuery 연결 상태·일일 한도 확인).
 
 **E. 월간 점검(매월 1일)**
 - 내부 링크 크롤 점검, 개인정보 파기 실행·로그 확인, 통계·수상·방송 표기 최신성, 성능 재측정, 광고성 정보 수신 동의 2년 재확인 대상 추출.
@@ -2974,7 +3027,7 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 | 이탈률(GTM 로드 뒤 세션, M02) / 보정 이탈률(Ads 클릭 기준, M42) | | | | ≤ 55% / ≤ 62%(M42 65% 넘으면 히어로 점검) | |
 | 재전송 세션 비율(`lp_view` replayed=Y 세션 ÷ 세션, M43) | | | | —(감시, 10% 넘으면 11-5 로드 시점·LCP 확인) | |
 | 50% 스크롤 도달률 | | | | ≥ 45% | |
-| CTA 클릭률(전체/구매/상담) | | | | ≥ 15% / 9% / 6% | |
+| CTA 클릭률(전체[구매·상담 — quiz·nav 제외]/구매/상담, M04) | | | | ≥ 15% / 9% / 6% | |
 | 자가진단 시작률 / 완료율 | | | | ≥ 25% / 70% | |
 | 상담 신청률 | | | | ≥ 1.5% | |
 | 상담 폼 시작률 / 제출률 | | | | — / ≥ 40% | |
@@ -2988,7 +3041,7 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 | LCP·CLS·INP p75(BigQuery Q2) | | | | 2.5초 / 0.1 / 200ms | |
 
 ## 3. 변형(R0~R7) × 포맷(long/shorts)별 성과(Ads 클릭은 D29 광고 ID ↔ utm_content로 묶음, 광고 ID가 없는 소재의 클릭은 '미배정' 행, M23·M41·M42)
-| 규칙 | 포맷 | 세션 | Ads 클릭(D29 광고 ID로 묶음, R0는 —) | 세션 포착률(M41) | 보정 이탈률(M42) | CTA 클릭률 | 상담 신청률 | 구매 전환율 | RPV |
+| 규칙 | 포맷 | 세션 | Ads 클릭(D29 광고 ID로 묶음, R0는 —) | 세션 포착률(M41) | 보정 이탈률(M42) | CTA 클릭률(구매·상담, M04 전체) | 상담 신청률 | 구매 전환율 | RPV |
 |---|---|---|---|---|---|---|---|---|---|
 
 ## 4. 섹션 도달·이탈(section_view 기준 — 보이는 높이 ≥ min(섹션 높이, 뷰포트 높이) × 50%가 1초, section_index 순서. T2 진행 중이면 exp_t2=A 세션만. Q1 섹션별 결과 12행, M24)
@@ -3006,7 +3059,8 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 | 결과 | A | B | C | D | RF |
 |---|---|---|---|---|---|
 | 비율 | | | | | |
-| 결과 CTA 클릭률(RF = red_flag=Y) | | | | | |
+| 결과 CTA 클릭률 — 전체(RF = red_flag=Y, M27) | | | | | |
+| └ 구매 / 상담 / 이동(`cta_type`별, 결과에 없는 종류는 — : A 구매·이동, B 구매·상담, C·D 상담·이동, RF 이동·상담 — 8-4. 칸마다 '구매 / 상담 / 이동' 세 값을 적음) | | | | | |
 
 | 문항(q_index) | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 |
 |---|---|---|---|---|---|---|---|---|
@@ -3057,7 +3111,7 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 | 8 | "많은 분들이 케겔운동을 실패하는 이유" + 네이버 지식인 질문 캡처 | "올바른 근육을 쓰고 있는지 혼자 확인하기 어려울 수 있어요" | 근거 없는 일반화, 외부 게시물 캡처 사용(출처·권리 문제) |
 | 9 | "배뇨·생식기관 근육은 의식적으로 조절할 수 없는 불수의근"(서울대학교 신체기관정보 인용) | 삭제 | 골반저근은 스스로 조였다 풀 수 있어 케겔운동이 가능함. 사실과 다르게 읽힐 수 있는 오정보 |
 | 10 | "요도괄약근! 가만히 앉아서 웨이브케어로 '꽉' 잠그세요" | "앉아서 하는 골반저근 운동, 하루 10분" | 효과를 단정하는 은유 |
-| 11 | "듀얼케겔로 운동하는 세계최초 운동기구" | 삭제(S5 ② "듀얼모터가 만드는 진동파장"만 사용. '특허'는 증빙 링크가 붙은 S1 근거 줄·S5 근거 줄·S8 ③에서만) | 근거가 확인되지 않은 최상급 |
+| 11 | "듀얼케겔로 운동하는 세계최초 운동기구" | 삭제(S5 ② "듀얼모터가 만드는 진동파장"만 사용. '특허'는 증빙 링크가 붙은 S1 근거 줄(문안 A·C)·S5 근거 줄·S8 ③에서만) | 근거가 확인되지 않은 최상급 |
 | 12 | "실제 임상시험을 통해 입증된 결과로 특허취득" | "특허 「진동파장을 통한 여성 질 수축 장치」(등록번호)" | 특허는 효능 입증이 아니며, 임상시험 자료가 제시되지 않음 |
 | 13 | 팩트체크 "회음부 혈류 개선, 음핵 내 8,000개 신경세포 활성화, BC근육 운동신호 전달" | 삭제(자극점 1곳 → 3곳 비교 사실만 사용) | 근거가 확인되지 않은 생리적 효능 주장 |
 | 14 | "빠르면 빠를수록 좋습니다! 골반저근은 방치하면 점점 더 탄력을 잃습니다" | 삭제(6번 문장으로 통합) | 불안 조장 |
@@ -3065,7 +3119,7 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY e.ecommerce.transaction_id ORDER BY e.ts
 | 16 | 김오곤 원장 "질압 테스트 결과 최대 3배" | 삭제, "공동개발자" 이해관계 표기만 유지 | 이해관계자의 효과 발언, 조건·표본 미상 |
 | 17 | 기사 인용 "괄약근 수축력이 4배 높아진 것으로 측정" | 삭제 | 원출처·조건 미상 |
 | 18 | ③ 페이지 질압 자료 "최대 4배", "특허청에 입증된 자료" | 게이트 G1 통과 시에만 평균 범위·표본·한계를 표로 표기, "최대 4배"·"특허청 입증" 문구는 쓰지 않음 | 최댓값만 골라 보여 주는 과장, 특허청은 효능을 입증하지 않음 |
-| 19 | "평균 평점 4.8 소비자의 100% 리얼 후기" | "★ #{평균}점 · 후기 #{건수}개 · #{기준일} 기준" + 노출 기준 공개 | "100%" 표현, 집계 기준 불명 |
+| 19 | "평균 평점 4.8 소비자의 100% 리얼 후기" | "★ #{평균}점 · 구매 확인 후기 #{총건수}개 / 이 페이지 미노출 #{제외건수}개 포함 · #{기준일} 기준" + 노출 기준 공개 + 집계 규칙 고정(평균·총건수·분포 = 제외 후기 포함 구매 확인 후기 전체, 카드·필터 = 노출분, S9) | "100%" 표현, 집계 기준 불명 |
 | 20 | 후기 "실금 증상도 사라지게 신기합니다", "절박성 요실금 증상도 좋아졌습니다" | 랜딩 노출 제외(게시판 원문은 유지), 제외 건수 공개 | 체험담을 통한 질병 개선 단정 |
 | 21 | 구버전 배지 "2022~2024 3년 연속 1위" | 삭제, "2022~2025 한국품질만족도 4년 연속 1위"로 통일 | 같은 페이지 안 표기 불일치 |
 | 22 | "초간편 사용법! 독보적인 기술력! 다수 방송출연과 KC인증 및 특허취득!" | 삭제(S8에서 항목별로 날짜·주최·증빙과 함께 표기) | 근거 없는 최상급("독보적인") |
