@@ -40,6 +40,24 @@
 - `noindex` 없음, robots.txt가 /ad/ 경로를 막지 않음 → 검색 노출 가능
 - 페이지 공통 하단에 회사정보 푸터, 쇼핑몰 SNS 링크(네이버 블로그, 유튜브, 인스타그램, 페이스북, 카카오채널)
 
+## 공통 (기존 히든 페이지 파일명 — 사용 중, 새 파일명으로 쓰면 안 됨)
+
+2026-10-08 서버 확인 결과(있는 파일은 HTTP 200, 없는 파일은 HTTP 302 → 메인으로 이동). **새 랜딩·스테이징 파일명은 아래 목록과 겹치면 안 된다.** 겹치면 운영 중인 광고 랜딩을 덮어쓴다.
+
+| 파일명 (/ad/) | 내용 | 비고 |
+|---|---|---|
+| wavecare_man_ver3.html | ① 남성 전립선 히든 (V8 포 맨) | 이번 개선 대상 |
+| wavecare_man_ver4.html | ② 남성 성기능 히든 (V8 포 맨) | 운영 중 |
+| wavecare_man_ver5.html | 남성 페이지 (이미지 폴더 240912_man) | 기존 페이지 |
+| wavecare_man_ver6.html | 남성 페이지 (이미지 폴더 251202_man, product_no=154) | 기존 페이지(최근) |
+| wavecare_woman_ver3.html | ③ 여성 성기능 히든 (V8 포 우먼) | 운영 중 |
+| wavecare_woman_ver4.html | ④ 여성 요실금 히든 (V8 포 우먼) | 이번 개선 대상 |
+| wavecare_woman_ver5.html | 여성 페이지 (이미지 폴더 240912_woman) | 기존 페이지 |
+| wavecare_hukema_ver2.html | ⑤ 출산 후 케어 (휴케마) | 운영 중 |
+
+- 비어 있음(2026-10-08 확인, HTTP 302): wavecare_man_ver7·ver8·ver9, wavecare_woman_ver6·ver7·ver8, wavecare_man_ver7_stg, wavecare_woman_ver6_stg
+- 권장 새 파일명: ① `wavecare_man_ver7.html`(스테이징 `wavecare_man_ver7_stg.html`), ④ `wavecare_woman_ver6.html`(스테이징 `wavecare_woman_ver6_stg.html`). 업로드 직전에 같은 방법으로 비어 있는지 다시 확인한다.
+
 ---
 
 ## ① 남성 전립선 히든 (wavecare_man_ver3) — 제품 V8 포 맨
