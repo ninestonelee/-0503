@@ -56,7 +56,8 @@
 | wavecare_hukema_ver2.html | ⑤ 출산 후 케어 (휴케마) | 운영 중 |
 
 - 비어 있음(2026-10-08 확인, HTTP 302): wavecare_man_ver7·ver8·ver9, wavecare_woman_ver6·ver7·ver8, wavecare_man_ver7_stg, wavecare_woman_ver6_stg
-- 권장 새 파일명: ① `wavecare_man_ver7.html`(스테이징 `wavecare_man_ver7_stg.html`), ④ `wavecare_woman_ver6.html`(스테이징 `wavecare_woman_ver6_stg.html`). 업로드 직전에 같은 방법으로 비어 있는지 다시 확인한다.
+- 비어 있음(2026-10-12 확인, HTTP 302): wavecare_man_ver7.1, wavecare_woman_ver6.1, 각 `_stg`
+- **확정 새 파일명(2026-10-12, 리진바이오 대표 제안)**: ① `wavecare_man_ver7.1.html`(스테이징 `wavecare_man_ver7.1_stg.html`), ④ `wavecare_woman_ver6.1.html`(스테이징 `wavecare_woman_ver6.1_stg.html`). 이전 권장안(ver7·ver6)은 쓰지 않는다. 업로드 직전에 같은 방법으로 비어 있는지 다시 확인한다.
 
 ---
 
